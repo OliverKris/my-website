@@ -38,3 +38,21 @@
     padding: 0.5rem 0.75rem;
     border-radius: var(--radius-sm);
 }
+
+.socialSection {
+    margin-top: auto;
+    /* pushes section to bottom if parent is flex */
+    padding: 1rem 0 1rem;
+}
+
+.socialIcons {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    font-size: 32px;
+    color: var(--accent);
+}
+
+.socialIcons a:hover {
+    filter: brightness(0.90);
+}
