@@ -1,6 +1,6 @@
 import styles from "./Contact.module.css";
-import { FiMail } from "react-icons/fi";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+// import { FiMail } from "react-icons/fi";
+// import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useInView } from "../hooks/useInView.ts"
 
 export default function Contact() {
