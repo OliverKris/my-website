@@ -1,0 +1,115 @@
+.page {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.header {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.subtext {
+    margin: 0;
+    color: var(--muted);
+    max-width: 70ch;
+}
+
+.grid {
+    display: grid;
+    gap: 1.25rem;
+}
+
+@media (min-width: 860px) {
+    .grid {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
+    }
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.cardTitle {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.form {
+    display: grid;
+    gap: 1rem;
+}
+
+.label {
+    display: grid;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: calc(var(--radius) - 4px);
+    border: 1px solid var(--border);
+    background: var(--page);
+    color: var(--text);
+}
+
+.textarea {
+    resize: vertical;
+}
+
+.button {
+    width: fit-content;
+    padding: 0.75rem 1rem;
+    border-radius: calc(var(--radius) - 4px);
+    border: 1px solid var(--border);
+    background: var(--accent);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.button:hover {
+    filter: brightness(0.95);
+}
+
+.links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+    display: flex;
+    justify-content: center;
+}
+
+.links li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 0.5rem 1rem;
+    background: var(--page);
+    transition: background 0.2s;
+}
+
+.links li:hover {
+    background: var(--surface);
+}
+
+.links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.links a:hover {
+    text-decoration: none;
+}

@@ -1,0 +1,77 @@
+.card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    padding: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.links {
+    display: inline-flex;
+    gap: 0.75rem;
+    white-space: nowrap;
+}
+
+.links a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.body {
+    margin-top: 0.75rem;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.block {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.text {
+    margin: 0;
+    color: var(--text);
+}
+
+.techRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.techTag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--page);
+    font-size: 0.85rem;
+    color: var(--text);
+}

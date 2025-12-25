@@ -1,0 +1,27 @@
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.pill:hover {
+    filter: brightness(0.98);
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+}
+
+.label {
+    line-height: 1;
+}
