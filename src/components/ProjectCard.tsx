@@ -16,13 +16,16 @@ export default function ProjectCard({ project }: { project: Project }) {
 
             <div className={styles.body}>
                 <div className={styles.block}>
-                    <div className={styles.label}>Problem</div>
-                        <p className={styles.text}>{project.problem}</p>
+                    <p className={styles.text}>{project.pitch}</p>
                     </div>
 
                     <div className={styles.block}>
-                        <div className={styles.label}>What I built</div>
-                        <p className={styles.text}>{project.built}</p>
+                        <div className={styles.label}>Highlights</div>
+                        <ul className={styles.list}>
+                            {project.highlights.map((h, i) => (
+                                <li key={i} className={styles.listItem}>{h}</li>
+                            ))}
+                        </ul>
                     </div>
 
                     <div className={styles.techRow}>
