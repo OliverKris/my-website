@@ -1,8 +1,11 @@
 import styles from "./Contact.module.css";
 import { FiMail } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useInView } from "../hooks/useInView.ts"
 
 export default function Contact() {
+    const {ref: focusRef, inView: focusInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
+
     return (
         <section className={styles.page}>
             <header className={styles.header}>
@@ -12,7 +15,10 @@ export default function Contact() {
                 </p>
             </header>
 
-            <div className={styles.grid}>
+            <div 
+                ref={focusRef}
+                className={` ${styles.grid} reveal ${focusInView ? "revealVisible":""}`}
+            >
                 <div className={styles.card}>
                     <h2 className={styles.cardTitle}>Send a message</h2>
 
@@ -49,19 +55,51 @@ export default function Contact() {
                     </form>
                 </div>
 
-                <aside>
+                {/* <aside>
                     <ul className={styles.links}>
-                        <li>
-                            <a href="mailto:okrisetya@gwu.edu">Email <span><FiMail /></span></a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/OliverKris" target="_blank" rel="noreferrer">GitHub <span><FaGithub /></span></a>
-                        </li>
-                        <li>
-                            <a href="https://linkedin.com/in/okrisetya" target="_blank" rel="noreferrer">LinkedIn <span><FaLinkedin /></span></a>
-                        </li>
+                        <a 
+                            className={styles.contactBtn} 
+                            href="mailto:you@gwu.edu"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span className={styles.left}>
+                                <span className={styles.label}>Email</span>
+                            </span>
+                            <span className={styles.iconWrap} aria-hidden="true">
+                                <FiMail />
+                            </span>
+                        </a>
+
+                        <a 
+                            className={styles.contactBtn} 
+                            href="https://linkin.com/in/okrisetya"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span className={styles.left}>
+                                <span className={styles.label}>LinkedIn</span>
+                            </span>
+                            <span className={styles.iconWrap} aria-hidden="true">
+                                <FaLinkedin />
+                            </span>
+                        </a>
+
+                        <a 
+                            className={styles.contactBtn} 
+                            href="https://github.com/OliverKris"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >
+                            <span className={styles.left}>
+                                <span className={styles.label}>GitHub</span>
+                            </span>
+                            <span className={styles.iconWrap} aria-hidden="true">
+                                <FaGithub />
+                            </span>
+                        </a>
                     </ul>
-                </aside>
+                </aside> */}
             </div>
         </section>
     );

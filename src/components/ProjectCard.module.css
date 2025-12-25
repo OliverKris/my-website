@@ -1,11 +1,27 @@
 .card {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--surface);
     padding: 1rem;
     display: flex;
     flex-direction: column;
     height: 100%;
+
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.card.card {
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease),
+        box-shadow var(--theme-dur) var(--theme-ease),
+        transform 180ms ease;
+    will-change: transform;
+}
+
+.card:hover {
+    transform: translateY(-4px)
 }
 
 .header {

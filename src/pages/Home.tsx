@@ -3,9 +3,12 @@ import styles from "./Home.module.css";
 import { projects } from "../data/projects";
 import { getFeaturedProjects } from "../utils/projects";
 import ProjectCard from "../components/ProjectCard";
+import { useInView } from "../hooks/useInView.ts"
 
 export default function Home() {
     const featured = getFeaturedProjects(projects, 2);
+
+    const {ref: focusRef, inView: focusInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 
     return (
         <section className={styles.page}>
@@ -32,7 +35,10 @@ export default function Home() {
                 </div>
             </header>
 
-            <section className={styles.section}>
+            <section 
+                ref={focusRef}
+                className={`reveal ${focusInView ? "revealVisible":""} ${styles.section}`}
+            >
                 <h2 className={styles.sectionTitle}>Current Focus</h2>
                 <ul className={styles.focusList}>
                     <li>Graduate coursework and research in computer science, with emphasis on systems and applied machine learning.</li>
@@ -41,7 +47,10 @@ export default function Home() {
                 </ul>
             </section>
 
-            <section className={styles.section}>
+            <section
+                ref={focusRef}
+                className={`reveal ${focusInView ? "revealVisible":""} ${styles.section}`}
+            >
                 <h2 className={styles.sectionTitle}>Featured Projects</h2>
                 <div className={styles.featuredGrid}>
                     {featured.map((p) => (

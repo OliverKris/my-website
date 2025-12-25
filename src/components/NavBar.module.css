@@ -1,62 +1,220 @@
-.nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 1rem;
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    background-color: var(--page);
     border-bottom: 1px solid var(--border);
-    background: var(--page);
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease);
 }
 
-.brand {
-    font-weight: 650;
-}
+.inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0.85rem 1rem;
 
-.right {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
 }
 
-.links {
-    display: flex;
-    gap: 1.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.links a {
+.brand {
+    font-weight: 750;
+    letter-spacing: -0.02em;
     color: var(--text);
     text-decoration: none;
-    font-weight: 600;
+    white-space: nowrap;
 }
 
-.links a:hover {
-    text-decoration: underline;
+.brand:hover {
+    text-decoration: none;
+    color: var(--text-2);
 }
 
-.links a.active {
-    color: var(--accent);
-}
-
-.themeButton {
-    display: inline-flex;
+/* Desktop nav */
+.desktopNav {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 999px;
+    gap: 1.25rem;
+}
+
+.link {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 160ms ease;
+}
+
+.link:hover {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.active {
+    color: var(--text);
+    text-decoration: none;
+}
+
+/* Mobile toggle button */
+.menuBtn {
+    display: none;
+    /* shown on mobile */
     border: 1px solid var(--border);
-    background: var(--surface);
+    background-color: var(--surface);
+    border-radius: 999px;
+    padding: 0.6rem 0.7rem;
     color: var(--text);
     cursor: pointer;
+
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease),
+        transform 160ms ease;
 }
 
-.themeButton:hover {
-    filter: brightness(0.90);
+.menuBtn:hover {
+    background-color: var(--surface-hover);
 }
 
-.themeIcon {
-    font-size: 1.05rem;
-    line-height: 1;
+.menuBtn:active {
+    transform: scale(0.98);
+}
+
+.menuBtn:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+}
+
+/* Hamburger icon */
+.menuIcon {
+    width: 1.25rem;
+    height: 1rem;
+    display: grid;
+    gap: 0.22rem;
+}
+
+.menuIcon span {
+    height: 2px;
+    width: 100%;
+    background: var(--text);
+    border-radius: 999px;
+    transition: transform 180ms ease, opacity 180ms ease;
+}
+
+/* Mobile dropdown container (collapsed by default) */
+.mobileMenu {
+    max-height: 0;
+    overflow: hidden;
+
+    opacity: 0;
+    transform: translateY(-6px);
+
+    transition:
+        max-height 260ms ease,
+        opacity 200ms ease,
+        transform 200ms ease,
+        background-color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease);
+}
+
+.mobileMenuOpen {
+    max-height: 320px;
+    /* must be > content height */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile nav items */
+.mobileNav {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0.5rem 1rem 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobileLink,
+.mobileActive {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    padding: 0.85rem 1rem;
+    text-decoration: none;
+
+    color: var(--text);
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease),
+        transform 160ms ease;
+}
+
+.mobileLink:hover {
+    background-color: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
+.mobileActive {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Breakpoint: switch to mobile */
+@media (max-width: 500px) {
+    .desktopNav {
+        display: none;
+    }
+
+    .menuBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.themeToggle {
+    display: grid;
+    place-items: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease),
+        color var(--theme-dur) var(--theme-ease),
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.themeToggle:hover {
+    background-color: var(--surface-hover);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+.themeToggle:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-active);
+}
+
+.themeToggle:focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+}
+
+.themeToggle svg {
+    width: 1.15rem;
+    height: 1.15rem;
 }

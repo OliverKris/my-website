@@ -47,7 +47,9 @@
 }
 
 .primaryCta:hover {
-    filter: brightness(0.90);
+    background: var(--accent-hover);
+    border: 1px solid var(--accent-hover);
+    text-decoration: none;
 }
 
 .secondaryCta {
@@ -63,7 +65,9 @@
 }
 
 .secondaryCta:hover {
-    filter: brightness(0.90);
+    background: var(--page-2);
+    border: 1px solid var(--border-hover);
+    text-decoration: none;
 }
 
 .textCta {

@@ -110,7 +110,9 @@
 }
 
 .ctaButton:hover {
-    filter: brightness(0.90);
+    background: var(--accent-hover);
+    border: 1px solid var(--accent-hover);
+    text-decoration: none;
 }
 
 .ctaMeta {

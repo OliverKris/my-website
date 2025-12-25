@@ -1,34 +1,97 @@
-import { NavLink } from "react-router-dom";
-import styles from "./NavBar.module.css";
-import { useTheme } from "../hooks/useTheme";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import styles from "./Navbar.module.css";
+import { useTheme } from "../hooks/useTheme"
 
-export default function NavBar() {
+export default function Navbar() {
+    const [open, setOpen] = useState(false);
     const { theme, toggle } = useTheme();
 
-    return (
-        <nav className={styles.nav}>
-            <div className={styles.brand}>Oliver Krisetya</div>
+    // Close menu on route change / link click
+    const close = () => setOpen(false);
 
-            <div className={styles.right}>
-                <ul className={styles.links}>
-                    <li><NavLink to="/">Home</NavLink></li>
-                    <li><NavLink to="/projects">Projects</NavLink></li>
-                    <li><NavLink to="/resume">Resume</NavLink></li>
-                    <li><NavLink to="/contact">Contact</NavLink></li>
-                </ul>
+    // Close on Escape
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setOpen(false);
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, []);
+
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 820px)");
+        const handler = () => {
+        if (mq.matches) setOpen(false);
+        };
+        mq.addEventListener("change", handler);
+        return () => mq.removeEventListener("change", handler);
+    }, []);
+
+    return (
+        <header className={styles.navbar}>
+            <div className={styles.inner}>
+                <Link className={styles.brand} to="/" onClick={close}>
+                    Oliver Krisetya
+                </Link>
+
+                {/* Desktop links */}
+                <nav className={styles.desktopNav} aria-label="Primary">
+                    <NavLink className={({ isActive }) => (isActive ? styles.active : styles.link)} to="/projects">
+                        Projects
+                    </NavLink>
+                    <NavLink className={({ isActive }) => (isActive ? styles.active : styles.link)} to="/resume">
+                        Resume
+                    </NavLink>
+                    <NavLink className={({ isActive }) => (isActive ? styles.active : styles.link)} to="/contact">
+                        Contact
+                    </NavLink>
+                    <button
+                        type="button"
+                        className={styles.themeToggle}
+                        onClick={toggle}
+                        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                        title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                        >
+                        <span className={styles.themeIcon} aria-hidden="true">
+                            {theme === "dark" ? "☾" : "☀"}
+                        </span>
+                    </button>
+                </nav>
 
                 <button
+                    className={styles.menuBtn}
                     type="button"
-                    className={styles.themeButton}
-                    onClick={toggle}
-                    aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                    title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                    >
-                    <span className={styles.themeIcon} aria-hidden="true">
-                        {theme === "dark" ? "☾" : "☀"}
-                    </span>
+                    aria-label="Open menu"
+                    aria-expanded={open}
+                    aria-controls="mobile-menu"
+                    onClick={() => setOpen((v) => !v)}
+                >
+                <span className={styles.menuIcon} aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                </span>
                 </button>
             </div>
-        </nav>
+
+            <div
+                id="mobile-menu"
+                className={`${styles.mobileMenu} ${open ? styles.mobileMenuOpen : ""}`}
+                aria-hidden={!open}
+            >
+                <nav className={styles.mobileNav} aria-label="Mobile Primary">
+                <NavLink onClick={close} className={({ isActive }) => (isActive ? styles.mobileActive : styles.mobileLink)} to="/projects">
+                    Projects
+                </NavLink>
+                <NavLink onClick={close} className={({ isActive }) => (isActive ? styles.mobileActive : styles.mobileLink)} to="/resume">
+                    Resume
+                </NavLink>
+                <NavLink onClick={close} className={({ isActive }) => (isActive ? styles.mobileActive : styles.mobileLink)} to="/contact">
+                    Contact
+                </NavLink>
+                </nav>
+            </div>
+        </header>
     );
 }
