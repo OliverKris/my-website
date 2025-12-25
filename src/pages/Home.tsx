@@ -33,6 +33,15 @@ export default function Home() {
             </header>
 
             <section className={styles.section}>
+                <h2 className={styles.sectionTitle}>Current Focus</h2>
+                <ul className={styles.focusList}>
+                    <li>Graduate coursework and research in computer science, with emphasis on systems and applied machine learning.</li>
+                    <li>Graduate Teaching Assistant for database systems and team-based software engineering courses.</li>
+                    <li>Designing and maintaining production-quality tooling and applications using C, Linux, Python, and React.</li>
+                </ul>
+            </section>
+
+            <section className={styles.section}>
                 <h2 className={styles.sectionTitle}>Featured Projects</h2>
                 <div className={styles.featuredGrid}>
                     {featured.map((p) => (
@@ -42,15 +51,6 @@ export default function Home() {
                 <div className={styles.moreLinkRow}>
                     <Link className={styles.moreLink} to="/projects">View all projects →</Link>
                 </div>
-            </section>
-
-            <section className={styles.section}>
-                <h2 className={styles.sectionTitle}>Current Focus</h2>
-                <ul className={styles.focusList}>
-                    <li>Systems coursework and tooling: C, Linux, processes, sockets.</li>
-                    <li>ML experimentation in PyTorch with feature engineering and evaluation.</li>
-                    <li>Building maintainable UI with React, TypeScript, and reusable components.</li>
-                </ul>
             </section>
         </section>
     );
