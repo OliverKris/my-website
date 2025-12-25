@@ -16,7 +16,6 @@ export default function RootLayout() {
             </main>
 
             <footer className={styles.footer}>
-                <div className="divider-accent" />
                 <p className={styles.footerText}>© {new Date().getFullYear()} Oliver Krisetya</p>
             </footer>
         </div>

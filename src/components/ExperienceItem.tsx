@@ -22,34 +22,35 @@ export default function ExperienceItem({ item }: { item: Experience }) {
                 </div>
 
                 <div className={styles.right}>
-                    <div className={styles.dates}>{start} – {end}</div>
-                    <div className={styles.length}>{formatDuration(start, end)}</div>
+                    <span className={styles.dates}>{start} – {end}</span>
+                    <span className={styles.sep} aria-hidden="true">•</span>
+                    <span className={styles.length}>{formatDuration(start, end)}</span>
                     {tag ? <div className={styles.tag}>{tag}</div> : null}
                 </div>
             </header>
 
-        {previousRoles && previousRoles.length > 0 ? (
-            <div className={styles.previousRoles}>
-            <span className={styles.previousLabel}>Previously:</span>
-            <div className={styles.previousList}>
-                {previousRoles.map((r, i) => (
-                <div key={i} className={styles.previousItem}>
-                    <span className={styles.previousRole}>{r.role}</span>
-                    <span className={styles.previousDates}>{r.start} – {r.end}</span>
-                    <span className={styles.previousLength}>
-                    ({formatDuration(r.start, r.end)})
-                    </span>
-                </div>
+            <ul className={styles.bullets}>
+                {bullets.map((b, i) => (
+                <li key={i}>{b}</li>
                 ))}
-            </div>
-            </div>
-        ) : null}
+            </ul>
 
-        <ul className={styles.bullets}>
-            {bullets.map((b, i) => (
-            <li key={i}>{b}</li>
-            ))}
-        </ul>
+            {previousRoles && previousRoles.length > 0 ? (
+                <div className={styles.previousRoles}>
+                <span className={styles.previousLabel}>Previously:</span>
+                <div className={styles.previousList}>
+                    {previousRoles.map((r, i) => (
+                    <div key={i} className={styles.previousItem}>
+                        <span className={styles.previousRole}>{r.role}</span>
+                        <span className={styles.previousDates}>{r.start} – {r.end}</span>
+                        <span className={styles.previousLength}>
+                        ({formatDuration(r.start, r.end)})
+                        </span>
+                    </div>
+                    ))}
+                </div>
+                </div>
+            ) : null}
         </article>
     );
 }

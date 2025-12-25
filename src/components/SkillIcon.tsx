@@ -16,9 +16,11 @@ import {
     SiTailwindcss,
     SiFlask,
     SiDjango,
+    SiAssemblyscript,
 } from "react-icons/si";
 
-import { MdNetworkCheck, MdComputer } from "react-icons/md";
+import { FaJava, FaAws } from "react-icons/fa";
+import { DiMysql } from "react-icons/di";
 
 import type { IconKey } from "../data/skills";
 
@@ -27,23 +29,21 @@ const ICONS: Record<
     React.ComponentType<{ size?: number; className?: string }>
     > = {
     c: SiC,
-    // java: SiJava,
+    java: FaJava,
     python: SiPython,
     react: SiReact,
     typescript: SiTypescript,
     javascript: SiJavascript,
+    sql: DiMysql,
+    assemblyscript: SiAssemblyscript,
 
     linux: SiLinux,
     docker: SiDocker,
     git: SiGit,
     pytorch: SiPytorch,
 
-    networking: MdNetworkCheck,
     bash: SiGnubash,
-    // unix: FaUnix,
-
-    "operating-systems": MdComputer,
-    "systems-programming": MdComputer,
+    aws: FaAws,
 
     css: SiCss3,
     html: SiHtml5,

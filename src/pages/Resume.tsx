@@ -26,6 +26,9 @@ export default function Resume() {
                         <div className={styles.degreeMeta}>
                             <span className={styles.metaItem}><strong>GPA:</strong> 4.0</span>
                         </div>
+                        <div className={styles.degreeMeta}>
+                            <span className={styles.metaItem}><strong>Relevant Coursework:</strong> Artificial Intelligence, Machine Learning, Computer Networks</span>
+                        </div>
                     </div>
 
                     <div className={styles.degree}>
@@ -35,6 +38,9 @@ export default function Resume() {
                         </div>
                         <div className={styles.degreeMeta}>
                             <span className={styles.metaItem}><strong>GPA:</strong> 3.57</span>
+                        </div>
+                        <div className={styles.degreeMeta}>
+                            <span className={styles.metaItem}><strong>Relevant Coursework:</strong> Data Structure & Algorithms, Computer Architecture, Systems Programming, Software Engineering, Database & Team Projects, Operating Systems, Algorithms, Advanced Operating Systems, Design & Analysis of Algorithms</span>
                         </div>
                     </div>
                 </article>

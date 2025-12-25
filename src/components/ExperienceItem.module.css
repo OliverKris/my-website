@@ -37,9 +37,19 @@
 }
 
 .right {
-    display: grid;
-    justify-items: end;
-    gap: 0.3rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.whenRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    /* allows wrap on narrow screens */
+    justify-content: flex-end;
+    text-align: right;
 }
 
 .dates {
@@ -48,21 +58,27 @@
     white-space: nowrap;
 }
 
-.length {
-    font-size: 0.85rem;
+.sep {
     color: var(--muted);
+    opacity: 0.7;
+}
+
+.length {
+    font-size: 0.9rem;
+    color: var(--muted);
+    white-space: nowrap;
 }
 
 .tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.6rem;
+    margin-left: 0.25rem;
+    padding: 0.2rem 0.55rem;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--page);
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--text);
+    white-space: nowrap;
 }
 
 .previousRoles {
