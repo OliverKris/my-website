@@ -18,19 +18,31 @@ export default function Contact() {
 
                     {/* Replace action URL with Formspree endpoint if you use it */}
                     <form className={styles.form} action="#" method="POST">
+                        <div className={styles.nameFields}>
+                            <label className={styles.label}>
+                                First Name
+                                <input className={styles.input} type="text" name="name" required />
+                            </label>
+
+                            <label className={styles.label}>
+                                Last Name
+                                <input className={styles.input} type="text" name="name" required />
+                            </label>
+                        </div>
+
                         <label className={styles.label}>
-                        Name
-                        <input className={styles.input} type="text" name="name" required />
+                            Email
+                            <input className={styles.input} type="email" name="email" required />
                         </label>
 
                         <label className={styles.label}>
-                        Email
-                        <input className={styles.input} type="email" name="email" required />
+                            Phone Number (optional)
+                            <input className={styles.input} type="tel" name="phone" />
                         </label>
 
                         <label className={styles.label}>
-                        Message
-                        <textarea className={styles.textarea} name="message" rows={6} required />
+                            Message
+                            <textarea className={styles.textarea} name="message" rows={5} required />
                         </label>
 
                         <button className={styles.button} type="submit">Send</button>
@@ -40,16 +52,13 @@ export default function Contact() {
                 <aside>
                     <ul className={styles.links}>
                         <li>
-                            <a href="mailto:okrisetya@gwu.edu">Email</a>
-                            <span><FiMail /></span>
+                            <a href="mailto:okrisetya@gwu.edu">Email <span><FiMail /></span></a>
                         </li>
                         <li>
-                            <a href="https://github.com/your-username" target="_blank" rel="noreferrer">GitHub</a>
-                            <span><FaGithub /></span>
+                            <a href="https://github.com/OliverKris" target="_blank" rel="noreferrer">GitHub <span><FaGithub /></span></a>
                         </li>
                         <li>
-                            <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noreferrer">LinkedIn</a>
-                            <span><FaLinkedin /></span>
+                            <a href="https://linkedin.com/in/okrisetya" target="_blank" rel="noreferrer">LinkedIn <span><FaLinkedin /></span></a>
                         </li>
                     </ul>
                 </aside>

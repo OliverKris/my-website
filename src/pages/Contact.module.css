@@ -44,6 +44,15 @@
     gap: 1rem;
 }
 
+.nameFields {
+    display: flex;
+    gap: 1rem;
+}
+
+.nameFields > * {
+    flex: 1;
+}
+
 .label {
     display: grid;
     gap: 0.5rem;
@@ -86,12 +95,14 @@
     display: grid;
     gap: 0.75rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
-.links li {
+.links a {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     border: 1px solid var(--border);
     border-radius: calc(var(--radius) - 4px);
@@ -100,7 +111,7 @@
     transition: background 0.2s;
 }
 
-.links li:hover {
+.links a:hover {
     background: var(--surface);
 }
 
