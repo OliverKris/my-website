@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import styles from "./Navbar.module.css";
+import styles from "./NavBar.module.css";
 import { useTheme } from "../hooks/useTheme"
 
 export default function Navbar() {
