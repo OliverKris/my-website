@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <section className={styles.page}>
             <header className={styles.hero}>
-                <h1 className={styles.name}>Oliver Krisetya</h1>
+                <h1 className={styles.name}>Hi, I'm Oliver</h1>
                 <p className={styles.title}>Graduate Student, Computer Science — GWU</p>
 
                 <p className={styles.summary}>
