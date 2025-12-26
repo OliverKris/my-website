@@ -1,29 +1,27 @@
 import styles from "./Contact.module.css";
 // import { FiMail } from "react-icons/fi";
 // import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { useInView } from "../hooks/useInView.ts"
+import Reveal from "../components/Reveal"
 
 export default function Contact() {
-    const {ref: focusRef, inView: focusInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
-
     return (
         <section className={styles.page}>
-            <header className={styles.header}>
+            <Reveal as="header" className={styles.header}>
                 <h1>Contact</h1>
                 <p className={styles.subtext}>
                 For collaboration, research, or opportunities, feel free to reach out.
                 </p>
-            </header>
+            </Reveal>
 
-            <div 
-                ref={focusRef}
-                className={` ${styles.grid} reveal ${focusInView ? "revealVisible":""}`}
-            >
+            <Reveal className={styles.grid} delayMs={120}>
                 <div className={styles.card}>
                     <h2 className={styles.cardTitle}>Send a message</h2>
 
-                    {/* Replace action URL with Formspree endpoint if you use it */}
-                    <form className={styles.form} action="#" method="POST">
+                    <form 
+                        className={styles.form} 
+                        action="https://formspree.io/f/xvzpnjwv"
+                        method="POST"
+                    >
                         <div className={styles.nameFields}>
                             <label className={styles.label}>
                                 First Name
@@ -100,7 +98,7 @@ export default function Contact() {
                         </a>
                     </ul>
                 </aside> */}
-            </div>
+            </Reveal>
         </section>
     );
 }

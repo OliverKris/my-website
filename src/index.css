@@ -246,8 +246,10 @@ html[data-theme="dark"] ::selection {
 
 .reveal {
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 550ms ease, transform 550ms ease;
+    transform: translateY(6px);
+    transition: 
+        opacity 500ms ease var(--reveal-delay, 0ms), 
+        transform 500ms ease var(--reveal-delay, 0ms);
 }
 
 .revealVisible {
@@ -259,5 +261,6 @@ html[data-theme="dark"] ::selection {
     .reveal {
         transition: none;
         transform: none;
+        opacity: 1;
     }
 }

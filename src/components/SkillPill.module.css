@@ -12,8 +12,21 @@
     font-size: 0.95rem;
 }
 
+.pill.pill {
+    transition:
+        background-color var(--theme-dur) var(--theme-ease),
+        color var(--theme-dur) var(--theme-ease),
+        border-color var(--theme-dur) var(--theme-ease),
+        box-shadow var(--theme-dur) var(--theme-ease),
+        transform 140ms ease;
+    will-change: transform;
+}
+
 .pill:hover {
-    filter: brightness(0.90);
+    background-color: var(--surface-hover);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px)
 }
 
 .icon {

@@ -1,4 +1,20 @@
+.subtext {
+    margin: 0;
+    color: var(--muted);
+    max-width: 70ch;
+}
+
+.header {
+    display: grid;
+    gap: 0.5rem;
+}
+
 .page {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.resumeSection {
     display: grid;
     gap: 1.25rem;
 }

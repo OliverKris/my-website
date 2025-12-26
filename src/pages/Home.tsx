@@ -2,17 +2,15 @@ import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 import { projects } from "../data/projects";
 import { getFeaturedProjects } from "../utils/projects";
-import ProjectCard from "../components/ProjectCard";
-import { useInView } from "../hooks/useInView.ts"
+import FeaturedProjectCard from "../components/FeaturedProjectCard";
+import Reveal from "../components/Reveal";
 
 export default function Home() {
     const featured = getFeaturedProjects(projects, 2);
 
-    const {ref: focusRef, inView: focusInView } = useInView<HTMLDivElement>({ threshold: 0.2 });
-
     return (
         <section className={styles.page}>
-            <header className={styles.hero}>
+            <Reveal as="header" className={styles.hero}>
                 <h1 className={styles.name}>Hi, I'm Oliver</h1>
                 <p className={styles.title}>Graduate Student, Computer Science — GWU</p>
 
@@ -33,34 +31,28 @@ export default function Home() {
                     </a>
                     <Link className={styles.textCta} to="/contact">Contact</Link>
                 </div>
-            </header>
+            </Reveal>
 
-            <section 
-                ref={focusRef}
-                className={`reveal ${focusInView ? "revealVisible":""} ${styles.section}`}
-            >
+            <Reveal as="section" className={styles.section} threshold={0.1} delayMs={120}>
                 <h2 className={styles.sectionTitle}>Current Focus</h2>
                 <ul className={styles.focusList}>
                     <li>Graduate coursework and research in computer science, with emphasis on systems and applied machine learning.</li>
                     <li>Graduate Teaching Assistant for database systems and team-based software engineering courses.</li>
                     <li>Designing and maintaining production-quality tooling and applications using C, Linux, Python, and React.</li>
                 </ul>
-            </section>
+            </Reveal>
 
-            <section
-                ref={focusRef}
-                className={`reveal ${focusInView ? "revealVisible":""} ${styles.section}`}
-            >
+            <Reveal as="section" className={styles.section} threshold={0.2} delayMs={240}>
                 <h2 className={styles.sectionTitle}>Featured Projects</h2>
                 <div className={styles.featuredGrid}>
                     {featured.map((p) => (
-                        <ProjectCard key={p.id} project={p} />
+                        <FeaturedProjectCard key={p.id} project={p} />
                     ))}
                 </div>
                 <div className={styles.moreLinkRow}>
                     <Link className={styles.moreLink} to="/projects">View all projects →</Link>
                 </div>
-            </section>
+            </Reveal>
         </section>
     );
 }

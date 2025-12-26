@@ -21,7 +21,10 @@
 }
 
 .card:hover {
-    transform: translateY(-4px)
+    background-color: var(--surface-hover);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px)
 }
 
 .header {

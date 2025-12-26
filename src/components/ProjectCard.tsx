@@ -7,7 +7,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             <header className={styles.header}>
                 <h3 className={styles.title}>{project.title}</h3>
                 <div className={styles.links}>
-                    <a href={project.repoUrl} target="_blank" rel="noreferrer">GitHub</a>
+                    <a href={project.url} target="_blank" rel="noreferrer">{project.urlType}</a>
                     {project.liveUrl ? (
                         <a href={project.liveUrl} target="_blank" rel="noreferrer">Live</a>
                     ) : null}

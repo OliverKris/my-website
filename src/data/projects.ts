@@ -4,7 +4,8 @@ export type Project = {
     pitch: string;
     highlights: string[];
     tech: string[];
-    repoUrl: string;
+    url: string;
+    urlType: string;
     liveUrl?: string;
     featured?: boolean;
     order?: number;
@@ -21,7 +22,8 @@ export const projects: Project[] = [
             "Built a CLI client and automated test harness to verify correctness under concurrent usage"
         ],
         tech: ["Python", "TCP", "Sockets"],
-        repoUrl: "https://github.com/OliverKris/CSCI6431Final-BulletinBoard",
+        url: "https://github.com/OliverKris/bulletinboard-project",
+        urlType: "GitHub",
         featured: true,
         order: 1,
     },
@@ -35,7 +37,8 @@ export const projects: Project[] = [
             "Evaluated models using MSE and R² while analyzing training vs. validation loss to diagnose overfitting"
         ],
         tech: ["Python", "PyTorch", "Pandas"],
-        repoUrl: "https://github.com/OliverKris/computer-price-prediction",
+        url: "https://github.com/OliverKris/computer-price-prediction",
+        urlType: "GitHub",
         featured: true,
         order: 2,
     },
@@ -49,6 +52,21 @@ export const projects: Project[] = [
             "Structured projects and skills as data-driven content for easy iteration and maintainability"
         ],
         tech: ["React", "TypeScript", "Vite"],
-        repoUrl: "https://github.com/OliverKris/my-website",
+        url: "https://github.com/OliverKris/my-website",
+        urlType: "GitHub"
+    },
+    {
+        id: "easysched",
+        title: "Easy Sched",
+        pitch: "An algorithm-assisted scheduling tool designed for a GWU 2025 CS capstone project.",
+        highlights: [
+            "Designed a scoring-based assignment algorithm to match TAs and LAs to courses based on availability, preferences, and staffing requirements",
+            "Built an admin-facing interface to filter courses, time slots, and required staff for efficient semester planning",
+            "Structured scheduling logic to balance coverage constraints while minimizing conflicts and manual intervention",
+            "Focused on maintainability and transparency to support iterative tuning by department administrators"
+        ],
+        tech: ["Django", "TypeScript", "Python"],
+        url: "https://gw-cs-sd-24-25.github.io/sd-cow/",
+        urlType: "Website",
     },
 ];

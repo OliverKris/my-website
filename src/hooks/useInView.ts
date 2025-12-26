@@ -4,6 +4,10 @@ export function useInView<T extends HTMLElement>(options?: IntersectionObserverI
     const ref = useRef<T | null>(null);
     const [inView, setInView] = useState(false);
 
+    const threshold = options?.threshold;
+    const root = options?.root;
+    const rootMargin = options?.rootMargin;
+
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
@@ -13,11 +17,11 @@ export function useInView<T extends HTMLElement>(options?: IntersectionObserverI
                 setInView(true);
                 obs.disconnect();
             }
-        }, options)
+        }, { threshold, root, rootMargin })
 
         obs.observe(el);
         return () => obs.disconnect();
-    }, [options])
+    }, [threshold, root, rootMargin])
     
-    return {ref, inView };
+    return {ref, inView};
 }
