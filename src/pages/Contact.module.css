@@ -19,13 +19,6 @@
     gap: 1.25rem;
 }
 
-@media (min-width: 860px) {
-    .grid {
-        grid-template-columns: 2fr 1fr;
-        align-items: start;
-    }
-}
-
 .card {
     background: var(--surface);
     border: 1px solid var(--border);
