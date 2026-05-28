@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+    --f-green-dark: #0f2318;
+    --f-green-mid: #1a3a28;
+    --f-green-light: #2d5a3d;
+    --f-gold: #c9a84c;
+    --f-gold-light: #e8c97a;
+    --f-cream: #f5f0e8;
+    --f-cream-dim: #c8c0b0;
+    --f-font-serif: 'Playfair Display', Georgia, serif;
+    --f-font-sans: 'DM Sans', sans-serif;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scrollBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+/* blinking cursor */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--f-gold);
+    vertical-align: text-bottom;
+    animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* formal word highlight */
+.formal-word {
+    display: inline-block;
+    position: relative;
+    color: var(--f-gold);
+    font-weight: 500;
+}
+
+/* the red strikethrough line */
+.formal-word .strike {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0%;
+    height: 2px;
+    background: #e05555;
+    transition: width 0.5s ease;
+}
+
+.formal-word.struck {
+    color: #888;
+    transition: color 0.5s ease 0.3s;
+}
+
+.formal-word.struck .strike {
+    width: 100%;
+}
+
+/* casual replacement word */
+.casual-swap {
+    display: inline-block;
+    white-space: nowrap;
+    color: var(--f-green-accent, #7ec98a);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease !important;
+    margin-left: 3px;
+    will-change: transform, opacity;
+}
+
+.casual-swap.show {
+    opacity: 1;
+    transform: translateY(0);
+}

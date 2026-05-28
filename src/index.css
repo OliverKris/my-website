@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
     /* Fonts */
     --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
@@ -139,13 +141,16 @@ body {
 
 .theme-transition,
 .theme-transition * {
-    transition:
-        background-color var(--theme-dur) var(--theme-ease),
-        color var(--theme-dur) var(--theme-ease),
-        border-color var(--theme-dur) var(--theme-ease),
-        box-shadow var(--theme-dur) var(--theme-ease),
-        fill var(--theme-dur) var(--theme-ease),
-        stroke var(--theme-dur) var(--theme-ease);
+    transition-property:
+        background-color,
+        color,
+        border-color,
+        box-shadow,
+        fill,
+        stroke;
+
+    transition-duration: var(--theme-dur);
+    transition-timing-function: var(--theme-ease);
 }
 
 body {
