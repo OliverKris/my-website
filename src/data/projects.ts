@@ -43,6 +43,32 @@ export const projects: Project[] = [
         order: 2,
     },
     {
+        id: "formality-bias-nlu",
+        title: "Formality Bias in Large Language Models",
+        pitch: "A natural language understanding research project investigating whether large language models systematically favor overly formal language compared to human conversational corpora, using both lexicon-based and neural formality metrics.",
+        highlights: [
+            "Designed a dual-metric framework combining a custom Formality Rate (FR) lexicon pipeline with a fine-tuned RoBERTa register classifier to measure stylistic bias in LLM outputs",
+            "Analyzed conversational responses across GPT, LLaMA, Claude, Mistral, Vicuna, and LMSYS-Chat datasets to identify cross-family formality bias patterns",
+            "Built preprocessing and corpus analysis pipelines for large-scale conversational datasets including Reddit, ELI5, BlendedSkillTalk, and LMSYS-Chat-1M",
+            "Implemented statistical evaluation workflows using Mann-Whitney U, Kruskal-Wallis, and paired t-tests to validate observed register differences",
+            "Explored LoRA-based mitigation on Qwen2.5-3B-Instruct to reduce formal-register tendencies while preserving fluency and response coherence"
+        ],
+        tech: [
+            "Python",
+            "PyTorch",
+            "Transformers",
+            "RoBERTa",
+            "LoRA",
+            "Hugging Face",
+            "Pandas",
+            "NLU"
+        ],
+        url: "https://github.com/OliverKris/CSCI6515-FinalProject",
+        urlType: "GitHub",
+        featured: true,
+        order: 3,
+    },
+    {
         id: "portfolio",
         title: "Personal Portfolio Website",
         pitch: "A responsive, data-driven personal portfolio website designed to showcase projects, skills, and experience with a modular component architecture and theme support.",
