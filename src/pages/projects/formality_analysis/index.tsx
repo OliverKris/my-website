@@ -1,4 +1,5 @@
 import Hero from './sections/Hero';
+import Concept from './sections/Concept'
 import Intro from './sections/Intro'
 
 export default function Formality(){
@@ -6,6 +7,7 @@ export default function Formality(){
         <div>
             <Hero />
             <Intro />
+            <Concept />
         </div>
     )
 }

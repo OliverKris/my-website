@@ -194,13 +194,14 @@ export default function Hero() {
             marginTop: '1rem',
             opacity: phase === 'striking' || phase === 'revealed' ? 1 : 0,
             transition: 'opacity 0.5s ease',
+            color: 'var(--f-cream-dim)',
         }}>
             {[
             { color: 'var(--f-gold)',    label: 'formal word'       },
             { color: '#e05555',          label: 'removed'           },
             { color: 'var(--f-green-accent, #7ec98a)', label: 'casual replacement' },
             ].map(({ color, label }) => (
-            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.72rem', color: 'var(--f-cream-dim)' }}>
+            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.72rem' }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: color, display: 'inline-block' }} />
                 {label}
             </span>
