@@ -76,11 +76,11 @@ export default function Hero() {
 
             cursor.style.display = 'none';
 
-            await sleep(500);          // let typing finish feeling
+            await sleep(450);          // let typing finish feeling
             if (cancelled) return;
             setPhase('striking');
 
-            await sleep(600);          // pause so legend fades in first before anything moves
+            await sleep(450);          // pause so legend fades in first before anything moves
 
             // sequential strike + replace
             for (const { el, casual } of formalRefs.current) {
@@ -107,7 +107,7 @@ export default function Hero() {
                 await sleep(300);
             }
 
-            await sleep(500);
+            await sleep(350);
             if (cancelled) return;
             setPhase('revealed');
         }
