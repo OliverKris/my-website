@@ -92,6 +92,7 @@ export default function Concept() {
                         borderRadius: '12px',
                         overflow: 'hidden',
                         marginBottom: '3rem',
+                        maxWidth: '560px',
                     }}>
                         {/* Header row */}
                         <div style={{ padding: '0.75rem 1.25rem', background: 'var(--f-green-mid)', borderBottom: '1px solid #2d5a3d' }}>

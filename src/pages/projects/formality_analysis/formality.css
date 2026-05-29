@@ -4,12 +4,21 @@
     --f-green-dark: #0f2318;
     --f-green-mid: #1a3a28;
     --f-green-light: #2d5a3d;
+    --f-green-accent: #7ec98a;
     --f-gold: #c9a84c;
     --f-gold-light: #e8c97a;
+    --f-red: #e05555;
     --f-cream: #f5f0e8;
     --f-cream-dim: #c8c0b0;
     --f-font-serif: 'Playfair Display', Georgia, serif;
     --f-font-sans: 'DM Sans', sans-serif;
+
+    color-scheme: dark;
+}
+
+html,
+body {
+    background: var(--f-green-dark);
 }
 
 @keyframes floatUp {
@@ -79,7 +88,7 @@
     top: 50%;
     width: 0%;
     height: 2px;
-    background: #e05555;
+    background: var(--f-red);
     transition: width 0.5s ease;
 }
 
@@ -96,7 +105,7 @@
 .casual-swap {
     display: inline-block;
     white-space: nowrap;
-    color: var(--f-green-accent, #7ec98a);
+    color: var(--f-green-accent);
     font-weight: 500;
     opacity: 0;
     transform: translateY(4px);

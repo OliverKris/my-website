@@ -7,6 +7,8 @@ export type Project = {
     url: string;
     urlType: string;
     liveUrl?: string;
+    /** Internal route for a custom project showcase page, e.g. "/projects/formality" */
+    demoPath?: string;
     featured?: boolean;
     order?: number;
 };
@@ -65,6 +67,7 @@ export const projects: Project[] = [
         ],
         url: "https://github.com/OliverKris/CSCI6515-FinalProject",
         urlType: "GitHub",
+        demoPath: "/projects/formality",
         featured: true,
         order: 3,
     },
