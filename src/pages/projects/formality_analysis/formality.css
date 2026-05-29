@@ -16,11 +16,6 @@
     color-scheme: dark;
 }
 
-html,
-body {
-    background: var(--f-green-dark);
-}
-
 @keyframes floatUp {
     0% {
         opacity: 1;

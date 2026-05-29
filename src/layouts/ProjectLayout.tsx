@@ -29,7 +29,6 @@ export default function ProjectLayout() {
                     alignItems: 'center',
                     gap: '6px',
                     padding: '0.45rem 0.9rem',
-                    background: 'var(--f-green-mid, #1a3a28)',
                     border: '1px solid var(--f-green-light, #2d5a3d)',
                     borderRadius: '999px',
                     color: 'var(--f-cream-dim, #c8c0b0)',

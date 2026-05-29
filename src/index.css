@@ -134,6 +134,10 @@ body {
         color var(--theme-dur) var(--theme-ease)
 }
 
+ul {
+    list-style-type: disc;
+}
+
 .no-theme-transition *,
 .no-theme-transition {
     transition: none !important;
