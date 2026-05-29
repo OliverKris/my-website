@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FadeIn } from '../hooks/fadeIn'
+import { FadeIn } from '../hooks/FadeIn'
 import '../formality.css'
 
 const SUBSTITUTIONS = [

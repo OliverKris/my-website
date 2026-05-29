@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { FadeIn } from '../hooks/fadeIn'
+import { FadeIn } from '../hooks/FadeIn'
 
 export default function Intro(){
     const sectionRef = useRef<HTMLDivElement>(null)
