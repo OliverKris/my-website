@@ -94,7 +94,7 @@ export default function TableOfContents({ sections }: Props) {
                             alignItems: 'center',
                             gap: '10px',
                             padding: '0.5rem 0',
-                            minHeight: '28px',
+                            minHeight: '36px',
                             background: 'none',
                             border: 'none',
                             cursor: 'pointer',

@@ -59,8 +59,6 @@ export default function Intro(){
                         engineering, customer support, and creative work - often acting as intermediaries 
                         between people and written language itself.
                     </p>
-                </FadeIn>
-                <FadeIn visible={visible} delay={0.2}>
                     <p style={{
                         color: 'var(--f-cream-dim)',
                         fontSize: '1.05rem',
@@ -75,7 +73,7 @@ export default function Intro(){
                         when a message had been AI-generated.
                     </p>
                 </FadeIn>
-                <FadeIn visible={visible} delay={0.4}>
+                <FadeIn visible={visible} delay={0.2}>
                     <p style={{
                         color: 'var(--f-cream-dim)',
                         fontSize: '1.05rem',
@@ -85,12 +83,37 @@ export default function Intro(){
                     }}>
                         That observation led us to a larger question:
                     </p>
-                </FadeIn>
-                <FadeIn visible={visible} delay={0.6}>
                     <p style={{
                         fontStyle: 'italic',
-                        fontSize: '1.25rem'
+                        fontSize: '1.25rem',
+                        maxWidth: '600px',
+                        marginBottom: '2rem',
+
                     }}>Can formality bias in language models actually be measured?</p>
+                </FadeIn>
+                <FadeIn visible={visible} delay={0.4}>
+                    <p style={{
+                        color: 'var(--f-cream-dim)',
+                        fontSize: '1.05rem',
+                        lineHeight: 1.8,
+                        maxWidth: '600px',
+                        marginBottom: '2rem',
+                    }}>
+                        To investigate this, we conducted a corpus-level analysis across multiple major LLM families 
+                        using lexical metrics, a RoBERTa-based formality classifier, and LoRA fine-tuning experiments. 
+                        Our goal was not only to measure whether this bias exists, but also to explore how consistently 
+                        it appears across models and whether it can be reduced through lightweight adaptation.
+                    </p>
+                    <p style={{
+                        color: 'var(--f-cream-dim)',
+                        fontSize: '1.05rem',
+                        lineHeight: 1.8,
+                        maxWidth: '600px',
+                        marginBottom: '0rem',
+                    }}>
+                        The result was a multi-stage evaluation framework combining linguistic analysis, neural classification, 
+                        statistical testing, and mitigation experiments across both human and AI-generated conversational corpora.
+                    </p>
                 </FadeIn>
             </div>
         </section>

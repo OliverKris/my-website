@@ -6,7 +6,7 @@
     border-radius: 10px;
     overflow: hidden;
     background: var(--card-bg, var(--bg));
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
 .card:hover {
