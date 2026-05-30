@@ -1,103 +1,139 @@
 .card {
-    padding: 1rem;
     display: flex;
     flex-direction: column;
-    height: 100%;
-
-    background-color: var(--surface);
-    color: var(--text);
+    justify-content: space-between;
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-}
-
-.card.card {
-    transition:
-        background-color var(--theme-dur) var(--theme-ease),
-        color var(--theme-dur) var(--theme-ease),
-        border-color var(--theme-dur) var(--theme-ease),
-        box-shadow var(--theme-dur) var(--theme-ease),
-        transform 180ms ease;
-    will-change: transform;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
 .card:hover {
-    background-color: var(--surface-hover);
-    border-color: var(--border-hover);
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-3px)
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
 }
 
-.header {
+/* ── body ── */
+.body {
+    padding: 1.5rem 1.5rem 1rem;
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: start;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex: 1;
 }
 
 .title {
     margin: 0;
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--fg);
 }
 
-.links {
-    display: inline-flex;
-    gap: 0.75rem;
-    white-space: nowrap;
-}
-
-.links a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-}
-
-.links a:hover {
-    text-decoration: underline;
-}
-
-.body {
-    margin-top: 0.75rem;
-    display: grid;
-    gap: 0.75rem;
-}
-
-.block {
-    display: grid;
-    gap: 0.25rem;
-}
-
-.label {
-    font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.text {
+.pitch {
     margin: 0;
-    color: var(--text);
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
 }
 
-.techRow {
+.highlights {
+    margin: 0.25rem 0 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.highlights li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+/* ── footer ── */
+.footer {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* tech tags */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.tag {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    letter-spacing: 0.02em;
+    font-weight: 500;
+}
+
+/* action buttons row */
+.actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    align-items: center;
 }
 
-.techTag {
+.btn {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.6rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--page);
-    font-size: 0.85rem;
-    color: var(--text);
+    gap: 5px;
+    padding: 0.38rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.1s ease, color 0.1s ease, border-color 0.1s ease;
+    letter-spacing: 0.02em;
+    font-family: inherit;
+    border: none;
 }
 
-.list {
-    padding: 0 0 0 20px;
+/* Live Demo — filled accent */
+.btnDemo {
+    background: var(--accent);
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+.btnDemo:hover {
+    background: var(--accent-hover);
+}
+
+/* External site — outlined accent */
+.btnExternal {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.btnExternal:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* GitHub / ghost — subtle */
+.btnGhost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.btnGhost:hover {
+    background: var(--tag-bg);
+    color: var(--fg);
+    border-color: var(--muted);
 }
