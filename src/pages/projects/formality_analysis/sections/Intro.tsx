@@ -68,12 +68,12 @@ export default function Intro(){
                     }}>
                         While using these systems, we began noticing a consistent pattern: AI responses often 
                         sounded unusually formal. Even in casual contexts, models tended to prefer words like 
-                        delve,” “commence,” or “elucidate” over more natural conversational alternatives. The 
+                        "delve,” “commence,” or “elucidate” over more natural conversational alternatives. The 
                         effect was subtle, but persistent enough that many people could immediately recognize 
                         when a message had been AI-generated.
                     </p>
                 </FadeIn>
-                <FadeIn visible={visible} delay={0.2}>
+                <FadeIn visible={visible} delay={0.1}>
                     <p style={{
                         color: 'var(--f-cream-dim)',
                         fontSize: '1.05rem',
@@ -91,7 +91,7 @@ export default function Intro(){
 
                     }}>Can formality bias in language models actually be measured?</p>
                 </FadeIn>
-                <FadeIn visible={visible} delay={0.4}>
+                <FadeIn visible={visible} delay={0.2}>
                     <p style={{
                         color: 'var(--f-cream-dim)',
                         fontSize: '1.05rem',

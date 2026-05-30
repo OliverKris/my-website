@@ -65,7 +65,7 @@ export const projects: Project[] = [
             "Pandas",
             "NLU"
         ],
-        url: "https://github.com/OliverKris/CSCI6515-FinalProject",
+        url: "https://github.com/OliverKris/formal-language-bias-llms",
         urlType: "GitHub",
         demoPath: "/projects/formality",
         featured: true,

@@ -1,0 +1,129 @@
+.section {
+    background: var(--f-green-dark);
+    padding: 7rem 2rem 8rem;
+    font-family: var(--f-font-sans);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-right: clamp(0px, 6vw, 80px);
+}
+
+/* impact tiles */
+.tileGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin: 2rem 0 3.5rem;
+}
+
+.tile {
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+
+.tileHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+}
+
+.tileIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: invert(72%) sepia(19%) saturate(1472%) hue-rotate(7deg) brightness(91%) contrast(84%);
+}
+
+.tileTitle {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--f-cream);
+    margin: 0;
+}
+
+.tileDesc {
+    font-size: 0.78rem;
+    color: var(--f-cream-dim);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* authors */
+.authors {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.author {
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    flex: 1;
+    min-width: 160px;
+}
+
+.authorName {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--f-cream);
+    margin: 0 0 0.2rem;
+}
+
+.authorRole {
+    font-size: 0.75rem;
+    color: var(--f-cream-dim);
+    opacity: 0.7;
+}
+
+/* links */
+.links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.linkBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--f-font-sans);
+    transition: all 0.18s ease;
+    letter-spacing: 0.03em;
+}
+
+.linkBtn--primary {
+    background: var(--f-gold);
+    color: var(--f-green-dark);
+    border: 1px solid var(--f-gold);
+}
+
+.linkBtn--primary:hover {
+    background: var(--f-gold-light);
+    border-color: var(--f-gold-light);
+}
+
+.linkBtn--ghost {
+    background: transparent;
+    color: var(--f-cream-dim);
+    border: 1px solid var(--f-green-light);
+}
+
+.linkBtn--ghost:hover {
+    border-color: var(--f-cream-dim);
+    color: var(--f-cream);
+}
