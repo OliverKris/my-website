@@ -1,103 +1,82 @@
-import styles from "./Contact.module.css";
-// import { FiMail } from "react-icons/fi";
-// import { FaGithub, FaLinkedin } from "react-icons/fa";
-import Reveal from "../components/Reveal"
+import Reveal from "../components/Reveal";
 
 export default function Contact() {
     return (
-        <section className={styles.page}>
-            <Reveal as="header" className={styles.header}>
+        <section className="grid gap-6">
+            <Reveal as="header" className="grid gap-2">
                 <h1>Contact</h1>
-                <p className={styles.subtext}>
-                For collaboration, research, or opportunities, feel free to reach out.
+                <p className="m-0 text-(--muted) max-w-[70ch]">
+                    For collaboration, research, or opportunities, feel free to reach out.
                 </p>
             </Reveal>
 
-            <Reveal className={styles.grid} delayMs={120}>
-                <div className={styles.card}>
-                    <h2 className={styles.cardTitle}>Send a message</h2>
+            <Reveal className="grid gap-5" delayMs={120}>
+                <div className="bg-(--surface) border border-(--border) rounded-(--radius) p-5">
+                    <h2 className="text-[1.1rem] font-extrabold mb-2!">Send a message</h2>
 
-                    <form 
-                        className={styles.form} 
+                    <form
+                        className="grid gap-4"
                         action="https://formspree.io/f/xvzpnjwv"
                         method="POST"
                     >
-                        <div className={styles.nameFields}>
-                            <label className={styles.label}>
+                        <div className="flex gap-4">
+                            <label className="grid gap-2 font-bold flex-1">
                                 First Name
-                                <input className={styles.input} type="text" name="name" required />
+                                <input
+                                    className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
+                                    type="text"
+                                    name="firstName"
+                                    required
+                                />
                             </label>
-
-                            <label className={styles.label}>
+                            <label className="grid gap-2 font-bold flex-1">
                                 Last Name
-                                <input className={styles.input} type="text" name="name" required />
+                                <input
+                                    className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
+                                    type="text"
+                                    name="lastName"
+                                    required
+                                />
                             </label>
                         </div>
 
-                        <label className={styles.label}>
+                        <label className="grid gap-2 font-bold">
                             Email
-                            <input className={styles.input} type="email" name="email" required />
+                            <input
+                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
+                                type="email"
+                                name="email"
+                                required
+                            />
                         </label>
 
-                        <label className={styles.label}>
+                        <label className="grid gap-2 font-bold">
                             Phone Number (optional)
-                            <input className={styles.input} type="tel" name="phone" />
+                            <input
+                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
+                                type="tel"
+                                name="phone"
+                            />
                         </label>
 
-                        <label className={styles.label}>
+                        <label className="grid gap-2 font-bold">
                             Message
-                            <textarea className={styles.textarea} name="message" rows={5} required />
+                            <textarea
+                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) resize-y transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
+                                name="message"
+                                rows={5}
+                                required
+                            />
                         </label>
 
-                        <button className={styles.button} type="submit">Send</button>
+                        <button
+                            className="w-fit px-4 py-3 rounded-[calc(var(--radius)-4px)] bg-(--accent) text-white! font-extrabold border border-(--accent) cursor-pointer hover:bg-(--accent-hover) hover:border-(--accent-hover) transition-[background-color,border-color] duration-(--theme-dur) ease-(--theme-ease)"
+                            type="submit"
+                        >
+                            Send
+                        </button>
                     </form>
                 </div>
-
-                {/* <aside>
-                    <ul className={styles.links}>
-                        <a 
-                            className={styles.contactBtn} 
-                            href="mailto:you@gwu.edu"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span className={styles.left}>
-                                <span className={styles.label}>Email</span>
-                            </span>
-                            <span className={styles.iconWrap} aria-hidden="true">
-                                <FiMail />
-                            </span>
-                        </a>
-
-                        <a 
-                            className={styles.contactBtn} 
-                            href="https://linkin.com/in/okrisetya"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <span className={styles.left}>
-                                <span className={styles.label}>LinkedIn</span>
-                            </span>
-                            <span className={styles.iconWrap} aria-hidden="true">
-                                <FaLinkedin />
-                            </span>
-                        </a>
-
-                        <a 
-                            className={styles.contactBtn} 
-                            href="https://github.com/OliverKris"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            >
-                            <span className={styles.left}>
-                                <span className={styles.label}>GitHub</span>
-                            </span>
-                            <span className={styles.iconWrap} aria-hidden="true">
-                                <FaGithub />
-                            </span>
-                        </a>
-                    </ul>
-                </aside> */}
             </Reveal>
         </section>
     );

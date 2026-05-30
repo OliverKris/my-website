@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import type { Project } from "../data/projects";
-import styles from "./ProjectCard.module.css";
 
 interface Props {
     project: Project;
@@ -11,48 +10,53 @@ export default function ProjectCard({ project }: Props) {
     const { title, pitch, highlights, tech, url, urlType, liveUrl, demoPath } = project;
 
     return (
-        <article className={styles.card}>
-            <div className={styles.body}>
-                <h2 className={styles.title}>{title}</h2>
-                <p className={styles.pitch}>{pitch}</p>
+        <article className="flex flex-col justify-between border border-(--border) rounded-[10px] overflow-hidden bg-(--surface) transition-[box-shadow,transform] duration-200 ease-out hover:border-(--border-hover) hover:[box-shadow:var(--shadow-hover)]">
+            {/* Body */}
+            <div className="flex flex-col gap-[0.65rem] flex-1 p-6 pb-4">
+                <h2 className="m-0 text-[1rem] font-semibold leading-[1.35] text-(--text)">{title}</h2>
+                <p className="m-0 text-[0.875rem] text-(--muted) leading-[1.65]">{pitch}</p>
 
-                <ul className={styles.highlights}>
+                <ul className="mt-1 pl-[1.1rem] flex flex-col gap-[0.35rem] list-disc">
                     {highlights.map((h, i) => (
-                        <li key={i}>{h}</li>
+                        <li key={i} className="text-[0.8rem] text-(--muted) leading-[1.55]">{h}</li>
                     ))}
                 </ul>
             </div>
 
-            <footer className={styles.footer}>
+            {/* Footer */}
+            <footer className="flex flex-col gap-3 px-6 py-4 pt-4 border-t border-(--border)">
                 {/* Tech tags */}
-                <div className={styles.tags}>
+                <div className="flex flex-wrap gap-[0.35rem]">
                     {tech.map((t) => (
-                        <span key={t} className={styles.tag}>{t}</span>
+                        <span
+                            key={t}
+                            className="text-[0.68rem] px-[0.55rem] py-[0.2rem] rounded-full bg-(--surface-active) text-(--muted) tracking-[0.02em] font-medium"
+                        >
+                            {t}
+                        </span>
                     ))}
                 </div>
 
                 {/* Action buttons */}
-                <div className={styles.actions}>
-                    {/* Live demo — internal route, styled prominently */}
+                <div className="flex flex-wrap gap-2 items-center">
                     {demoPath && (
-                        <button
-                            className={`${styles.btn} ${styles.btnDemo}`}
+                        <a
+                            className="inline-flex items-center gap-1.25 px-[0.8rem] py-[0.38rem] text-[0.75rem] font-medium rounded-md cursor-pointer tracking-[0.02em] bg-(--accent) text-white! no-underline! border border-transparent hover:bg-(--accent-hover) transition-[background-color] duration-(--theme-dur) ease-(--theme-ease)"
                             onClick={() => navigate(demoPath)}
                         >
                             Live Demo
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                                 <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
-                        </button>
+                        </a>
                     )}
 
-                    {/* External live site */}
                     {liveUrl && (
                         <a
                             href={liveUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className={`${styles.btn} ${styles.btnExternal}`}
+                            className="inline-flex items-center gap-1.25 px-[0.8rem] py-[0.38rem] text-[0.75rem] font-medium rounded-md tracking-[0.02em] text-(--accent)! border border-(--accent) bg-transparent hover:bg-(--accent) hover:text-white! no-underline! transition-[background-color,color] duration-100 ease-out"
                         >
                             {urlType === "Website" ? "Visit Site" : "Live"}
                             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden>
@@ -61,12 +65,11 @@ export default function ProjectCard({ project }: Props) {
                         </a>
                     )}
 
-                    {/* GitHub / primary URL */}
                     <a
                         href={url}
                         target="_blank"
                         rel="noreferrer"
-                        className={`${styles.btn} ${styles.btnGhost}`}
+                        className="inline-flex items-center gap-1.25 px-[0.8rem] py-[0.38rem] text-[0.75rem] font-medium rounded-md tracking-[0.02em] text-(--muted)! border border-(--border) bg-transparent hover:bg-(--surface-active) hover:text-(--text)! hover:border-(--border-hover) no-underline! transition-[background-color,color,border-color] duration-100 ease-out"
                     >
                         {urlType === "GitHub" ? (
                             <>
