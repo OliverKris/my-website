@@ -74,7 +74,7 @@ export default function Mitigation() {
                 <FadeIn visible={visible} delay={0.1}>
                     {/* Prompt selector */}
                     <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' }}>
-                        {PAIRS.map((p, i) => (
+                        {PAIRS.map((_p, i) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveIdx(i)}
