@@ -11,11 +11,13 @@ export type Project = {
     demoPath?: string;
     featured?: boolean;
     order?: number;
+    category: 'systems' | 'ai' | 'web';
 };
 
 export const projects: Project[] = [
     {
         id: "bulletin-board",
+        category: "systems",
         title: "TCP Bulletin Board Server",
         pitch: "A concurrent TCP bulletin board server that maintains shared state across multiple clients, supporting authenticated posting, listing, and retrieval of messages through a custom request/response protocol.",
         highlights: [
@@ -31,7 +33,8 @@ export const projects: Project[] = [
     },
     {
         id: "price-prediction",
-        title: "Computer Price Prediction (PyTorch)",
+        category: "ai",
+        title: "Computer Price Prediction",
         pitch: "A machine learning project that predicts computer prices from hardware specifications using engineered features and neural network models, evaluated against classical regression baselines.",
         highlights: [
             "Performed feature engineering on hardware specifications, including tier-based scores and display metrics (pixels, PPI)",
@@ -46,6 +49,7 @@ export const projects: Project[] = [
     },
     {
         id: "formality-bias-nlu",
+        category: "ai",
         title: "Formality Bias in Large Language Models",
         pitch: "A natural language understanding research project investigating whether large language models systematically favor overly formal language compared to human conversational corpora, using both lexicon-based and neural formality metrics.",
         highlights: [
@@ -73,6 +77,7 @@ export const projects: Project[] = [
     },
     {
         id: "portfolio",
+        category: "web",
         title: "Personal Portfolio Website",
         pitch: "A responsive, data-driven personal portfolio website designed to showcase projects, skills, and experience with a modular component architecture and theme support.",
         highlights: [
@@ -86,6 +91,7 @@ export const projects: Project[] = [
     },
     {
         id: "easysched",
+        category: "web",
         title: "Easy Sched",
         pitch: "An algorithm-assisted scheduling tool designed for a GWU 2025 CS capstone project.",
         highlights: [

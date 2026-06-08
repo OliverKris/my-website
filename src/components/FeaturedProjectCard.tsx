@@ -1,78 +1,52 @@
 import { Link } from "react-router-dom";
+import { Badge } from "./ui/Badge";
+import { Button } from "./ui/Button";
 import type { Project } from "../data/projects";
 
-export default function FeaturedProjectCard({ project }: { project: Project }) {
+export function FeaturedProjectCard({ project }: { project: Project }) {
     return (
-        <article 
-            className="group flex flex-col justify-between rounded-xl border border-zinc-200 bg-zinc-50/50 
-                        p-6 transition-theme hover:bg-zinc-50 dark:border-zinc-900 dark:bg-zinc-950/40 
-                        dark:hover:bg-zinc-950/80"
-        >
+        <article className="group relative flex flex-col justify-between rounded-xl border border-layout bg-card p-6 transition-theme hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5">
+            
+            {/* The Accent Highlight Bar (Custom animation stays) */}
+            <div className="absolute left-0 top-0 h-1.5 w-full rounded-t-xl bg-linear-to-r from-accent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
-            {/* Header / Main Body Area */}
             <header className="space-y-3">
                 <div className="flex items-start justify-between gap-4">
-                    {/* Project Title */}
-                    <h3 className="text-lg font-semibold tracking-tight text-zinc-900 transition-theme dark:text-zinc-100">
+                    <h3 className="text-lg font-bold tracking-tight text-main transition-theme group-hover:text-accent">
                         {project.title}
                     </h3>
 
-                    {/* Direct Links */}
-                    <div className="flex items-center gap-3 text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                        <a 
-                            href={project.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-300 hover:underline underline-offset-4"
-                        >
+                    {/* Standardized Links using Button primitive */}
+                    <div className="flex items-center gap-2">
+                        <Button variant="ghost" as="a" href={project.url} target="_blank" className="px-0 py-0 text-xs uppercase tracking-wider">
                             {project.urlType}
-                        </a>
-                        {project.liveUrl ? (
-                            <>
-                                <span className="text-zinc-300 dark:text-zinc-800" aria-hidden="true">|</span>
-                                <a 
-                                    href={project.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-300 hover:underline underline-offset-4"
-                                >
-                                    Live
-                                </a>
-                            </>
-                        ) : null}
+                        </Button>
+                        {project.liveUrl && (
+                            <Button variant="ghost" as="a" href={project.liveUrl} target="_blank" className="px-0 py-0 text-xs uppercase tracking-wider">
+                                Live
+                            </Button>
+                        )}
                     </div>
                 </div>
 
-                {/* Project Brief */}
-                <p className="text-sm leading-relaxed text-zinc-600 transition-theme dark:text-zinc-400">
+                <p className="text-sm leading-relaxed text-muted transition-theme">
                     {project.pitch}
                 </p>
             </header>
 
-            {/* Footer Stack / Badges and Routing */}
-            <footer className="mt-6 flex items-center justify-between border-t border-zinc-100 pt-4 transition-theme dark:border-zinc-900">
-                
-                {/* Tech Pills */}
+            <footer className="mt-6 flex items-center justify-between border-t border-layout pt-4">
+                {/* Reusing your Badge primitive */}
                 <div className="flex flex-wrap gap-1.5">
                     {project.tech.slice(0, 4).map((t) => (
-                        <span 
-                            key={t}
-                            className="rounded-full border border-zinc-200 bg-zinc-100 transition-theme px-2.5 py-0.5 text-xs font-medium text-zinc-600 
-                                    dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-400"
-                        >
-                            {t}
-                        </span>
+                        <Badge key={t} category="web" className="text-[10px]! font-bold uppercase">{t}</Badge>
                     ))}
                 </div>
 
-                {/* Details Callout */}
                 <Link 
-                    className="inline-flex items-center text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900
-                                dark:text-zinc-400 dark:hover:text-zinc-200"
-                    to="/projects"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-theme group-hover:translate-x-1"
+                    to={`/projects`}
                 >
-                    Details 
-                    <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+                    Details →
                 </Link>
             </footer>
         </article>

@@ -1,69 +1,91 @@
 @import "tailwindcss";
 
-/* --- 1. TAILWIND V4 CONFIGURATION --- */
-
-/* Custom attribute variant for toggling */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Map dynamic CSS variables into native utilities */
+@utility transition-theme {
+    transition-property: all;
+    transition-timing-function: ease-out;
+    transition-duration: 200ms;
+
+    contain: content;
+    will-change: transform, opacity, color, border-color;
+}
+
 @theme {
     --color-canvas: var(--color-bg-canvas);
     --color-card: var(--color-bg-card);
     --color-main: var(--color-text-main);
     --color-muted: var(--color-text-muted);
     --color-layout: var(--color-border);
-    
-    --font-sans: var(--font-sans);
-    --font-mono: var(--font-mono);
+
+    --color-accent: oklch(0.58 0.23 264);
+    --color-accent-soft: oklch(0.95 0.03 264);
+
+    --color-secondary: oklch(0.65 0.18 170);
+    --color-secondary-soft: oklch(0.96 0.02 170);
+
+    --color-tertiary: oklch(0.60 0.16 300);
+    --color-tertiary-soft: oklch(0.92 0.04 300);
+
+    --color-systems: #3b82f6; /* Blue */
+    --color-ai: #a855f7;      /* Purple */
+    --color-web: #10b981;     /* Emerald */
 }
 
-/* Global transition pipeline handling colors and modern translation properties */
-@utility transition-theme {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, transform, translate, scale;
-    transition-timing-function: ease-in-out;
-    transition-duration: 200ms;
-
-    will-change: background-color, color, border-color;
-}
-
-/* --- 2. SEMANTIC DESIGN TOKENS --- */
 :root {
-    /* Softer Light Mode Contrast */
-    --color-bg-canvas: #f8f9fa; 
+    /* Light Mode Palette: Using Indigo for a professional, vibrant accent */
+    --color-bg-canvas: #fcfcfc;
     --color-bg-card: #ffffff;
-    
-    --color-text-main: #18181b; 
-    --color-text-muted: #52525b;
+    --color-text-main: #09090b;
+    --color-text-muted: #71717a;
     --color-border: #e4e4e7;
 
-    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-        Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
+    --color-accent: oklch(0.58 0.23 264);
+    --color-accent-soft: oklch(0.95 0.03 264);
+
+    --color-secondary: oklch(0.65 0.18 170);
+    --color-secondary-soft: oklch(0.96 0.02 170);
+
+    --color-tertiary: oklch(0.60 0.16 300);
+    --color-tertiary-soft: oklch(0.92 0.04 300);
+
+    --color-systems: #3b82f6; /* Blue */
+    --color-ai: #a855f7;      /* Purple */
+    --color-web: #10b981;     /* Emerald */
 }
 
 html[data-theme="dark"] {
-    /* Softer Dark Mode Contrast */
-    --color-bg-canvas: #0f0f11; 
-    --color-bg-card: #18181b;
-    
-    --color-text-main: #f4f4f5; 
+    /* Dark Mode Palette: Electric Blue for high visibility */
+    --color-bg-canvas: #09090b;
+    --color-bg-card: #121216;
+    --color-text-main: #fafafa;
     --color-text-muted: #a1a1aa;
     --color-border: #27272a;
+
+    --color-accent: oklch(0.65 0.24 264);
+    --color-accent-soft: oklch(0.18 0.04 264);
+
+    --color-secondary: oklch(0.70 0.19 170);
+    --color-secondary-soft: oklch(0.22 0.08 170);
+
+    --color-tertiary: oklch(0.65 0.18 300);
+    --color-tertiary-soft: oklch(0.25 0.06 300);
 }
 
-/* --- 3. GLOBAL BASE LAYER --- */
-html {
-    scrollbar-gutter: stable;
-    background-color: var(--color-bg-canvas)
+@layer base {
+    * {
+        @apply border-layout;
+    }
+
+    body {
+        @apply bg-canvas text-main antialiased;
+        /* Prevents layout shift when content height changes */
+        scrollbar-gutter: stable;
+    }
+
+    /* Smooth scrolling for the whole page */
+    html {
+        scroll-behavior: smooth;
+    }
 }
 
-body {
-    background-color: var(--color-bg-canvas);
-    color: var(--color-text-main);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    @apply transition-theme;
-}

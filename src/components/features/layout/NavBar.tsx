@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../../../hooks/useTheme";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ export default function Navbar() {
                             className={({ isActive }) =>
                                 `rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-theme ${
                                 isActive
-                                    ? "bg-zinc-100 text-main dark:bg-zinc-800/60"
+                                    ? "bg-zinc-100 text-accent font-semibold dark:bg-zinc-800/60"
                                     : "text-muted hover:bg-zinc-100/60 hover:text-main dark:hover:bg-zinc-800/40"
                                 }`
                             }
