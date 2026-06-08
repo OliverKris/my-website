@@ -33,13 +33,13 @@ export default function Home() {
                 <Hero />
             </Reveal>
 
-            {/* 1. CURRENT FOCUS: Transformed into micro-gradient dashboard cards */}
+            {/* 1. CURRENT FOCUS */}
             <Reveal as="section" threshold={0.1} delayMs={120} className="space-y-8">
                 <div className="space-y-1">
-                    <h2 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    <h2 className="text-xl font-semibold tracking-tight text-zinc-900 transition-theme dark:text-zinc-100">
                         Current Focus
                     </h2>
-                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                    <p className="text-xs text-zinc-400 transition-theme dark:text-zinc-500">
                         Areas where I am actively building, testing, and shipping code.
                     </p>
                 </div>
@@ -48,16 +48,18 @@ export default function Home() {
                     {CURRENT_FOCUSES.map((focus) => (
                         <div 
                             key={focus.title} 
-                            className="relative overflow-hidden rounded-xl border border-zinc-200/80 bg-linear-to-b from-zinc-50 to-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-md dark:border-zinc-900 dark:from-zinc-950 dark:to-zinc-900/40 dark:hover:border-zinc-800"
+                            className="relative overflow-hidden rounded-xl border border-zinc-200/80 bg-zinc-50/50 p-6 shadow-sm transition-theme hover:-translate-y-1 hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md dark:border-zinc-900 dark:bg-zinc-950/40 dark:hover:bg-zinc-950/70 dark:hover:border-zinc-700"
                         >
                             {/* Accent badge indicating specialized category */}
-                            <span className="inline-block rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
+                            <span className="inline-block rounded-md bg-zinc-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500 transition-theme dark:bg-zinc-800/60 dark:text-zinc-400">
                                 {focus.badge}
                             </span>
-                            <h3 className="mt-3 font-semibold text-zinc-800 dark:text-zinc-200">
+                            
+                            <h3 className="mt-3 font-semibold text-zinc-800 transition-theme dark:text-zinc-200">
                                 {focus.title}
                             </h3>
-                            <p className="mt-2 text-zinc-500 dark:text-zinc-400">
+                            
+                            <p className="mt-2 text-zinc-500 transition-theme dark:text-zinc-400">
                                 {focus.description}
                             </p>
                         </div>
@@ -65,21 +67,21 @@ export default function Home() {
                 </div>
             </Reveal>
 
-            {/* 2. FEATURED PROJECTS: Transformed with interactive layouts and bold actions */}
+            {/* 2. FEATURED PROJECTS */}
             <Reveal as="section" threshold={0.2} delayMs={240} className="space-y-8">
-                <div className="flex items-end justify-between border-b border-zinc-200 pb-4 dark:border-zinc-900">
+                <div className="flex items-end justify-between border-b border-zinc-200 pb-4 transition-theme dark:border-zinc-900">
                     <div className="space-y-1">
-                        <h2 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+                        <h2 className="text-xl font-semibold tracking-tight text-zinc-900 transition-theme dark:text-zinc-100">
                             Featured Highlights
                         </h2>
-                        <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                        <p className="text-xs text-zinc-400 transition-theme dark:text-zinc-500">
                             Flagship architectural builds and research frameworks.
                         </p>
                     </div>
                     
                     <Link 
                         to="/projects" 
-                        className="group hidden items-center gap-1 text-xs font-semibold uppercase tracking-wider text-zinc-400 transition-colors hover:text-zinc-900 sm:inline-flex! dark:text-zinc-500 dark:hover:text-zinc-300"
+                        className="group hidden items-center gap-1 text-xs font-semibold uppercase tracking-wider text-zinc-400 transition-colors hover:text-zinc-900 !sm:inline-flex dark:text-zinc-500 dark:hover:text-zinc-300"
                     >
                         Explore Blueprint
                         <span className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
@@ -97,10 +99,9 @@ export default function Home() {
                 <div className="mt-4 sm:hidden">
                     <Link 
                         to="/projects" 
-                        className="group flex w-full items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white py-3.5 text-sm font-semibold text-zinc-600 shadow-sm transition-all duration-200 hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98] active:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200 dark:active:bg-zinc-900/50"
+                        className="group flex w-full items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white py-3.5 text-sm font-semibold text-zinc-600 shadow-sm transition-theme hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98] active:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-200 dark:active:bg-zinc-900/50"
                     >
                         <span>View all projects</span>
-                        {/* Arrow translates smoothly when the button is engaged */}
                         <span className="transition-transform duration-200 group-hover:translate-x-1 group-active:translate-x-1">
                             →
                         </span>

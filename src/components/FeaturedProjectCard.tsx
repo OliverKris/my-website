@@ -5,7 +5,7 @@ export default function FeaturedProjectCard({ project }: { project: Project }) {
     return (
         <article 
             className="group flex flex-col justify-between rounded-xl border border-zinc-200 bg-zinc-50/50 
-                        p-6 transition-all hover:bg-zinc-50 dark:border-zinc-900 dark:bg-zinc-950/40 
+                        p-6 transition-theme hover:bg-zinc-50 dark:border-zinc-900 dark:bg-zinc-950/40 
                         dark:hover:bg-zinc-950/80"
         >
 
@@ -13,7 +13,7 @@ export default function FeaturedProjectCard({ project }: { project: Project }) {
             <header className="space-y-3">
                 <div className="flex items-start justify-between gap-4">
                     {/* Project Title */}
-                    <h3 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+                    <h3 className="text-lg font-semibold tracking-tight text-zinc-900 transition-theme dark:text-zinc-100">
                         {project.title}
                     </h3>
 
@@ -44,20 +44,20 @@ export default function FeaturedProjectCard({ project }: { project: Project }) {
                 </div>
 
                 {/* Project Brief */}
-                <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p className="text-sm leading-relaxed text-zinc-600 transition-theme dark:text-zinc-400">
                     {project.pitch}
                 </p>
             </header>
 
             {/* Footer Stack / Badges and Routing */}
-            <footer className="mt-6 flex items-center justify-between border-t border-zinc-100 pt-4 dark:border-zinc-900">
+            <footer className="mt-6 flex items-center justify-between border-t border-zinc-100 pt-4 transition-theme dark:border-zinc-900">
                 
                 {/* Tech Pills */}
                 <div className="flex flex-wrap gap-1.5">
                     {project.tech.slice(0, 4).map((t) => (
                         <span 
                             key={t}
-                            className="rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 
+                            className="rounded-full border border-zinc-200 bg-zinc-100 transition-theme px-2.5 py-0.5 text-xs font-medium text-zinc-600 
                                     dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-400"
                         >
                             {t}
@@ -72,7 +72,7 @@ export default function FeaturedProjectCard({ project }: { project: Project }) {
                     to="/projects"
                 >
                     Details 
-                    <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">→</span>
+                    <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
                 </Link>
             </footer>
         </article>

@@ -15,15 +15,16 @@ export default function Hero(){
             </div>
 
             {/* Headline */}
-            <h1 className="mb-3 text-5xl font-semibold tracking-tightest text-zinc-100">
+            <h1 className="mb-3 text-5xl font-semibold tracking-tightest text-zinc-500
+                        transition-theme dark:text-zinc-300">
                 Hi, I'm Oliver
                 <span className="text-zinc-600">.</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="mb-3 text-lg font-medium text-zinc-400">
+            <p className="mb-3 text-lg font-medium text-zinc-500">
                 Software Engineer —{" "}
-                <span className="text-zinc-200">Masters of CS @ GWU</span>
+                <span className="text-zinc-400">Masters of CS @ GWU</span>
             </p>
             
             {/* Description */}
@@ -48,7 +49,7 @@ export default function Hero(){
                     href={`${import.meta.env.BASE_URL}resume.pdf`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg border border-zinc-700 px-5 py-2 text-sm font-medium text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+                    className="rounded-lg border border-zinc-700 px-5 py-2 text-sm font-medium text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-200"
                 >
                     Download Resume
                 </a>
@@ -56,7 +57,7 @@ export default function Hero(){
                 {/* Ghost */}
                 <Link 
                     to="/contact"
-                    className="rounded-lg border border-zinc-700 px-5 py-2 text-sm font-medium text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+                    className="rounded-lg border border-zinc-700 px-5 py-2 text-sm font-medium text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-200"
                 >
                     Contact
                 </Link>
@@ -64,13 +65,14 @@ export default function Hero(){
 
             {/* Stack strip - thin divider + pill badges */}
             <div className="flex flex-wrap items-center gap-3 border-t border-zinc-800 pt-6">
-                <span className="text-xs font-medium uppercase tracking-widest text-zinc-600">
+                <span className="text-xs font-medium uppercase tracking-widest text-zinc-700">
                     Stack
                 </span>
                 {["Python", "C", "React", "Linux", "ML"].map((tag) => (
                     <span
                         key={tag}
-                        className="rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs text-zinc-500"
+                        className="rounded-full border border-zinc-400 bg-zinc-300 px-3 py-1 text-xs text-zinc-500
+                                transition-theme dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-500"
                     >
                         {tag}
                     </span>

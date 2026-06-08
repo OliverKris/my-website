@@ -15,7 +15,7 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
     return (
-        <footer className="w-full border-t border-zinc-200 dark:border-zinc-800">
+        <footer className="w-full border-t border-zinc-200 dark:border-zinc-800 transition-theme">
             <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
                 
                 <div className="flex items-center gap-4">
@@ -34,7 +34,7 @@ export default function Footer() {
                     ))}
                 </div>
                 
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                <p className="text-xs text-zinc-400 transition-theme dark:text-zinc-500">
                     © {new Date().getFullYear()} Oliver Krisetya
                 </p>
             </div>
