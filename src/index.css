@@ -1,17 +1,69 @@
 @import "tailwindcss";
 
-/* Add Dark Mode variant */
+/* --- 1. TAILWIND V4 CONFIGURATION --- */
+
+/* Custom attribute variant for toggling */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-@utility transition-theme {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, transform, translate, scale;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
+/* Map dynamic CSS variables into native utilities */
+@theme {
+    --color-canvas: var(--color-bg-canvas);
+    --color-card: var(--color-bg-card);
+    --color-main: var(--color-text-main);
+    --color-muted: var(--color-text-muted);
+    --color-layout: var(--color-border);
+    
+    --font-sans: var(--font-sans);
+    --font-mono: var(--font-mono);
 }
 
+/* Global transition pipeline handling colors and modern translation properties */
+@utility transition-theme {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow, transform, translate, scale;
+    transition-timing-function: ease-in-out;
+    transition-duration: 200ms;
+
+    will-change: background-color, color, border-color;
+}
+
+/* --- 2. SEMANTIC DESIGN TOKENS --- */
 :root {
+    /* Softer Light Mode Contrast */
+    --color-bg-canvas: #f8f9fa; 
+    --color-bg-card: #ffffff;
+    
+    --color-text-main: #18181b; 
+    --color-text-muted: #52525b;
+    --color-border: #e4e4e7;
+
     --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
         Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
+}
+
+html[data-theme="dark"] {
+    /* Softer Dark Mode Contrast */
+    --color-bg-canvas: #0f0f11; 
+    --color-bg-card: #18181b;
+    
+    --color-text-main: #f4f4f5; 
+    --color-text-muted: #a1a1aa;
+    --color-border: #27272a;
+}
+
+/* --- 3. GLOBAL BASE LAYER --- */
+html {
+    scrollbar-gutter: stable;
+    background-color: var(--color-bg-canvas)
+}
+
+body {
+    background-color: var(--color-bg-canvas);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @apply transition-theme;
 }

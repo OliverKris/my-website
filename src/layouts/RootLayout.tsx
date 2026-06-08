@@ -4,7 +4,7 @@ import Footer from "../components/Footer.tsx";
 
 export default function RootLayout() {
     return (
-        <div className="flex min-h-screen flex-col bg-white text-zinc-900 transition-theme dark:bg-zinc-950 dark:text-zinc-100">
+        <div className="min-h-screen bg-canvas text-main flex flex-col">
             <a 
                 className="sr-only left-4 top-4 z-100 rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-lg focus:not-sr-only focus:fixed 
                         dark:bg-zinc-100 dark:text-zinc-900"
@@ -14,12 +14,9 @@ export default function RootLayout() {
             </a>
 
             <NavBar/>
-
-            
-            <main id="main" className="flex-1 pt-8">
+            <main id="main" className="flex-1 bg-canvas transition-theme">
                 <Outlet />
             </main>
-
             <Footer/>
         </div>
     );
