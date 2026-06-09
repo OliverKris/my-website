@@ -17,17 +17,20 @@ export function FeaturedProjectCard({ project }: { project: Project }) {
 
                     {/* Multi-link Header Implementation */}
                     <div className="flex items-center gap-2">
-                        {project.links.map((link) => (
-                            <Button 
-                                key={link.label}
-                                variant="ghost" 
-                                as={link.url.startsWith("/") ? Link : "a"}
-                                {...(link.url.startsWith("/") ? { to: link.url } : { href: link.url, target: "_blank" })}
-                                className="px-0 py-0 text-[12px] uppercase tracking-wider"
-                            >
-                                {link.label}
-                            </Button>
-                        ))}
+                        {project.links
+                            .filter((link) => link.label.toLowerCase() === "github")
+                            .map((link) => (
+                                <Button 
+                                    key={link.label}
+                                    variant="ghost" 
+                                    as="a" 
+                                    href={link.url} 
+                                    target="_blank"
+                                    className="px-0 py-0 text-[12px] uppercase tracking-wider"
+                                >
+                                    {link.label}
+                                </Button>
+                            ))}
                     </div>
                 </div>
 
@@ -47,7 +50,7 @@ export function FeaturedProjectCard({ project }: { project: Project }) {
 
                 
                 <Link 
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-theme group-hover:translate-x-1"
+                    className="inline-flex items-center gap-1 text-sm whitespace-nowrap font-semibold text-accent transition-theme group-hover:translate-x-1"
                     to={"/projects"}
                 >
                     Details →
