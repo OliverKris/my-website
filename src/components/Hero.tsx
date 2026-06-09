@@ -18,7 +18,7 @@ export default function Hero() {
             {/* 2. Headline */}
             <h1 className="mb-4 text-5xl text-main transition-theme tracking-tight font-bold sm:text-6xl">
                 Hi, I'm <span className="bg-linear-to-r from-accent via-accent to-secondary bg-clip-text text-transparent">Oliver</span>
-                <span className="text-muted transition-theme">.</span>
+                <span className="text-muted transition-theme ml-0.5">.</span>
             </h1>
 
             {/* 3. Subtitle & Body */}
