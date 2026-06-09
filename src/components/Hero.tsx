@@ -73,29 +73,31 @@ export default function Hero() {
                 ))}
             </div>
 
-            {/* 6. Down Arrow */}
-            <button 
-                className="absolute bottom-20 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer text-muted transition-colors hover:text-accent"
-                onClick={() => {
-                    document.getElementById('current-focus')?.scrollIntoView({
-                        behavior: "smooth"
-                    });
-                }}
-            >    
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="24" 
-                    height="24" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                >
-                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
-                </svg>
-            </button>
+            <div className="mt-20 flex justify-center">
+                {/* Down Arrow */}
+                <button 
+                    className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer text-muted transition-colors hover:text-accent"
+                    onClick={() => {
+                        document.getElementById('current-focus')?.scrollIntoView({
+                            behavior: "smooth"
+                        });
+                    }}
+                >    
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="24" 
+                        height="24" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                    >
+                        <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                    </svg>
+                </button>
+            </div>
         </section>
     );
 }
