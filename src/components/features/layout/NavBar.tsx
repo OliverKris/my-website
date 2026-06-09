@@ -23,9 +23,8 @@ export default function Navbar() {
     }, []);
 
     return (
-        // The Header wrapper now stays completely fixed at h-16
-        <header className="sticky top-0 z-50 h-16 w-full border-b border-layout bg-canvas/80 backdrop-blur-md transition-theme">
-            <div className="mx-auto flex h-full max-w-5xl items-center justify-between px-6">
+        <header className="sticky top-0 z-50 w-full border-b border-layout bg-canvas/80 backdrop-blur-md transition-theme overflow-visible">
+            <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
 
                 {/* Logo / Personal Branding */}
                 <Link
@@ -86,11 +85,11 @@ export default function Navbar() {
             <div
                 id="mobile-menu"
                 aria-hidden={!open}
-                className={`absolute top-16 left-0 w-full overflow-hidden border-b border-layout bg-canvas/95 backdrop-blur-lg transition-all duration-300 ease-in-out md:hidden ${
+                className={`absolute top-16 left-0 w-full border-b border-layout bg-canvas/95 backdrop-blur-lg transition-all duration-300 ease-in-out md:hidden ${
                     open ? "max-h-60 opacity-100 shadow-lg" : "max-h-0 opacity-0 pointer-events-none"
                 }`}
             >
-                <nav aria-label="Mobile Primary" className="flex flex-col px-6 py-4 space-y-0.5">
+                <nav aria-label="Mobile Primary" className="flex flex-col overflow-hidden px-6 py-4 space-y-0.5">
                     {(["projects", "resume", "contact"] as const).map((page) => (
                         <NavLink
                             key={page}

@@ -15,7 +15,13 @@ const categoryClasses = {
 
 export function ProjectCard({ project }: Props) {
     const navigate = useNavigate();
-    const { title, pitch, highlights, tech, url, urlType, liveUrl, demoPath, category } = project;
+    const { title, pitch, highlights, tech, links, category } = project;
+    const getVariant = (label: string): "primary" | "secondary" | "ghost" => {
+        const l = label.toLowerCase();
+        if (l === "demo" || l === "live") return "primary";
+        if (l === "github" || l === "repo") return "ghost";
+        return "secondary";
+    }
 
     return (
         <article className="flex flex-col h-full justify-between rounded-xl border border-layout bg-card p-5 shadow-sm transition-theme hover:-translate-y-1 hover:shadow-md">
@@ -48,19 +54,29 @@ export function ProjectCard({ project }: Props) {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                    {demoPath && (
-                        <Button variant="primary" onClick={() => navigate(demoPath)}>
-                            Live Demo
-                        </Button>
-                    )}
-                    {liveUrl && (
-                        <Button variant="secondary" as="a" href={liveUrl} target="_blank">
-                            {urlType === "Website" ? "Visit Site" : "Live"}
-                        </Button>
-                    )}
-                    <Button variant="ghost" as="a" href={url} target="_blank">
-                        {urlType}
-                    </Button>
+                    {links.map((link) => {
+                        const isInternal = link.url.startsWith("/");
+                        
+                        return isInternal ? (
+                            <Button 
+                                key={link.label} 
+                                variant={getVariant(link.label)} 
+                                onClick={() => navigate(link.url)}
+                            >
+                                {link.label}
+                            </Button>
+                        ) : (
+                            <Button 
+                                key={link.label} 
+                                variant={getVariant(link.label)} 
+                                as="a" 
+                                href={link.url} 
+                                target="_blank"
+                            >
+                                {link.label}
+                            </Button>
+                        );
+                    })}
                 </div>
             </footer>
         </article>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Hero() {
     return (
-        <section className="flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 pt-10 max-w-5xl mx-auto">
+        <section className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 pt-10 max-w-5xl mx-auto">
             
             {/* 1. Status Eyebrow */}
             <div className="mb-6 flex items-center gap-2">
@@ -72,6 +72,30 @@ export default function Hero() {
                     </span>
                 ))}
             </div>
+
+            {/* 6. Down Arrow */}
+            <button 
+                className="absolute bottom-20 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer text-muted transition-colors hover:text-accent"
+                onClick={() => {
+                    document.getElementById('current-focus')?.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                }}
+            >    
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="24" 
+                    height="24" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                >
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                </svg>
+            </button>
         </section>
     );
 }

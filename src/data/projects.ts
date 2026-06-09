@@ -1,14 +1,15 @@
+export type ProjectLink = {
+    label: string;
+    url: string;
+}
+
 export type Project = {
     id: string;
     title: string;
     pitch: string;
     highlights: string[];
     tech: string[];
-    url: string;
-    urlType: string;
-    liveUrl?: string;
-    /** Internal route for a custom project showcase page, e.g. "/projects/formality" */
-    demoPath?: string;
+    links: ProjectLink[];
     featured?: boolean;
     order?: number;
     category: 'systems' | 'ai' | 'web';
@@ -26,10 +27,9 @@ export const projects: Project[] = [
             "Built a CLI client and automated test harness to verify correctness under concurrent usage"
         ],
         tech: ["Python", "TCP", "Sockets"],
-        url: "https://github.com/OliverKris/bulletinboard-project",
-        urlType: "GitHub",
-        featured: true,
-        order: 1,
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/bulletinboard-project" }
+        ],
     },
     {
         id: "price-prediction",
@@ -42,8 +42,9 @@ export const projects: Project[] = [
             "Evaluated models using MSE and R² while analyzing training vs. validation loss to diagnose overfitting"
         ],
         tech: ["Python", "PyTorch", "Pandas"],
-        url: "https://github.com/OliverKris/computer-price-prediction",
-        urlType: "GitHub",
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/computer-price-prediction" }
+        ],
         featured: true,
         order: 2,
     },
@@ -69,11 +70,12 @@ export const projects: Project[] = [
             "Pandas",
             "NLU"
         ],
-        url: "https://github.com/OliverKris/formal-language-bias-llms",
-        urlType: "GitHub",
-        demoPath: "/projects/formality",
+        links : [
+            { label: "Website", url: "/projects/formality" },
+            { label: "GitHub", url: "https://github.com/OliverKris/formal-language-bias-llms" },
+        ],
         featured: true,
-        order: 3,
+        order: 1,
     },
     {
         id: "portfolio",
@@ -86,8 +88,9 @@ export const projects: Project[] = [
             "Structured projects and skills as data-driven content for easy iteration and maintainability"
         ],
         tech: ["React", "TypeScript", "Vite"],
-        url: "https://github.com/OliverKris/my-website",
-        urlType: "GitHub"
+        links : [
+            { label: "GitHub", url: "https://github.com/OliverKris/my-website" }
+        ],
     },
     {
         id: "easysched",
@@ -101,7 +104,8 @@ export const projects: Project[] = [
             "Focused on maintainability and transparency to support iterative tuning by department administrators"
         ],
         tech: ["Django", "TypeScript", "Python"],
-        url: "https://gw-cs-sd-24-25.github.io/sd-cow/",
-        urlType: "Website",
+        links : [
+            { label: "Website", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" }
+        ],
     },
 ];

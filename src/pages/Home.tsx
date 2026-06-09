@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { projects } from "../data/projects";
 import { getFeaturedProjects } from "../utils/projects";
 import { FeaturedProjectCard } from "../components/FeaturedProjectCard";
-import Reveal from "../components/Reveal";
 import Hero from "../components/Hero";
 import CurrentFocus from "../components/CurrentFocus";
 
@@ -14,17 +13,16 @@ export default function Home() {
             <Hero />
 
             {/* Current Focus: Bento Grid */}
-            <Reveal as="section" className="space-y-8">
+            <section id="current-focus" className="space-y-8">
                 <div className="space-y-1">
                     <h2 className="text-xl font-semibold text-main">Current Focus</h2>
                     <p className="text-xs text-muted">Building, testing, and shipping.</p>
                 </div>
-                {/* Clean, performant, and isolated component */}
                 <CurrentFocus />
-            </Reveal>
+            </section>
 
             {/* Featured Highlights */}
-            <Reveal as="section" className="space-y-8">
+            <section className="space-y-8">
                 <div className="flex justify-between items-end border-b border-layout pb-4">
                     <h2 className="text-xl font-semibold text-main">Featured Highlights</h2>
                     <Link to="/projects" className="text-sm text-accent hover:underline">Explore all →</Link>
@@ -32,7 +30,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {featured.map((p) => <FeaturedProjectCard key={p.id} project={p} />)}
                 </div>
-            </Reveal>
+            </section>
         </div>
     );
 }
