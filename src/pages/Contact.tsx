@@ -2,78 +2,57 @@ import Reveal from "../components/Reveal";
 
 export default function Contact() {
     return (
-        <section className="grid gap-6">
-            <Reveal as="header" className="grid gap-2">
-                <h1>Contact</h1>
-                <p className="m-0 text-(--muted) max-w-[70ch]">
+        <section className="mx-auto max-w-5xl px-6 pt-10 pb-32">
+            <Reveal as="header" className="flex flex-col gap-1 border-b border-layout pb-6 transition-theme">
+                <h1 className="text-2xl font-bold tracking-tight text-main transition-theme md:text-3xl">
+                    Contact
+                </h1>
+                <p className="text-muted transition-theme max-w-md">
                     For collaboration, research, or opportunities, feel free to reach out.
                 </p>
             </Reveal>
 
-            <Reveal className="grid gap-5" delayMs={120}>
-                <div className="bg-(--surface) border border-(--border) rounded-(--radius) p-5">
-                    <h2 className="text-[1.1rem] font-extrabold mb-2!">Send a message</h2>
+            <Reveal className="mt-12 max-w-2xl" delayMs={120}>
+                <div className="rounded-xl border border-layout bg-card p-6 shadow-sm transition-theme">
+                    <h2 className="text-lg font-semibold text-main mb-6 transition-theme">Send a message</h2>
 
-                    <form
-                        className="grid gap-4"
+                    <form 
+                        className="flex flex-col gap-5" 
                         action="https://formspree.io/f/xvzpnjwv"
                         method="POST"
                     >
-                        <div className="flex gap-4">
-                            <label className="grid gap-2 font-bold flex-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <label className="flex flex-col gap-1.5 text-xs font-medium text-muted">
                                 First Name
-                                <input
-                                    className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
-                                    type="text"
-                                    name="firstName"
-                                    required
-                                />
+                                <input className="rounded-lg border border-layout bg-canvas p-2.5 text-main outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 transition-theme" type="text" name="firstName" required />
                             </label>
-                            <label className="grid gap-2 font-bold flex-1">
+
+                            <label className="flex flex-col gap-1.5 text-xs font-medium text-muted">
                                 Last Name
-                                <input
-                                    className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
-                                    type="text"
-                                    name="lastName"
-                                    required
-                                />
+                                <input className="rounded-lg border border-layout bg-canvas p-2.5 text-main outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 transition-theme" type="text" name="lastName" required />
                             </label>
                         </div>
 
-                        <label className="grid gap-2 font-bold">
+                        <label className="flex flex-col gap-1.5 text-xs font-medium text-muted">
                             Email
-                            <input
-                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
-                                type="email"
-                                name="email"
-                                required
-                            />
+                            <input className="rounded-lg border border-layout bg-canvas p-2.5 text-main outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 transition-theme" type="email" name="email" required />
                         </label>
 
-                        <label className="grid gap-2 font-bold">
+                        <label className="flex flex-col gap-1.5 text-xs font-medium text-muted">
                             Phone Number (optional)
-                            <input
-                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
-                                type="tel"
-                                name="phone"
-                            />
+                            <input className="rounded-lg border border-layout bg-canvas p-2.5 text-main outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 transition-theme" type="tel" name="phone" />
                         </label>
 
-                        <label className="grid gap-2 font-bold">
+                        <label className="flex flex-col gap-1.5 text-xs font-medium text-muted">
                             Message
-                            <textarea
-                                className="w-full px-3 py-3 rounded-[calc(var(--radius)-4px)] border border-(--border) bg-(--page) text-(--text) resize-y transition-[border-color,background-color] duration-(--theme-dur) ease-(--theme-ease) focus:outline-none focus:shadow-(--ring)"
-                                name="message"
-                                rows={5}
-                                required
-                            />
+                            <textarea className="rounded-lg border border-layout bg-canvas p-2.5 text-main outline-none focus:ring-2 focus:ring-zinc-400 dark:focus:ring-zinc-600 transition-theme" name="message" rows={5} required />
                         </label>
 
-                        <button
-                            className="w-fit px-4 py-3 rounded-[calc(var(--radius)-4px)] bg-(--accent) text-white! font-extrabold border border-(--accent) cursor-pointer hover:bg-(--accent-hover) hover:border-(--accent-hover) transition-[background-color,border-color] duration-(--theme-dur) ease-(--theme-ease)"
+                        <button 
+                            className="w-full md:w-max rounded-lg bg-zinc-900 dark:bg-zinc-100 px-6 py-2.5 text-sm font-medium text-white dark:text-zinc-900 transition-all hover:opacity-90 active:scale-[0.98]" 
                             type="submit"
                         >
-                            Send
+                            Send Message
                         </button>
                     </form>
                 </div>

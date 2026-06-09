@@ -19,34 +19,58 @@ export type IconKey =
     | "django"
     | "aws"
     | "sql"
-    | "assemblyscript";
+    | "assemblyscript"
+    | "valgrind"
+    | "postgresql"
+    | "mysql"
+    | "sqlite"
+    | "numpy"
+    | "pandas"
+    | "gdb"
+    | "make";
 
 export type Skill = {
     label: string;
     icon: IconKey;
     href?: string;
+    category: "web" | "ai" | "systems" | "misc"
 };
 
 export const skills: Skill[] = [
-    { label: "Bash", icon: "bash" },
-    { label: "C", icon: "c" },
-    { label: "CSS", icon: "css" },
-    { label: "Django", icon: "django" },
-    { label: "Docker", icon: "docker" },
-    { label: "Flask", icon: "flask" },
-    { label: "Git", icon: "git" },
-    { label: "HTML", icon: "html" },
-    { label: "Java", icon: "java" },
-    { label: "JavaScript", icon: "javascript" },
-    { label: "Linux", icon: "linux" },
-    { label: "PyTorch", icon: "pytorch" },
-    { label: "Python", icon: "python" },
-    { label: "React", icon: "react" },
-    { label: "Sass", icon: "sass" },
-    { label: "Tailwind", icon: "tailwind" },
-    { label: "TypeScript", icon: "typescript" },
-    { label: "Vite", icon: "vite" },
-    { label: "AWS", icon: "aws" },
-    { label: "SQL", icon: "sql" },
-    { label: "Assembly", icon: "assemblyscript" },
+    // Systems
+    { label: "Assembly", icon: "assemblyscript", category: "systems" },
+    { label: "Bash", icon: "bash", category: "systems" },
+    { label: "C", icon: "c", category: "systems" },
+    { label: "Docker", icon: "docker", category: "systems" },
+    { label: "Linux", icon: "linux", category: "systems" },
+    { label: "AWS", icon: "aws", category: "systems" },
+    { label: "GDB", icon: "gdb", category: "systems" },
+    { label: "Valgrind", icon: "valgrind", category: "systems"},
+    { label: "Make", icon: "make", category: "systems" },
+
+    // AI
+    { label: "Python", icon: "python", category: "ai" },
+    { label: "PyTorch", icon: "pytorch", category: "ai" },
+    { label: "NumPy", icon: "numpy", category: "ai" },
+    { label: "Pandas", icon: "pandas", category: "ai" },
+
+    // Web
+    { label: "SQL", icon: "sql", category: "web" },
+    { label: "CSS", icon: "css", category: "web" },
+    { label: "Django", icon: "django", category: "web" },
+    { label: "Flask", icon: "flask", category: "web" },
+    { label: "HTML", icon: "html", category: "web" },
+    { label: "Java", icon: "java", category: "web" },
+    { label: "JavaScript", icon: "javascript", category: "web" },
+    { label: "React", icon: "react", category: "web" },
+    { label: "Sass", icon: "sass", category: "web" },
+    { label: "Tailwind", icon: "tailwind", category: "web" },
+    { label: "TypeScript", icon: "typescript", category: "web" },
+    { label: "Vite", icon: "vite", category: "web" },
+    { label: "PostgreSQL", icon: "postgresql", category: "web" },
+    { label: "MySQL", icon: "mysql", category: "web" },
+    { label: "SQLite", icon: "sqlite", category: "web" },
+
+    // Misc
+    { label: "Git", icon: "git", category: "misc" },
 ];

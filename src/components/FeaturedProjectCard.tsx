@@ -1,68 +1,58 @@
 import { Link } from "react-router-dom";
+import { Badge } from "./ui/Badge";
+import { Button } from "./ui/Button";
 import type { Project } from "../data/projects";
 
-export default function FeaturedProjectCard({ project }: { project: Project }) {
+export function FeaturedProjectCard({ project }: { project: Project }) {
     return (
-        <article className="
-            grid gap-3
-            bg-(--surface) border border-(--border) rounded-(--radius)
-            p-4 [box-shadow:var(--shadow-sm)]
-            translate-y-0
-            [transition:background-color_var(--theme-dur)_var(--theme-ease),border-color_var(--theme-dur)_var(--theme-ease),box-shadow_var(--theme-dur)_var(--theme-ease),transform_180ms_ease]
-            hover:border-(--border-hover) hover:[box-shadow:var(--shadow-hover)]
-        ">
-            {/* Header */}
-            <header className="grid gap-[0.35rem]">
-                <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="m-0 text-[1.05rem] font-extrabold tracking-[-0.01em] text-(--text)">
+        <article className="group relative flex flex-col justify-between rounded-xl border border-layout bg-card p-6 transition-theme hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5">
+            
+            <div className="absolute left-0 top-0 h-1.5 w-full rounded-t-xl bg-linear-to-r from-accent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+
+            <header className="space-y-3">
+                <div className="flex items-center justify-between gap-4">
+                    <h3 className="text-lg font-bold tracking-tight text-main transition-theme group-hover:text-accent">
                         {project.title}
                     </h3>
-                    <div className="flex items-center gap-[0.65rem] shrink-0">
-                        <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-(--muted)! text-sm font-bold no-underline! hover:text-(--accent)! transition-colors duration-160"
-                        >
-                            {project.urlType}
-                        </a>
-                        {project.liveUrl ? (
-                            <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-(--muted)! text-sm font-bold no-underline! hover:text-(--accent)! transition-colors duration-160"
+
+                    {/* Multi-link Header Implementation */}
+                    <div className="flex items-center gap-2">
+                        {project.links.map((link) => (
+                            <Button 
+                                key={link.label}
+                                variant="ghost" 
+                                as={link.url.startsWith("/") ? Link : "a"}
+                                {...(link.url.startsWith("/") ? { to: link.url } : { href: link.url, target: "_blank" })}
+                                className="px-0 py-0 text-[12px] uppercase tracking-wider"
                             >
-                                Live
-                            </a>
-                        ) : null}
+                                {link.label}
+                            </Button>
+                        ))}
                     </div>
                 </div>
 
-                <p className="m-0 text-(--muted) text-sm leading-[1.45]">
+                <p className="text-sm leading-relaxed text-muted transition-theme">
                     {project.pitch}
                 </p>
             </header>
 
-            {/* Footer */}
-            <footer className="flex items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-[0.4rem]">
-                    {project.tech.slice(0, 4).map((t) => (
-                        <span
-                            key={t}
-                            className="text-xs font-extrabold text-(--muted) bg-(--surface-active) border border-(--border) rounded-full px-2 py-1 transition-colors duration-(--theme-dur)"
-                        >
+            <footer className="mt-6 flex items-center justify-between border-t border-layout pt-4">
+                <div className="flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 3).map((t) => (
+                        <Badge key={t} category={project.category} className="text-[10px]! font-bold uppercase">
                             {t}
-                        </span>
+                        </Badge>
                     ))}
                 </div>
 
-                <Link
-                    to="/projects"
-                    className="text-(--accent) font-extrabold text-sm no-underline hover:underline shrink-0"
+                
+                <Link 
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-accent transition-theme group-hover:translate-x-1"
+                    to={"/projects"}
                 >
                     Details →
                 </Link>
+                
             </footer>
         </article>
     );

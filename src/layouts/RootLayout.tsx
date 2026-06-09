@@ -1,29 +1,23 @@
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar.tsx";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import NavBar from "../components/features/layout/NavBar.tsx";
+import Footer from "../components/features/layout/Footer.tsx";
 
 export default function RootLayout() {
     return (
-        <div className="min-h-screen flex flex-col">
-            <NavBar />
+        <div className="min-h-screen bg-canvas text-main flex flex-col">
+            <a 
+                className="sr-only left-4 top-4 z-100 rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-lg focus:not-sr-only focus:fixed 
+                        dark:bg-zinc-100 dark:text-zinc-900"
+                href="#main"
+            >
+                Skip to content
+            </a>
 
-            <main id="main" className="flex-1 w-full max-w-(--maxw) mx-auto px-4 py-10">
+            <NavBar/>
+            <main id="main" className="flex-1 bg-canvas transition-theme relative z-0">
                 <Outlet />
             </main>
-
-            <footer className="border-t border-(--border) px-4 py-5 text-(--muted) text-center">
-                <section className="py-4">
-                    <div className="flex justify-center gap-10 text-[32px] text-(--accent)">
-                        <a href="https://linkedin.com/in/okrisetya" aria-label="LinkedIn" className="text-(--accent)! no-underline! hover:brightness-90">
-                            <FaLinkedin />
-                        </a>
-                        <a href="https://github.com/OliverKris" aria-label="GitHub" className="text-(--accent)! no-underline! hover:brightness-90">
-                            <FaGithub />
-                        </a>
-                    </div>
-                </section>
-                <p className="mt-3 text-[0.9rem]">© {new Date().getFullYear()} Oliver Krisetya</p>
-            </footer>
+            <Footer/>
         </div>
     );
 }

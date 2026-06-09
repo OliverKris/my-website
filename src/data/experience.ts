@@ -23,8 +23,8 @@ export const experience: Experience[] = [
         org: "The George Washington University",
         location: "Washington, DC",
         start: "Aug 2025",
-        end: "Present",
-        tag: "Current",
+        end: "May 2026",
+        tag: "",
         previousRoles: [
         { role: "Undergraduate Teaching Assistant", start: "Aug 2024", end: "May 2025" },
         { role: "Learning Assistant", start: "Aug 2022", end: "May 2023" },
@@ -41,8 +41,8 @@ export const experience: Experience[] = [
         org: "GW Esports Club",
         location: "Washington, DC",
         start: "Jan 2025",
-        end: "Present",
-        tag: "Current",
+        end: "May 2026",
+        tag: "",
         previousRoles: [
         { role: "Executive of Competition", start: "Jan 2023", end: "Jan 2025" },
         { role: "Competitive Organizer", start: "Aug 2021", end: "Dec 2023" }

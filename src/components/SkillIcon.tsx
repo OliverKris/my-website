@@ -17,53 +17,61 @@ import {
     SiFlask,
     SiDjango,
     SiAssemblyscript,
+    SiNumpy,
+    SiPandas,
+    SiPostgresql,
+    SiMysql,
+    SiSqlite,
+    SiGnu,
+    SiSpeedtest,
+    SiBuildkite,
 } from "react-icons/si";
 
 import { FaJava, FaAws } from "react-icons/fa";
-import { DiMysql } from "react-icons/di";
-
 import type { IconKey } from "../data/skills";
 
-const ICONS: Record<
-    IconKey,
-    React.ComponentType<{ size?: number; className?: string }>
-    > = {
-    c: SiC,
-    java: FaJava,
-    python: SiPython,
-    react: SiReact,
-    typescript: SiTypescript,
-    javascript: SiJavascript,
-    sql: DiMysql,
+const ICONS: Record<IconKey, React.ComponentType<{ size?: number; className?: string }>> = {
     assemblyscript: SiAssemblyscript,
-
-    linux: SiLinux,
-    docker: SiDocker,
-    git: SiGit,
-    pytorch: SiPytorch,
-
-    bash: SiGnubash,
-    aws: FaAws,
-
-    css: SiCss3,
-    html: SiHtml5,
-    sass: SiSass,
-    vite: SiVite,
-    tailwind: SiTailwindcss,
-
-    flask: SiFlask,
-    django: SiDjango,
+    aws:            FaAws,
+    bash:           SiGnubash,
+    c:              SiC,
+    css:            SiCss3,
+    django:         SiDjango,
+    docker:         SiDocker,
+    flask:          SiFlask,
+    git:            SiGit,
+    html:           SiHtml5,
+    java:           FaJava,
+    javascript:     SiJavascript,
+    linux:          SiLinux,
+    mysql:          SiMysql,
+    numpy:          SiNumpy,
+    pandas:         SiPandas,
+    postgresql:     SiPostgresql,
+    python:         SiPython,
+    pytorch:        SiPytorch,
+    react:          SiReact,
+    sass:           SiSass,
+    sqlite:         SiSqlite,
+    sql:            SiMysql,
+    tailwind:       SiTailwindcss,
+    typescript:     SiTypescript,
+    vite:           SiVite,
+    gdb:            SiGnu,
+    make:           SiSpeedtest,
+    valgrind:       SiBuildkite,
 };
 
 export function SkillIcon({
-  name,
-  size = 16,
-  className,
+    name,
+    size = 16,
+    className,
 }: {
-  name: IconKey;
-  size?: number;
-  className?: string;
+    name: IconKey;
+    size?: number;
+    className?: string;
 }) {
-  const Icon = ICONS[name];
-  return <Icon size={size} className={className} aria-hidden="true" />;
+    const Icon = ICONS[name];
+    if (!Icon) return null;
+    return <Icon size={size} className={className} aria-hidden="true" />;
 }
