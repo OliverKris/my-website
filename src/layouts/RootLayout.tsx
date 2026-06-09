@@ -14,7 +14,7 @@ export default function RootLayout() {
             </a>
 
             <NavBar/>
-            <main id="main" className="flex-1 bg-canvas transition-theme">
+            <main id="main" className="flex-1 bg-canvas transition-theme relative z-0">
                 <Outlet />
             </main>
             <Footer/>

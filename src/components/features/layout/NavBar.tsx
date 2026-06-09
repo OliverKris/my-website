@@ -23,69 +23,71 @@ export default function Navbar() {
     }, []);
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-layout bg-canvas/80 backdrop-blur-md transition-theme overflow-visible">
-            <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+        <>
+            <header className="sticky top-0 z-50 w-full border-b border-layout bg-canvas/80 backdrop-blur-md transition-theme overflow-visible">
+                <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
 
-                {/* Logo / Personal Branding */}
-                <Link
-                    to="/"
-                    onClick={close}
-                    className="font-semibold tracking-tight text-main transition-theme hover:text-muted"
-                >
-                    Oliver Krisetya
-                </Link>
+                    {/* Logo / Personal Branding */}
+                    <Link
+                        to="/"
+                        onClick={close}
+                        className="font-semibold tracking-tight text-main transition-theme hover:text-muted"
+                    >
+                        Oliver Krisetya
+                    </Link>
 
-                {/* Desktop Layout Navigation Tree */}
-                <nav aria-label="Primary" className="max-md:hidden md:flex items-center gap-1">
-                    {(["projects", "resume", "contact"] as const).map((page) => (
-                        <NavLink
-                            key={page}
-                            to={`/${page}`}
-                            className={({ isActive }) =>
-                                `rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-theme ${
-                                isActive
-                                    ? "bg-zinc-100 text-accent font-semibold dark:bg-zinc-800/60"
-                                    : "text-muted hover:bg-zinc-100/60 hover:text-main dark:hover:bg-zinc-800/40"
-                                }`
-                            }
+                    {/* Desktop Layout Navigation Tree */}
+                    <nav aria-label="Primary" className="max-md:hidden md:flex items-center gap-1">
+                        {(["projects", "resume", "contact"] as const).map((page) => (
+                            <NavLink
+                                key={page}
+                                to={`/${page}`}
+                                className={({ isActive }) =>
+                                    `rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-theme ${
+                                    isActive
+                                        ? "bg-zinc-100 text-accent font-semibold dark:bg-zinc-800/60"
+                                        : "text-muted hover:bg-zinc-100/60 hover:text-main dark:hover:bg-zinc-800/40"
+                                    }`
+                                }
+                            >
+                                {page}
+                            </NavLink>
+                        ))}
+
+                        {/* Desktop Mode Toggle Button */}
+                        <button
+                            type="button"
+                            onClick={toggle}
+                            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                            className="ml-2 flex h-9 w-9 items-center justify-center rounded-md text-muted transition-theme hover:bg-zinc-100 hover:text-main dark:hover:bg-zinc-800/60 cursor-pointer"
                         >
-                            {page}
-                        </NavLink>
-                    ))}
+                            <span aria-hidden="true" className="text-sm select-none">
+                                {theme === "dark" ? "☾" : "☀"}
+                            </span>
+                        </button>
+                    </nav>
 
-                    {/* Desktop Mode Toggle Button */}
+                    {/* Mobile Framework Hamburger Button */}
                     <button
                         type="button"
-                        onClick={toggle}
-                        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-                        className="ml-2 flex h-9 w-9 items-center justify-center rounded-md text-muted transition-theme hover:bg-zinc-100 hover:text-main dark:hover:bg-zinc-800/60 cursor-pointer"
+                        aria-label="Open menu"
+                        aria-expanded={open}
+                        aria-controls="mobile-menu"
+                        onClick={() => setOpen((v) => !v)}
+                        className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-md transition-theme hover:bg-zinc-100/80 md:hidden dark:hover:bg-zinc-800/60 cursor-pointer"
                     >
-                        <span aria-hidden="true" className="text-sm select-none">
-                            {theme === "dark" ? "☾" : "☀"}
-                        </span>
+                        <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-transform duration-200 dark:bg-zinc-300 ${open ? "translate-y-2 rotate-45" : ""}`} />
+                        <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-opacity duration-200 dark:bg-zinc-300 ${open ? "opacity-0" : ""}`} />
+                        <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-transform duration-200 dark:bg-zinc-300 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
                     </button>
-                </nav>
-
-                {/* Mobile Framework Hamburger Button */}
-                <button
-                    type="button"
-                    aria-label="Open menu"
-                    aria-expanded={open}
-                    aria-controls="mobile-menu"
-                    onClick={() => setOpen((v) => !v)}
-                    className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-md transition-theme hover:bg-zinc-100/80 md:hidden dark:hover:bg-zinc-800/60 cursor-pointer"
-                >
-                    <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-transform duration-200 dark:bg-zinc-300 ${open ? "translate-y-2 rotate-45" : ""}`} />
-                    <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-opacity duration-200 dark:bg-zinc-300 ${open ? "opacity-0" : ""}`} />
-                    <span className={`h-0.5 w-5 rounded-full bg-zinc-700 transition-transform duration-200 dark:bg-zinc-300 ${open ? "-translate-y-2 -rotate-45" : ""}`} />
-                </button>
-            </div>
+                </div>
+            </header>
 
             {/* Mobile Navigation */}
             <div
                 id="mobile-menu"
                 aria-hidden={!open}
-                className={`absolute top-16 left-0 w-full border-b border-layout bg-canvas/95 backdrop-blur-lg transition-all duration-300 ease-in-out md:hidden ${
+                className={`fixed top-16 left-0 w-full z-50 border-b border-layout bg-canvas/95 backdrop-blur-lg transition-all duration-300 ease-in-out md:hidden ${
                     open ? "max-h-60 opacity-100 shadow-lg" : "max-h-0 opacity-0 pointer-events-none"
                 }`}
             >
@@ -125,6 +127,6 @@ export default function Navbar() {
                     </div>
                 </nav>
             </div>
-        </header>
+        </>
     );
 }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Hero() {
     return (
-        <section className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 pt-10 max-w-5xl mx-auto">
+        <section className="relative z-0 flex min-h-[calc(100vh-4rem)] flex-col justify-center px-6 pt-10 max-w-5xl mx-auto">
             
             {/* 1. Status Eyebrow */}
             <div className="mb-6 flex items-center gap-2">
