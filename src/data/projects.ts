@@ -1,19 +1,24 @@
+export type ProjectLink = {
+    label: string;
+    url: string;
+}
+
 export type Project = {
     id: string;
     title: string;
     pitch: string;
     highlights: string[];
     tech: string[];
-    url: string;
-    urlType: string;
-    liveUrl?: string;
+    links: ProjectLink[];
     featured?: boolean;
     order?: number;
+    category: 'systems' | 'ai' | 'web';
 };
 
 export const projects: Project[] = [
     {
         id: "bulletin-board",
+        category: "systems",
         title: "TCP Bulletin Board Server",
         pitch: "A concurrent TCP bulletin board server that maintains shared state across multiple clients, supporting authenticated posting, listing, and retrieval of messages through a custom request/response protocol.",
         highlights: [
@@ -22,14 +27,14 @@ export const projects: Project[] = [
             "Built a CLI client and automated test harness to verify correctness under concurrent usage"
         ],
         tech: ["Python", "TCP", "Sockets"],
-        url: "https://github.com/OliverKris/bulletinboard-project",
-        urlType: "GitHub",
-        featured: true,
-        order: 1,
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/bulletinboard-project" }
+        ],
     },
     {
         id: "price-prediction",
-        title: "Computer Price Prediction (PyTorch)",
+        category: "ai",
+        title: "Computer Price Prediction",
         pitch: "A machine learning project that predicts computer prices from hardware specifications using engineered features and neural network models, evaluated against classical regression baselines.",
         highlights: [
             "Performed feature engineering on hardware specifications, including tier-based scores and display metrics (pixels, PPI)",
@@ -37,13 +42,44 @@ export const projects: Project[] = [
             "Evaluated models using MSE and R² while analyzing training vs. validation loss to diagnose overfitting"
         ],
         tech: ["Python", "PyTorch", "Pandas"],
-        url: "https://github.com/OliverKris/computer-price-prediction",
-        urlType: "GitHub",
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/computer-price-prediction" }
+        ],
         featured: true,
         order: 2,
     },
     {
+        id: "formality-bias-nlu",
+        category: "ai",
+        title: "Formality Bias in Large Language Models",
+        pitch: "A natural language understanding research project investigating whether large language models systematically favor overly formal language compared to human conversational corpora, using both lexicon-based and neural formality metrics.",
+        highlights: [
+            "Designed a dual-metric framework combining a custom Formality Rate (FR) lexicon pipeline with a fine-tuned RoBERTa register classifier to measure stylistic bias in LLM outputs",
+            "Analyzed conversational responses across GPT, LLaMA, Claude, Mistral, Vicuna, and LMSYS-Chat datasets to identify cross-family formality bias patterns",
+            "Built preprocessing and corpus analysis pipelines for large-scale conversational datasets including Reddit, ELI5, BlendedSkillTalk, and LMSYS-Chat-1M",
+            "Implemented statistical evaluation workflows using Mann-Whitney U, Kruskal-Wallis, and paired t-tests to validate observed register differences",
+            "Explored LoRA-based mitigation on Qwen2.5-3B-Instruct to reduce formal-register tendencies while preserving fluency and response coherence"
+        ],
+        tech: [
+            "Python",
+            "PyTorch",
+            "Transformers",
+            "RoBERTa",
+            "LoRA",
+            "Hugging Face",
+            "Pandas",
+            "NLU"
+        ],
+        links : [
+            { label: "Website", url: "/projects/formality" },
+            { label: "GitHub", url: "https://github.com/OliverKris/formal-language-bias-llms" },
+        ],
+        featured: true,
+        order: 1,
+    },
+    {
         id: "portfolio",
+        category: "web",
         title: "Personal Portfolio Website",
         pitch: "A responsive, data-driven personal portfolio website designed to showcase projects, skills, and experience with a modular component architecture and theme support.",
         highlights: [
@@ -52,11 +88,13 @@ export const projects: Project[] = [
             "Structured projects and skills as data-driven content for easy iteration and maintainability"
         ],
         tech: ["React", "TypeScript", "Vite"],
-        url: "https://github.com/OliverKris/my-website",
-        urlType: "GitHub"
+        links : [
+            { label: "GitHub", url: "https://github.com/OliverKris/my-website" }
+        ],
     },
     {
         id: "easysched",
+        category: "web",
         title: "Easy Sched",
         pitch: "An algorithm-assisted scheduling tool designed for a GWU 2025 CS capstone project.",
         highlights: [
@@ -66,7 +104,8 @@ export const projects: Project[] = [
             "Focused on maintainability and transparency to support iterative tuning by department administrators"
         ],
         tech: ["Django", "TypeScript", "Python"],
-        url: "https://gw-cs-sd-24-25.github.io/sd-cow/",
-        urlType: "Website",
+        links : [
+            { label: "Website", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" }
+        ],
     },
 ];

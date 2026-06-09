@@ -1,34 +1,23 @@
 import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar.tsx";
-import styles from "./RootLayout.module.css";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import NavBar from "../components/features/layout/NavBar.tsx";
+import Footer from "../components/features/layout/Footer.tsx";
 
 export default function RootLayout() {
     return (
-        <div className={styles.container}>
-            <a className={styles.skipLink} href="#main">
+        <div className="min-h-screen bg-canvas text-main flex flex-col">
+            <a 
+                className="sr-only left-4 top-4 z-100 rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-lg focus:not-sr-only focus:fixed 
+                        dark:bg-zinc-100 dark:text-zinc-900"
+                href="#main"
+            >
                 Skip to content
             </a>
 
-            <NavBar />
-
-            <main id="main" className={styles.main}>
+            <NavBar/>
+            <main id="main" className="flex-1 bg-canvas transition-theme relative z-0">
                 <Outlet />
             </main>
-
-            <footer className={styles.footer}>
-                <section className={styles.socialSection}>
-                    <div className={styles.socialIcons}>
-                        <a href="https://linkedin.com/in/okrisetya" aria-label="LinkedIn">
-                            <FaLinkedin />
-                        </a>
-                        <a href="https://github.com/OliverKris" aria-label="GitHub">
-                            <FaGithub />
-                        </a>
-                    </div>
-                </section>
-                <p className={styles.footerText}>© {new Date().getFullYear()} Oliver Krisetya</p>
-            </footer>
+            <Footer/>
         </div>
     );
 }

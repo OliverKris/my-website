@@ -1,0 +1,112 @@
+.section {
+    background: var(--f-green-mid);
+    padding: 7rem 2rem;
+    font-family: var(--f-font-sans);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-right: clamp(0px, 6vw, 80px);
+}
+
+/* before/after comparison */
+.comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0 3rem;
+}
+
+@media (max-width: 600px) {
+    .comparison { grid-template-columns: 1fr; }
+}
+
+.bubble {
+    background: var(--f-green-dark);
+    border: 1px solid var(--f-green-light);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.bubbleLabel {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem;
+    opacity: 0.7;
+}
+
+.bubble--before .bubbleLabel { color: var(--f-red); }
+.bubble--after  .bubbleLabel { color: var(--f-green-accent); }
+
+.bubbleText {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--f-cream-dim);
+    margin: 0;
+}
+
+.bubbleText mark {
+    background: none;
+    color: var(--f-red);
+    font-weight: 500;
+}
+
+.bubbleText s {
+    color: #888;
+    text-decoration-color: var(--f-red);
+}
+
+.bubble--after .bubbleText mark {
+    color: var(--f-green-accent);
+}
+
+/* stat row */
+.statRow {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0 3rem;
+    flex-wrap: wrap;
+}
+
+.statBox {
+    flex: 1;
+    min-width: 140px;
+    background: var(--f-green-dark);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+}
+
+.statValue {
+    font-size: 2rem;
+    font-family: var(--f-font-serif);
+    color: var(--f-gold);
+    line-height: 1;
+    margin: 0 0 0.3rem;
+}
+
+.statLabel {
+    font-size: 0.75rem;
+    color: var(--f-cream-dim);
+    line-height: 1.4;
+}
+
+/* honesty note */
+.honestyBox {
+    background: var(--f-green-dark);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+}
+
+.honestyBox p {
+    color: var(--f-cream-dim);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.honestyBox strong { color: var(--f-cream); }

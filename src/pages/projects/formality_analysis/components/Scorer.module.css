@@ -1,0 +1,125 @@
+.section {
+    background: var(--f-green-dark);
+    padding: 7rem 2rem;
+    font-family: var(--f-font-sans);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-right: clamp(0px, 6vw, 80px);
+}
+
+.inputArea {
+    width: 100%;
+    min-height: 120px;
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-green-light);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    font-family: var(--f-font-sans);
+    font-size: 1rem;
+    color: var(--f-cream);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    line-height: 1.7;
+}
+
+.inputArea::placeholder {
+    color: var(--f-cream-dim);
+    opacity: 0.5;
+}
+
+.inputArea:focus {
+    border-color: var(--f-gold);
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.scoreCard {
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.3s ease;
+}
+
+.scoreCard--active {
+    border-color: var(--f-gold);
+}
+
+.scoreTitle {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--f-cream-dim);
+    margin: 0 0 0.5rem;
+}
+
+.scoreValue {
+    font-size: 2.4rem;
+    font-family: var(--f-font-serif);
+    color: var(--f-gold);
+    line-height: 1;
+    margin: 0 0 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.scoreValue--low    { color: var(--f-green-accent); }
+.scoreValue--mid    { color: var(--f-gold); }
+.scoreValue--high   { color: var(--f-red); }
+
+.scoreSublabel {
+    font-size: 0.75rem;
+    color: var(--f-cream-dim);
+    opacity: 0.7;
+}
+
+/* hit words */
+.hitList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1rem 0 0;
+    min-height: 32px;
+}
+
+.hitTag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-gold);
+    border-radius: 999px;
+    color: var(--f-gold);
+    font-weight: 500;
+}
+
+.hitEmpty {
+    font-size: 0.82rem;
+    color: var(--f-cream-dim);
+    opacity: 0.5;
+    align-self: center;
+}
+
+/* verdict */
+.verdict {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--f-green-mid);
+    border-radius: 10px;
+    border-left: 3px solid var(--f-gold);
+    font-size: 0.9rem;
+    color: var(--f-cream-dim);
+    line-height: 1.6;
+    min-height: 52px;
+    transition: border-color 0.3s ease;
+}
+
+.verdict strong { color: var(--f-cream); }

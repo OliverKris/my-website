@@ -6,6 +6,9 @@ import Projects from "./pages/Projects";
 import Resume from "./pages/Resume";
 import Contact from "./pages/Contact";
 
+import ProjectLayout from "./layouts/ProjectLayout";
+import Formality from "./pages/projects/formality_analysis";
+
 export default function App() {
     return (
         <>
@@ -14,7 +17,11 @@ export default function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/resume" element={<Resume />} />
-                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/contact" element={<Contact />} />                    
+                </Route>
+
+                <Route element={<ProjectLayout />}>
+                    <Route path="/projects/formality" element={<Formality />} />
                 </Route>
             </Routes>
             <Analytics />

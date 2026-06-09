@@ -1,0 +1,108 @@
+.section {
+    background: var(--f-green-dark);
+    padding: 7rem 2rem;
+    font-family: var(--f-font-sans);
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding-right: clamp(0px, 6vw, 80px);
+}
+
+/* word substitution table */
+.tableWrap {
+    border: 1px solid var(--f-green-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    max-width: 500px;
+}
+
+.tableHead {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--f-green-mid);
+    border-bottom: 1px solid var(--f-green-light);
+}
+
+.tableHeadCell {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.tableHeadCell:last-child {
+    border-left: 1px solid var(--f-green-light);
+    color: var(--f-cream-dim);
+}
+
+.tableHeadCell:first-child {
+    color: var(--f-gold);
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.tableRow:not(:last-child) {
+    border-bottom: 1px solid #1a3a2820;
+}
+
+.tableRow:nth-child(even) .tableCell {
+    background: #1a3a2812;
+}
+
+.tableCell {
+    padding: 0.8rem 1.25rem;
+    font-size: 0.95rem;
+}
+
+.tableCell:last-child {
+    border-left: 1px solid var(--f-green-light);
+    color: var(--f-cream-dim);
+}
+
+.tableCell:first-child {
+    color: var(--f-gold);
+    font-weight: 500;
+}
+
+/* metric blocks */
+.metricBlock {
+    padding-left: 2rem;
+    margin-bottom: 3rem;
+}
+
+.metricBlock--gold {
+    border-left: 2px solid var(--f-gold);
+}
+
+.metricBlock--green {
+    border-left: 2px solid var(--f-green-light);
+}
+
+.metricLabel {
+    color: var(--f-cream-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 0.85rem;
+}
+
+.formula {
+    background: var(--f-green-mid);
+    border: 1px solid var(--f-green-light);
+    border-radius: 10px;
+    padding: 1.25rem 1.75rem;
+    display: inline-block;
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--f-cream);
+    margin-top: 0.5rem;
+}
+
+.formulaHit  { color: var(--f-gold); }
+.formulaDim  { color: var(--f-cream-dim); }
