@@ -43,7 +43,7 @@ export default function Hero() {
                 </Link>
 
                 <a
-                    href={`${import.meta.env.BASE_URL}resume.pdf`}
+                    href={`${import.meta.env.BASE_URL}resume-jul-2026.pdf`}
                     target="_blank"
                     className="rounded-lg border border-layout bg-card px-5 py-2.5 text-sm font-medium text-main transition-all hover:border-accent/50 active:scale-[0.97]"
                 >
