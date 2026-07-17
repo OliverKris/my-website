@@ -8,8 +8,29 @@ export default function Projects() {
     const [filter, setFilter] = useState<string>("all");
     const [search, setSearch] = useState("");
 
+    const categoryOrder: Record<string, number> = {
+            ai: 1,
+            systems: 2,
+            web: 3,
+        };
+
     const filteredProjects = useMemo(() => {
-        return projects.filter((p) => {
+        const sortedProjects = [...projects].sort((a, b) => {
+            // 1. Sort by category first
+            const catA = categoryOrder[a.category] ?? 99;
+            const catB = categoryOrder[b.category] ?? 99;
+            
+            if (catA !== catB) {
+                return catA - catB;
+            }
+
+            // 2. If categories are the same, sort by the 'order' property
+            const orderA = a.order ?? Infinity;
+            const orderB = b.order ?? Infinity;
+            return orderA - orderB;
+        });
+
+        return sortedProjects.filter((p) => {
             const matchesFilter = filter === "all" || p.category === filter;
             const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) ||
                                   p.pitch.toLowerCase().includes(search.toLowerCase());
