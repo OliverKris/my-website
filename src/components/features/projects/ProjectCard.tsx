@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "../../ui/Badge";
 import { Button } from "../../ui/Button";
@@ -23,6 +24,34 @@ export function ProjectCard({ project }: Props) {
         return "secondary";
     }
 
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [needsToggle, setNeedsToggle] = useState(false);
+    const [contentHeight, setContentHeight] = useState<number | string>("auto");
+    const contentRef = useRef<HTMLUListElement>(null);
+    const MIN_HEIGHT = 150
+
+    //  Check if content exceeds a certain height
+    useEffect(() => {
+        if (contentRef.current){
+            const height = contentRef.current.scrollHeight;
+            if (height > MIN_HEIGHT) {
+                setNeedsToggle(true);
+                setContentHeight(MIN_HEIGHT);
+            } else {
+                setContentHeight("auto");
+            }
+        }
+    }, [highlights]);
+
+    const handleToggle = () => {
+        if (isExpanded) {
+            setContentHeight(MIN_HEIGHT);
+        } else {
+            setContentHeight(contentRef.current?.scrollHeight || MIN_HEIGHT);
+        }
+        setIsExpanded(!isExpanded);
+    }
+
     return (
         <article className="flex flex-col h-full justify-between rounded-xl border border-layout bg-card p-5 shadow-sm transition-theme hover:-translate-y-1 hover:shadow-md">
             
@@ -37,12 +66,33 @@ export function ProjectCard({ project }: Props) {
                     {pitch}
                 </p>
 
-                <ul className="mt-6 space-y-2 text-xs text-muted">
-                    <p className="font-semibold text-main">Overview:</p>
-                    {highlights.map((h, i) => (
-                        <li key={i} className="list-disc ml-4">{h}</li>
-                    ))}
-                </ul>
+                <div className="relative mt-6">
+                    <p className="font-semibold text-xs text-main mb-2">Overview:</p>
+                    
+                    <ul 
+                        ref={contentRef}
+                        style={{ maxHeight: contentHeight }}
+                        className={`space-y-2 text-xs text-muted overflow-hidden transition-all duration-700 ease-in-out`}
+                    >
+                        {highlights.map((h, i) => (
+                            <li key={i} className="list-disc ml-4">{h}</li>
+                        ))}
+                    </ul>
+
+                    {needsToggle && (
+                        <div className="mt-2 flex items-center justify-between">
+                            <button
+                                onClick={handleToggle}
+                                className="text-xs font-bold text-main hover:underline z-10 relative"
+                            >
+                                {isExpanded ? "Show less" : "...View more"}
+                            </button>
+                            {!isExpanded && (
+                                <div className="absolute bottom-0 left-0 w-full h-12 bg-linear-to-t from-card to-transparent pointer-events-none" />
+                            )}
+                        </div>
+                    )}
+                </div>                           
             </div>
 
             {/* Footer using Primitives */}
