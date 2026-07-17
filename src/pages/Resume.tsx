@@ -17,9 +17,9 @@ export default function Resume() {
             </header>
 
             <div className="space-y-16">
-                <Container className="px-0!">
+                <section className="space-y-6">
                     <EducationBlock education={educationData} />
-                </Container>
+                </section>
 
                 <section className="space-y-6">
                     <h2 className="text-2xl font-semibold text-main transition-theme pb-1">Experience</h2>
