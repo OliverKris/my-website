@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { FadeIn } from '../hooks/FadeIn'
+import styles from './Concept.module.css'
+import '../formality.css'
 
 export default function Intro(){
     const sectionRef = useRef<HTMLDivElement>(null)
@@ -17,13 +19,9 @@ export default function Intro(){
     return (
         <section 
             ref={sectionRef}
-            style={{
-                background: 'var(--f-green-dark)',
-                padding: '6rem 2rem 2rem 2rem',
-                fontFamily: 'var(--f-font-sans)',
-            }}
+            className={styles.section}
         >
-            <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+            <div className={styles.container}>
                 {/*  */}
                 <FadeIn visible={visible} delay={0}>
                     <p style={{
