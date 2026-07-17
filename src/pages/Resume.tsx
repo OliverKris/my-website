@@ -2,7 +2,6 @@ import { experience } from "../data/experience";
 import ExperienceItem from "../components/features/resume/ExperienceItem";
 import { EducationBlock } from "../components/features/resume/EducationBlock";
 import { educationData } from "../data/education";
-import { Container } from "../components/ui/Container";
 import Reveal from "../components/Reveal";
 import { SkillCloud } from "../components/features/resume/SkillCloud";
 
