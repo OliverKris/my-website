@@ -17,16 +17,33 @@ export type Project = {
 
 export const projects: Project[] = [
     {
+        id: "shell-project",
+        category: "systems",
+        title: "Custom Unix Shell (LSH)",
+        pitch: "A Unix command-line shell written from scratch in C, implementing the classic read-parse-execute loop with process forking, built-in commands, and a rolling command history.",
+        highlights: [
+            "Implemented the shell's core read/tokenize/execute loop, including manual dynamic buffer growth to support arbitrarily long input lines",
+            "Used fork() and execvp() to launch external programs as child processes, with proper wait/status handling in the parent process",
+            "Built out shell built-ins (cd, help, exit, history) with a fixed-size rolling history buffer for recently entered commands",
+            "Managed all memory manually in C, including buffer reallocation and cleanup, with no external dependencies beyond the C standard library"
+        ],
+        tech: ["C", "Unix", "POSIX", "Process Management", "Systems Programming", "Bash", "Memory Management"],
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/shell-project" }
+        ],
+    },
+    {
         id: "bulletin-board",
         category: "systems",
         title: "TCP Bulletin Board Server",
-        pitch: "A concurrent TCP bulletin board server that maintains shared state across multiple clients, supporting authenticated posting, listing, and retrieval of messages through a custom request/response protocol.",
+        pitch: "A concurrent, multi-client network bulletin board service implemented from scratch using TCP sockets, featuring a custom protocol, select()-based I/O multiplexing, and server-side authentication.",
         highlights: [
-            "Implemented a concurrent TCP server using select() for I/O multiplexing and shared state consistency",
-            "Designed and documented a structured request/response protocol with robust validation for malformed inputs",
-            "Built a CLI client and automated test harness to verify correctness under concurrent usage"
+            "Designed a custom text-based protocol with newline-terminated commands and count-framed multi-line responses for deterministic parsing",
+            "Implemented a single-threaded event loop using select() to safely manage concurrent client sessions without requiring explicit locks",
+            "Engineered a robust server-side security model enforcing role-based authorization (User/Admin) and authenticated post management",
+            "Added defensive input handling, including partial TCP send buffering, malformed input rejection, and anti-memory-exhaustion line length limits"
         ],
-        tech: ["Python", "TCP", "Sockets"],
+        tech: ["Python", "TCP", "Sockets", "Concurrency", "Systems Programming", "Networking", "Event Loops"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/bulletinboard-project" }
         ],
@@ -35,18 +52,17 @@ export const projects: Project[] = [
         id: "price-prediction",
         category: "ai",
         title: "Computer Price Prediction",
-        pitch: "A machine learning project that predicts computer prices from hardware specifications using engineered features and neural network models, evaluated against classical regression baselines.",
+        pitch: "A machine learning project for CSCI 6364 that explores predicting consumer computer prices using feedforward neural networks. The study emphasizes feature engineering and compares model performance against classical linear regression baselines.",
         highlights: [
-            "Performed feature engineering on hardware specifications, including tier-based scores and display metrics (pixels, PPI)",
-            "Trained and tuned neural network models in PyTorch and compared performance against linear regression baselines",
-            "Evaluated models using MSE and R² while analyzing training vs. validation loss to diagnose overfitting"
+            "Engineered domain-specific features including pixel density (PPI), component tier scores, and storage/RAM configurations to capture non-linear price drivers",
+            "Designed and compared two neural architectures: a 4-layer ReLU-based model and a 7-layer Leaky-ReLU model utilizing stochastic gradient descent",
+            "Conducted rigorous error analysis revealing model performance bottlenecks on high-end hardware due to data distribution imbalances",
+            "Collaborated on feature selection and memory-constrained training strategies to optimize performance within Google Colab environments"
         ],
-        tech: ["Python", "PyTorch", "Pandas"],
+        tech: ["Python", "PyTorch", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Data Engineering", "Machine Learning"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/computer-price-prediction" }
         ],
-        featured: true,
-        order: 2,
     },
     {
         id: "formality-bias-nlu",
@@ -61,14 +77,7 @@ export const projects: Project[] = [
             "Explored LoRA-based mitigation on Qwen2.5-3B-Instruct to reduce formal-register tendencies while preserving fluency and response coherence"
         ],
         tech: [
-            "Python",
-            "PyTorch",
-            "Transformers",
-            "RoBERTa",
-            "LoRA",
-            "Hugging Face",
-            "Pandas",
-            "NLU"
+            "Python", "PyTorch", "Transformers", "RoBERTa", "LoRA", "Hugging Face", "Pandas", "NLU", "NLP", "Statistical Analysis"
         ],
         links : [
             { label: "Website", url: "/projects/formality" },
@@ -76,6 +85,26 @@ export const projects: Project[] = [
         ],
         featured: true,
         order: 1,
+    },
+    {
+        id: "easysched-reworked",
+        category: "web",
+        title: "EasySched — TA/LA Scheduling Engine",
+        pitch: "A full-stack scheduling app that automatically assigns university Learning Assistants and TAs to course sections using a from-scratch constraint-satisfaction solver, with admin overrides for the edge cases.",
+        highlights: [
+            "Modeled section staffing as a Constraint Satisfaction Problem and implemented a backtracking solver from scratch, using MRV variable ordering and best-first branch-and-bound to keep the search fast",
+            "Separated hard eligibility constraints (GPA floors, scheduling conflicts) from soft fit-scoring behind a pluggable scoring interface",
+            "Built a REST API in FastAPI with SQLAlchemy/SQLite persistence and Pydantic validation",
+            "Built a typed React + TypeScript frontend with a drag-and-drop assignment board (@dnd-kit) that stays in sync with backend state",
+            "Designed isolated, independently-seeded 'workspaces' per dataset and added admin lock/block overrides"
+        ],
+        tech: ["Python", "FastAPI", "SQLAlchemy", "Pydantic", "React", "TypeScript", "Tailwind CSS", "pytest", "REST API", "Constraint Programming"],
+        links : [
+            { label: "Original Capstone", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" },
+            { label: "GitHub", url: "https://github.com/OliverKris/easy-sched-reworked" },
+        ],
+        featured: true,
+        order: 2,
     },
     {
         id: "portfolio",
@@ -87,25 +116,41 @@ export const projects: Project[] = [
             "Implemented light/dark theming with persisted user preference and accessible color variables",
             "Structured projects and skills as data-driven content for easy iteration and maintainability"
         ],
-        tech: ["React", "TypeScript", "Vite"],
+        tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion", "Responsive Design"],
         links : [
             { label: "GitHub", url: "https://github.com/OliverKris/my-website" }
         ],
     },
     {
-        id: "easysched",
-        category: "web",
-        title: "Easy Sched",
-        pitch: "An algorithm-assisted scheduling tool designed for a GWU 2025 CS capstone project.",
+        id: "java-architecture-sim",
+        category: "systems",
+        title: "Java Computer Architecture Simulator",
+        pitch: "A Java-based simulator for a custom 16-bit instruction-set computer, featuring an assembler, multi-stage CPU cycle simulation, and a GUI operator's console.",
         highlights: [
-            "Designed a scoring-based assignment algorithm to match TAs and LAs to courses based on availability, preferences, and staffing requirements",
-            "Built an admin-facing interface to filter courses, time slots, and required staff for efficient semester planning",
-            "Structured scheduling logic to balance coverage constraints while minimizing conflicts and manual intervention",
-            "Focused on maintainability and transparency to support iterative tuning by department administrators"
+            "Developed a full instruction-cycle simulator including registers, memory, and a FIFO-based unified cache",
+            "Implemented an assembler that translates symbolic assembly into 16-bit octal machine code with label/address resolution",
+            "Built a GUI operator's console with single-step, run, and halt controls to manage machine state and execution",
+            "Delivered four progressive project segments, including demonstration programs for complex tasks like closest-number searching and text parsing"
         ],
-        tech: ["Django", "TypeScript", "Python"],
-        links : [
-            { label: "Website", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" }
+        tech: ["Java", "Swing", "Computer Architecture", "Systems Programming", "Assembler Design", "GUI Development"],
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/csci-6461-project" }
+        ],
+    },
+    {
+        id: "ttr-ai",
+        category: "ai",
+        title: "Ticket to Ride AI",
+        pitch: "A stochastic, partially observable decision-making agent for the game 'Ticket to Ride,' utilizing Monte Carlo Tree Search (MCTS) to navigate massive branching factors and uncertain game states.",
+        highlights: [
+            "Implemented a Monte Carlo Tree Search (MCTS) agent to approximate optimal moves in a partially observable stochastic environment",
+            "Designed a custom reward function balancing current score, destination ticket completion, and long-term path progression",
+            "Modeled game mechanics including card drawing, route claiming, and state transitions to support recursive simulation",
+            "Engineered the simulation to handle hidden opponent information by sampling valid game states during rollout"
+        ],
+        tech: ["Python", "AI", "MCTS", "Game Theory", "Stochastic Modeling", "Algorithmic Design"],
+        links: [
+            { label: "GitHub", url: "https://github.com/OliverKris/ttr-ai-project" }
         ],
     },
 ];

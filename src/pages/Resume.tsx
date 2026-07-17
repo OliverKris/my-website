@@ -37,13 +37,13 @@ export default function Resume() {
                 <section className="pt-8">
                     <a
                         className="inline-flex items-center gap-2 rounded-lg border border-layout bg-card px-5 py-2.5 text-sm font-medium text-main shadow-xs transition-theme hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                        href={`${import.meta.env.BASE_URL}resume.pdf`}
+                        href={`${import.meta.env.BASE_URL}resume-jul-2026.pdf`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         Download PDF Resume
                     </a>
-                    <p className="text-[10px] text-muted mt-3">Last updated: Dec 2025</p>
+                    <p className="text-[10px] text-muted mt-3">Last updated: Jul 2026</p>
                 </section>
             </div>
         </main>
