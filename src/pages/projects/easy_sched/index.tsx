@@ -4,6 +4,7 @@ import { frame, Rise } from "../../../components/site/Rise";
 import { LoopVideo, Shot, ThemedShot } from "../../../components/site/Media";
 import { SolverPlayground } from "../../../components/easysched/SolverPlayground";
 import { ArchitectureDiagram } from "../../../components/easysched/ArchitectureDiagram";
+import { CaseStudyBar } from "../../../components/site/CaseStudyBar";
 
 const LIVE = "https://easy-sched.onrender.com";
 const REPO = "https://github.com/OliverKris/easy-sched-reworked";
@@ -61,6 +62,15 @@ export default function EasySchedCaseStudy() {
 
     return (
         <article>
+            <CaseStudyBar
+                title="Easy-Sched"
+                next={{ to: "/projects/formality", label: "Formality bias" }}
+                sections={[
+                    { id: "why", label: "Why" }, { id: "solver", label: "The solver" }, { id: "try-solver", label: "Try it" },
+                    { id: "architecture", label: "Architecture" }, { id: "rules", label: "Rules" }, { id: "screens", label: "Screens" },
+                    { id: "stack", label: "Stack" }, { id: "next", label: "Next" },
+                ]}
+            />
             {/* ---------- Title ---------- */}
             <header className={`${frame} pt-16 md:pt-24`}>
                 <div className="grid gap-10 lg:grid-cols-12 items-end">
@@ -173,7 +183,7 @@ export default function EasySchedCaseStudy() {
             </section>
 
             {/* ---------- Live ---------- */}
-            <section className="mt-[clamp(96px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" aria-label="Try the solver">
+            <section className="mt-[clamp(96px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" id="try-solver" aria-label="Try the solver">
                 <div className={frame}>
                     <Rise><SolverPlayground onCard /></Rise>
                     <Rise delay={120} className="mt-8 max-w-[62ch]">

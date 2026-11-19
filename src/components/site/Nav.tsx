@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { frame } from "./Rise";
@@ -19,6 +19,16 @@ export const RESUME_PDF = "/resume-jul-2026.pdf";
 export default function Nav() {
     const { theme, toggle } = useTheme();
 
+    // Publish the nav's height so bars pinned under it (the case-study bar) sit flush.
+    const headerRef = useRef<HTMLElement>(null);
+    useEffect(() => {
+        const el = headerRef.current;
+        if (!el) return;
+        const ro = new ResizeObserver(() => document.documentElement.style.setProperty("--nav-h", `${el.offsetHeight}px`));
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, []);
+
     // Pinned to the top; once the page scrolls it gets shorter and takes a tone step.
     const [scrolled, setScrolled] = useState(false);
     useEffect(() => {
@@ -29,7 +39,7 @@ export default function Nav() {
     }, []);
 
     return (
-        <header className={`sticky top-0 z-50 transition-[background-color] duration-300 ${scrolled ? "bg-card" : "bg-canvas"}`}>
+        <header ref={headerRef} className={`sticky top-0 z-50 transition-[background-color] duration-300 ${scrolled ? "bg-card" : "bg-canvas"}`}>
             <div className={`${frame} relative flex flex-wrap items-center gap-x-6 py-3 sm:py-0 transition-[height] duration-300 ${scrolled ? "sm:h-16" : "sm:h-20 md:h-24"}`}>
                 <Link to="/" className="text-[17px] font-semibold tracking-[-0.01em] text-main no-underline hover:text-accent transition-colors">
                     Oliver Krisetya

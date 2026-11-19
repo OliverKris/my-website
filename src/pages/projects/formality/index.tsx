@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { frame, Rise } from "../../../components/site/Rise";
+import { CaseStudyBar } from "../../../components/site/CaseStudyBar";
 import { computeFR, getVerdict, TIER1 } from "./lexicon";
 import { SPECTRUM_DATA } from "./spectrum";
 import { CorpusChart, FamilyChart, MitigationChart, TopicCharts, WordsChart } from "./charts";
@@ -258,6 +259,16 @@ function MitigationExamples() {
 export default function FormalityCaseStudy() {
     return (
         <article>
+            <CaseStudyBar
+                title="Formality bias"
+                next={{ to: "/projects/easy-sched", label: "Easy-Sched" }}
+                sections={[
+                    { id: "background", label: "Background" }, { id: "method", label: "Method" }, { id: "results", label: "Results" },
+                    { id: "families", label: "Families" }, { id: "topics", label: "Topics" }, { id: "words", label: "Words" },
+                    { id: "try", label: "Try it" }, { id: "mitigation", label: "Mitigation" }, { id: "matters", label: "Impact" },
+                    { id: "team", label: "Team" },
+                ]}
+            />
             <header className={`${frame} pt-16 md:pt-24`}>
                 <div className="grid gap-10 lg:grid-cols-12 items-end">
                     <div className="lg:col-span-8">

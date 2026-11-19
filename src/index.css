@@ -121,6 +121,11 @@ html[data-theme="dark"] {
     * {
         border-color: var(--color-border);
     }
+
+    /* Jumping to a section leaves room for the pinned nav and case-study bar. */
+    [id] {
+        scroll-margin-top: calc(var(--nav-h, 64px) + 4.5rem);
+    }
 }
 
 /*
