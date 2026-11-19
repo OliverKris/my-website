@@ -104,7 +104,7 @@ export const projects: Project[] = [
         caseStudy: {
             path: "/projects/formality",
             summary: "Research across six model families: LLM replies are measurably more formal than human conversation, on a lexicon metric and a fine-tuned RoBERTa classifier alike, and LoRA can pull them back.",
-            cover: { src: "/media/formality/corpora-{theme}.webp", alt: "Mean Formality Rate by corpus: LLM responses at 7.62, far above ELI5, Reddit and BlendedSkillTalk", width: 1100, height: 415 },
+            cover: { src: "/media/formality/corpora-{theme}.webp", alt: "Mean Formality Rate by corpus: LLM replies at 7.62, three times ELI5 and far above Reddit and BlendedSkillTalk", width: 1100, height: 682 },
             facts: [
                 { label: "Conversations", value: "1M+" },
                 { label: "Model families", value: "6" },

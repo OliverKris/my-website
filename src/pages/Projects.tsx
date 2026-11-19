@@ -11,7 +11,7 @@ const EXTRA: Record<string, { src: string; alt: string }[]> = {
         { src: "/media/easy-sched/upload-{theme}.webp", alt: "CSV upload with a template and dry-run preview" },
     ],
     "formality-bias-nlu": [
-        { src: "/media/formality/families-{theme}.webp", alt: "RoBERTa P(formal) by model family, every family above the 0.51 human baseline" },
+        { src: "/media/formality/families-{theme}.webp", alt: "RoBERTa P(formal) by model family: every family above the human baselines" },
         { src: "/media/formality/demo-{theme}.webp", alt: "An assistant reply with formal words swapped for plain ones" },
     ],
 };

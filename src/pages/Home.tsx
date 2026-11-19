@@ -120,8 +120,8 @@ export default function Home() {
                         <Shot ratio={1400 / 254} fit={1}>
                             <ThemedImg src="/media/formality/demo-{theme}.webp" alt="An assistant reply with its formal words struck through and replaced by plain ones: elucidate becomes explain, commence becomes start, delve into becomes get into" width={1400} height={254} />
                         </Shot>
-                        <Shot ratio={1100 / 415} fit={1}>
-                            <ThemedImg src={formality.caseStudy!.cover.src} alt={formality.caseStudy!.cover.alt} width={1100} height={415} />
+                        <Shot ratio={1100 / 682} fit={1}>
+                            <ThemedImg src={formality.caseStudy!.cover.src} alt={formality.caseStudy!.cover.alt} width={1100} height={682} />
                         </Shot>
                     </Rise>
                     <Rise className="lg:col-span-5 flex flex-col gap-6" delay={90}>

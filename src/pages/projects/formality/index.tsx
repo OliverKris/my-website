@@ -1,9 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { frame, Rise } from "../../../components/site/Rise";
 import { computeFR, getVerdict, TIER1 } from "./lexicon";
 import { SPECTRUM_DATA } from "./spectrum";
+import { CorpusChart, FamilyChart, MitigationChart, TopicCharts, WordsChart } from "./charts";
 
 const REPO = "https://github.com/OliverKris/formal-language-bias-llms";
 
@@ -14,25 +14,6 @@ const SUBSTITUTIONS = [
     { formal: "commence", casual: "start" }, { formal: "elucidate", casual: "explain" },
     { formal: "furthermore", casual: "also" }, { formal: "endeavor", casual: "try" },
     { formal: "obtain", casual: "get" }, { formal: "demonstrate", casual: "show" },
-];
-
-const CORPORA = [
-    { label: "BlendedSkillTalk", fr: 0.24, llm: false },
-    { label: "Reddit", fr: 0.52, llm: false },
-    { label: "ELI5", fr: 2.33, llm: false },
-    { label: "LLM responses (LMSYS)", fr: 7.62, llm: true },
-];
-
-const FAMILIES = [
-    { name: "PaLM", p: 0.86 }, { name: "GPT", p: 0.84 }, { name: "Vicuna", p: 0.83 },
-    { name: "LLaMA", p: 0.82 }, { name: "Alpaca", p: 0.8 }, { name: "Claude", p: 0.79 },
-];
-const HUMAN_BASELINE = 0.51;
-
-const TOPICS = [
-    { type: "Casual", fr: "2.45", p: "0.61", note: "Lowest of the three, and still above every human corpus." },
-    { type: "General", fr: "5.25", p: "0.76", note: "The most formal vocabulary, even when the structure is looser." },
-    { type: "Task", fr: "4.68", p: "0.89", note: "The most formal structure: instructions read like documents." },
 ];
 
 const MITIGATION = [
@@ -145,21 +126,6 @@ function RegisterDemo() {
                 {typed < REPLY_LENGTH && <span aria-hidden="true" className="inline-block w-[2px] h-[1em] align-[-0.12em] bg-accent ml-0.5 animate-pulse" />}
             </p>
         </figure>
-    );
-}
-
-/** A horizontal bar that grows to its value when it scrolls into view. */
-function Bar({ pct, accent, label }: { pct: number; accent: boolean; label: string }) {
-    return (
-        <span className="block h-3 rounded-full bg-main/10 overflow-hidden" role="img" aria-label={label}>
-            <motion.span
-                className={`block h-full rounded-full ${accent ? "bg-accent" : "bg-main/35"}`}
-                initial={{ width: 0 }}
-                whileInView={{ width: `${pct}%` }}
-                viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            />
-        </span>
     );
 }
 
@@ -384,7 +350,7 @@ export default function FormalityCaseStudy() {
                             Formality also lives in how a sentence is built, not only in its words. A RoBERTa model, pretrained on GYAFC
                             and fine-tuned on Pavlick formality scores, outputs a continuous probability that a text is formal.
                         </p>
-                        <p className="m-0 mt-auto text-[clamp(18px,1.6vw,22px)] font-semibold tracking-[-0.01em]">P(formal) from 0 to 1</p>
+                        <p className="m-0 mt-auto text-[clamp(18px,1.6vw,22px)] font-semibold tracking-[-0.01em]">P(formal) from 0 to 1, 89.2% accurate on 500 held-out sentences</p>
                     </Rise>
                 </div>
                 <Rise delay={120} className="mt-6"><Spectrum /></Rise>
@@ -396,68 +362,56 @@ export default function FormalityCaseStudy() {
                     <div className="lg:col-span-5">
                         <SectionHead id="results" title="LLMs are more formal">
                             <p className="m-0">
-                                We analysed over a million conversations from LMSYS-Chat-1M against three human conversational corpora.
-                                LLM replies sit far above the human baseline on both metrics, whatever the conversation.
+                                We compared over a million conversations from LMSYS-Chat-1M with three human corpora: Reddit and
+                                BlendedSkillTalk for casual talk, ELI5 for explanations. LLM replies come out on top on both metrics.
                             </p>
                             <p className="m-0">
-                                Even casual LMSYS replies score FR 2.45, above the most formal human corpus (ELI5, 2.33). In general and
-                                task-focused conversations the gap widens sharply.
+                                Mann–Whitney U tests separate LLM replies from every human corpus on both metrics (p &lt; 0.001). ELI5,
+                                explanatory by design, is the closest; the casual corpora are far below.
                             </p>
                         </SectionHead>
                     </div>
-                    <Rise delay={120} className="lg:col-span-7 rounded-2xl bg-canvas p-6 md:p-8 flex flex-col gap-5" as="figure">
-                        <figcaption className="text-[15px] text-muted">Mean Formality Rate by corpus, hits per 1k tokens</figcaption>
-                        {CORPORA.map((c) => (
-                            <div key={c.label} className="grid grid-cols-[minmax(0,10rem)_1fr_3.5rem] items-center gap-4 text-[16px]">
-                                <span className={c.llm ? "font-semibold" : ""}>{c.label}</span>
-                                <Bar pct={(c.fr / 8) * 100} accent={c.llm} label={`${c.label}: ${c.fr}`} />
-                                <span className={`text-right tabular-nums ${c.llm ? "font-semibold text-accent" : ""}`}>{c.fr}</span>
-                            </div>
-                        ))}
-                    </Rise>
+                    <Rise delay={120} className="lg:col-span-7"><CorpusChart /></Rise>
                 </div>
 
                 <div className={`${frame} mt-[clamp(80px,10vw,160px)] grid gap-12 lg:grid-cols-12 items-start`}>
-                    <Rise className="lg:col-span-7 rounded-2xl bg-canvas p-6 md:p-8 flex flex-col gap-5 lg:order-1 order-2" as="figure">
-                        <figcaption className="text-[15px] text-muted">RoBERTa P(formal) by model family; the human baseline is {HUMAN_BASELINE}</figcaption>
-                        <div className="relative flex flex-col gap-4">
-                            <span aria-hidden="true" className="absolute top-0 bottom-0 border-l-2 border-dashed border-main/40" style={{ left: `calc(5rem + 1rem + (100% - 5rem - 1rem - 3.5rem - 1rem) * ${HUMAN_BASELINE})` }} />
-                            {FAMILIES.map((f) => (
-                                <div key={f.name} className="grid grid-cols-[5rem_1fr_3.5rem] items-center gap-4 text-[16px]">
-                                    <span className="font-semibold">{f.name}</span>
-                                    <Bar pct={f.p * 100} accent label={`${f.name}: ${f.p}`} />
-                                    <span className="text-right tabular-nums">{f.p.toFixed(2)}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </Rise>
-                    <div className="lg:col-span-5 lg:order-2 order-1">
+                    <Rise className="lg:col-span-7 order-2 lg:order-1"><FamilyChart /></Rise>
+                    <div className="lg:col-span-5 order-1 lg:order-2">
                         <SectionHead id="families" title="Every family, not one model">
                             <p className="m-0">
-                                Run across every model family in the dataset, the classifier puts nearly all of them well above the human
-                                baseline: 28 to 35 points higher. The variation between families points to pretraining data and alignment
-                                choices, not architecture, as the main driver.
+                                Every model family sits 32 to 39 points above the pooled human mean of 0.50, and even above ELI5, the most
+                                formal human corpus. PaLM and GPT lead; Claude and Alpaca are lowest but still above every baseline.
+                            </p>
+                            <p className="m-0">
+                                Because families differ in data, instruction tuning and RLHF all at once, this is correlational: it points
+                                to training and alignment choices, not architecture, without isolating which.
                             </p>
                         </SectionHead>
                     </div>
                 </div>
 
-                <div className={`${frame} mt-[clamp(80px,10vw,160px)]`}>
+                <div className={`${frame} mt-[clamp(80px,10vw,160px)] flex flex-col gap-12`}>
                     <SectionHead id="topics" title="The task changes the tone">
-                        <p className="m-0">Splitting LMSYS conversations into casual, general and task-oriented ones shows how much register moves within LLMs themselves.</p>
+                        <p className="m-0">
+                            Task replies are the most formal in structure (P(formal) 0.88); general ones use the most formal vocabulary
+                            (FR 8.04). Casual replies are lowest on both, below ELI5, yet still above Reddit and BlendedSkillTalk: the bias
+                            shrinks in casual talk but does not disappear.
+                        </p>
                     </SectionHead>
-                    <div className="mt-12 grid gap-6 md:grid-cols-3">
-                        {TOPICS.map((t, i) => (
-                            <Rise key={t.type} delay={i * 80} className="rounded-2xl bg-canvas p-6 md:p-8 flex flex-col gap-4">
-                                <h3 className="m-0 text-[clamp(22px,2vw,28px)] font-semibold tracking-[-0.02em]">{t.type}</h3>
-                                <dl className="m-0 grid grid-cols-2 gap-4">
-                                    <div className="flex flex-col-reverse"><dt className="text-[14px] text-muted">Formality Rate</dt><dd className="m-0 text-[clamp(26px,2.4vw,36px)] font-semibold tabular-nums tracking-[-0.03em]">{t.fr}</dd></div>
-                                    <div className="flex flex-col-reverse"><dt className="text-[14px] text-muted">P(formal)</dt><dd className="m-0 text-[clamp(26px,2.4vw,36px)] font-semibold tabular-nums tracking-[-0.03em]">{t.p}</dd></div>
-                                </dl>
-                                <p className="m-0 text-[16px] leading-[1.55]">{t.note}</p>
-                            </Rise>
-                        ))}
+                    <Rise delay={120}><TopicCharts /></Rise>
+                </div>
+
+                <div className={`${frame} mt-[clamp(80px,10vw,160px)] grid gap-12 lg:grid-cols-12 items-start`}>
+                    <div className="lg:col-span-5">
+                        <SectionHead id="words" title="The words that give it away">
+                            <p className="m-0">
+                                Both corpora lean on “such as”. After that they part ways: LLM replies reach for “provide”, “it is
+                                important to”, “additionally” and “in conclusion”, while ELI5 writers use “thus”, “essentially” and
+                                “hence”.
+                            </p>
+                        </SectionHead>
                     </div>
+                    <Rise delay={120} className="lg:col-span-7"><WordsChart /></Rise>
                 </div>
             </section>
 
@@ -479,24 +433,12 @@ export default function FormalityCaseStudy() {
                     </p>
                 </SectionHead>
                 <Rise delay={120} className="mt-12"><MitigationExamples /></Rise>
-                <Rise delay={150} className="mt-10 grid gap-14 md:gap-6 md:grid-cols-3">
-                    {[
-                        { v: "−12%", l: "Mean Formality Rate", d: "6.20 → 5.46" },
-                        { v: "−0.07", l: "RoBERTa P(formal)", d: "0.868 → 0.794" },
-                        { v: "≈", l: "ROUGE-L, content kept", d: "0.073 → 0.077" },
-                    ].map((m) => (
-                        <div key={m.l} className="flex flex-col gap-1">
-                            <span className="text-[clamp(44px,5vw,72px)] font-semibold leading-[1] tracking-[-0.04em]">{m.v}</span>
-                            <span className="text-[17px] font-medium">{m.l}</span>
-                            <span className="text-[15px] text-muted tabular-nums">{m.d}</span>
-                        </div>
-                    ))}
-                </Rise>
+                <Rise delay={150} className="mt-10"><MitigationChart /></Rise>
                 <Rise delay={180} className="mt-10 max-w-[70ch]">
                     <p className="m-0 text-[16px] leading-[1.6]">
-                        A caveat: the held-out set was small (50 prompts) and the paired t-test did not reach significance. The results
-                        suggest register is steerable with lightweight adaptation, not that the model is debiased. Scaling to Mistral-7B
-                        or LLaMA-3-8B with human evaluation is the next step.
+                        Formality Rate fell 12% and the classifier’s score fell with it, so the change is not just avoiding listed
+                        words. The results suggest register is steerable with lightweight adaptation, not that the model is debiased.
+                        Scaling to Mistral-7B or LLaMA-3-8B with human evaluation is the next step.
                     </p>
                 </Rise>
             </section>
