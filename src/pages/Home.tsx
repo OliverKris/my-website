@@ -4,7 +4,6 @@ import { projects, type Project } from "../data/projects";
 import { experience } from "../data/experience";
 import { frame, Rise } from "../components/site/Rise";
 import { LoopVideo, ThemedShot } from "../components/site/Media";
-import { SolverPlayground } from "../components/easysched/SolverPlayground";
 
 const easySched = projects.find((p) => p.id === "easysched-reworked")!;
 const formality = projects.find((p) => p.id === "formality-bias-nlu")!;
@@ -82,7 +81,7 @@ export default function Home() {
                         <LoopVideo
                             src="/media/easy-sched/demo.mp4"
                             poster="/media/easy-sched/demo-poster.webp"
-                            label="Easy-Sched in use: starting from the sample term, opening slots to see why each person was placed, searching, and editing an applicant"
+                            label="Easy-Sched walkthrough: loading the sample term, seeing why each person was placed, locking a placement, re-solving, searching, finalizing and uploading a spreadsheet"
                         />
                     </div>
                 </Rise>
@@ -100,17 +99,18 @@ export default function Home() {
                         <figcaption className="mt-3 text-[15px] text-muted">Spreadsheets are checked row by row before anything is saved.</figcaption>
                     </Rise>
                 </div>
-                {/* Easy-Sched's solver, live in the browser: part of the same story */}
-                <div className={`${frame} pt-[clamp(72px,9vw,140px)]`}>
-                    <Rise><SolverPlayground headingLevel="h3" /></Rise>
-                    <Rise delay={120} className="mt-8 max-w-[62ch]">
-                        <p className="m-0 text-[length:var(--text-body)] leading-[1.6]">
-                            That is Easy-Sched’s solver, running in your browser on a term from its benchmark harness: 20 applicants,
-                            22 slots, the same max-weight matching the app runs on its server. Type a course, a person or a role, then
-                            drag a weight: the whole term is re-decided, and every slot that changes hands lights up.
-                        </p>
-                    </Rise>
-                </div>
+                <Rise className={`${frame} mt-14 grid gap-10 md:grid-cols-3`} delay={120}>
+                    {[
+                        { t: "Optimal, not just good", d: "Max-weight bipartite matching finds the best possible schedule under the department’s rules, every time." },
+                        { t: "Every placement explained", d: "Each slot shows its score rule by rule, who else could take it, and why anyone was left out." },
+                        { t: "The coordinator decides", d: "Lock, keep out or place people by hand, re-solve around those choices, undo anything, then export." },
+                    ].map((o) => (
+                        <div key={o.t} className="flex flex-col gap-2">
+                            <h3 className="m-0 text-[clamp(20px,1.6vw,24px)] font-semibold tracking-[-0.02em]">{o.t}</h3>
+                            <p className="m-0 text-[length:var(--text-body)] leading-[1.55]">{o.d}</p>
+                        </div>
+                    ))}
+                </Rise>
             </section>
 
             {/* ---------- Formality: research, set on a tone-step field ---------- */}

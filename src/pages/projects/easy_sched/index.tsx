@@ -95,7 +95,7 @@ export default function EasySchedCaseStudy() {
                     <LoopVideo
                         src="/media/easy-sched/demo.mp4"
                         poster="/media/easy-sched/demo-poster.webp"
-                        label="Easy-Sched in use: the sample term, slot explanations, search and the applicant editor"
+                        label="Easy-Sched walkthrough with captions: loading the sample term, seeing why each person was placed, locking, re-solving, searching, finalizing and uploading a spreadsheet"
                     />
                 </div>
             </Rise>

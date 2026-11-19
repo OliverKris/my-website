@@ -11,7 +11,10 @@ const FEATURES: { key: Feature; label: string }[] = [
     { key: "utaBonus", label: "UTA readiness" },
 ];
 
-const EXAMPLES = ["CSCI 1031", "Algorithms", "Grace", "UTA"];
+/** The term's courses, each shown the same way: "CSCI 1031 · Systems Programming". */
+const COURSES = [...new Map(SLOTS.map((s) => [s.course, s.title])).entries()]
+    .map(([code, title]) => ({ code, title }))
+    .sort((a, b) => a.code.localeCompare(b.code));
 const PEOPLE = Object.keys(APPLICANTS);
 
 interface Placement { person: string | null; score: number; parts: { key: Feature; points: number }[] }
@@ -42,15 +45,15 @@ function solve(weights: Record<Feature, number>) {
 }
 
 /**
- * The live thing: Easy-Sched's sample term, solved in the browser with the
- * same max-weight matching the app runs on the server. Type a course, a
- * person or a role; drag a weight and every slot is re-decided.
+ * The live thing: a term from Easy-Sched's benchmark harness, solved in the
+ * browser with the same max-weight matching the app runs on the server. Pick
+ * a course to see its slots; drag a weight and the whole term is re-decided.
  */
 export function SolverPlayground({ headingLevel = "h2", onCard = false }: { headingLevel?: "h2" | "h3"; onCard?: boolean }) {
     // Rows and controls take the surface one step away from whatever the widget sits on.
     const tile = onCard ? "bg-canvas" : "bg-card";
     const tileHover = "hover:bg-raised";
-    const [query, setQuery] = useState("CSCI 1031");
+    const [course, setCourse] = useState<string | null>("CSCI 1031");
     const [weights, setWeights] = useState(DEFAULT_WEIGHTS);
     const { placements, total } = useMemo(() => solve(weights), [weights]);
 
@@ -67,47 +70,44 @@ export function SolverPlayground({ headingLevel = "h2", onCard = false }: { head
         setFlash(next);
     }
 
-    const q = query.trim().toLowerCase();
-    const rows = SLOTS.filter((s) => {
-        if (!q) return true;
-        const who = placements.get(s.id)?.person;
-        const name = who ? APPLICANTS[who].toLowerCase() : "";
-        return [s.course, s.title, s.section, s.position].some((t) => t.toLowerCase().includes(q)) || (name && name.includes(q));
-    });
+    const rows = course ? SLOTS.filter((s) => s.course === course) : SLOTS;
+    const current = COURSES.find((c) => c.code === course);
     const filled = [...placements.values()].filter((p) => p.person).length;
     const Heading = headingLevel;
     const maxPoints = 4;
 
     return (
         <div className="flex flex-col gap-10">
-            <div className="flex flex-wrap items-baseline gap-x-[0.3em] text-[clamp(40px,6.4vw,104px)] font-semibold leading-[1] tracking-[-0.045em]">
-                <Heading className="m-0 text-[length:inherit] font-semibold">Who should teach</Heading>
-                <label className="relative flex-1 min-w-[6ch]" data-ui>
-                    <span className="sr-only">A course, a person or a role</span>
-                    <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        spellCheck={false}
-                        className="w-full bg-transparent border-0 p-0 m-0 text-accent font-semibold tracking-[-0.045em] outline-none caret-accent placeholder:text-muted/50"
-                        placeholder="any course"
-                    />
-                </label>
+            <div className="flex flex-col gap-4">
+                <Heading className="m-0 text-[clamp(40px,6.4vw,104px)] font-semibold leading-[1] tracking-[-0.045em]">
+                    Who should teach <span className="text-accent">{course ?? "every course"}</span>?
+                </Heading>
+                <p className="m-0 text-[length:var(--text-lead)] leading-[1.35] tracking-[-0.01em]">
+                    {current ? current.title : `All ${COURSES.length} courses in the term`}
+                </p>
             </div>
 
-            <div className="flex flex-wrap gap-2" aria-label="Examples">
-                {EXAMPLES.map((ex) => (
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a course">
+                {COURSES.map((c) => (
                     <button
-                        key={ex}
+                        key={c.code}
                         type="button"
-                        onClick={() => setQuery(ex)}
+                        aria-pressed={course === c.code}
+                        onClick={() => setCourse(c.code)}
                         className={`h-11 px-4 rounded-full text-[15px] cursor-pointer transition-colors ${
-                            query === ex ? "bg-main text-canvas" : `${tile} text-main ${tileHover}`}`}
+                            course === c.code ? "bg-main text-canvas" : `${tile} text-main ${tileHover}`}`}
                     >
-                        {ex}
+                        {c.code} · {c.title}
                     </button>
                 ))}
-                <button type="button" onClick={() => setQuery("")} className="h-11 px-4 rounded-full text-[15px] text-muted hover:text-main cursor-pointer">
-                    Show all
+                <button
+                    type="button"
+                    aria-pressed={course === null}
+                    onClick={() => setCourse(null)}
+                    className={`h-11 px-4 rounded-full text-[15px] cursor-pointer transition-colors ${
+                        course === null ? "bg-main text-canvas" : "text-muted hover:text-main"}`}
+                >
+                    All courses
                 </button>
             </div>
 
@@ -149,7 +149,6 @@ export function SolverPlayground({ headingLevel = "h2", onCard = false }: { head
                                 </li>
                             );
                         })}
-                        {rows.length === 0 && <li className={`px-4 py-3.5 rounded-xl ${tile} text-muted`}>Nothing in this term matches “{query}”.</li>}
                     </ul>
                 </div>
 
