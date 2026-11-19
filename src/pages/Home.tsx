@@ -177,7 +177,7 @@ export default function Home() {
                     <Rise as="header" className="flex flex-col gap-5 text-[15px]">
                         <h2 id="about-title" className="m-0 text-[clamp(28px,2.6vw,40px)] font-semibold leading-[1.05] tracking-[-0.03em]">Both sides of the desk</h2>
                         <dl className="m-0 grid grid-cols-2 md:grid-cols-1 gap-5">
-                            <div><dt className="text-muted">Based in</dt><dd className="m-0">New York and Washington, DC</dd></div>
+                            <div><dt className="text-muted">Based in</dt><dd className="m-0">Washington, DC</dd></div>
                             <div><dt className="text-muted">Studied</dt><dd className="m-0">B.S. and M.S., Computer Science, GWU</dd></div>
                             <div><dt className="text-muted">Taught</dt><dd className="m-0">Three years, from LA to graduate TA</dd></div>
                         </dl>
@@ -229,7 +229,7 @@ export default function Home() {
                         </h2>
                     </Rise>
                     <div className="flex flex-wrap justify-between gap-4 text-[15px]">
-                        <span>New York and Washington, DC</span>
+                        <span>Washington, DC</span>
                         <span className="flex gap-6">
                             <a className="text-accent-ink underline underline-offset-4" href="https://linkedin.com/in/okrisetya" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                             <a className="text-accent-ink underline underline-offset-4" href="https://github.com/OliverKris" target="_blank" rel="noopener noreferrer">GitHub</a>

@@ -133,7 +133,7 @@ export default function Resume() {
                         { k: "M.S. GPA", v: "3.93" },
                         { k: "Honours", v: "Summa cum laude" },
                         { k: "Graduated", v: "May 2026" },
-                        { k: "Based in", v: "New York and DC" },
+                        { k: "Based in", v: "Washington, DC" },
                     ].map((f) => (
                         <div key={f.k} className="flex flex-col-reverse gap-1">
                             <dt className="text-[14px] text-muted">{f.k}</dt>

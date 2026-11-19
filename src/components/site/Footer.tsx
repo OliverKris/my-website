@@ -32,7 +32,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="mt-20 flex flex-wrap justify-between gap-4 text-[13px] text-field-muted">
-                    <span>© {new Date().getFullYear()} Oliver Krisetya · New York and Washington, DC</span>
+                    <span>© {new Date().getFullYear()} Oliver Krisetya · Washington, DC</span>
                     <a href="#top" className="text-field-muted no-underline hover:text-field-ink">Back to top</a>
                 </div>
             </div>

@@ -13,18 +13,20 @@ const TOPICS = [
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-function readNewYorkTime() {
+const ZONE = "America/New_York"; // Washington, DC
+
+function readLocalTime() {
     const now = new Date();
-    const time = now.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
-    const hour = Number(now.toLocaleString("en-US", { timeZone: "America/New_York", hour: "numeric", hour12: false }));
+    const time = now.toLocaleTimeString("en-US", { timeZone: ZONE, hour: "numeric", minute: "2-digit", second: "2-digit" });
+    const hour = Number(now.toLocaleString("en-US", { timeZone: ZONE, hour: "numeric", hour12: false }));
     return { time, awake: hour >= 8 && hour < 23 };
 }
 
-/** The time where I am, so you know when to expect a reply. */
-function useNewYorkTime() {
-    const [state, setState] = useState(readNewYorkTime);
+/** The time where I am, ticking every second, so you know when to expect a reply. */
+function useLocalTime() {
+    const [state, setState] = useState(readLocalTime);
     useEffect(() => {
-        const t = window.setInterval(() => setState(readNewYorkTime()), 30_000);
+        const t = window.setInterval(() => setState(readLocalTime()), 1000);
         return () => window.clearInterval(t);
     }, []);
     return state;
@@ -35,7 +37,7 @@ const field = "w-full rounded-xl bg-card px-4 py-3.5 text-[17px] text-main borde
 export default function Contact() {
     const [topic, setTopic] = useState<(typeof TOPICS)[number]["key"]>("role");
     const [status, setStatus] = useState<Status>("idle");
-    const { time, awake } = useNewYorkTime();
+    const { time, awake } = useLocalTime();
     const current = TOPICS.find((t) => t.key === topic)!;
 
     async function submit(e: FormEvent<HTMLFormElement>) {
@@ -65,9 +67,9 @@ export default function Contact() {
                     </p>
                 </div>
                 <div className="lg:col-span-4 flex flex-col gap-1 fade-up" style={{ ["--fade-delay" as string]: "350ms" }}>
-                    <span className="text-[clamp(28px,2.8vw,40px)] font-semibold tracking-[-0.03em] tabular-nums">{time}</span>
+                    <span className="text-[clamp(28px,2.8vw,40px)] font-semibold tracking-[-0.03em] tabular-nums" aria-live="off">{time}</span>
                     <span className="text-[15px] text-muted">
-                        in New York. {awake ? "I usually reply within a day." : "I’m probably asleep, so expect a reply in the morning."}
+                        in Washington, DC. {awake ? "I usually reply within a day." : "I’m probably asleep, so expect a reply in the morning."}
                     </span>
                 </div>
             </header>
