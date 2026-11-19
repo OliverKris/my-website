@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# oliverkrisetya.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+My portfolio: who I am, what I've built, and two projects told in full.
 
-Currently, two official plugins are available:
+- **Home**: a statement, the flagship projects with their real interfaces, a live
+  version of Easy-Sched's solver you can play with, and how to reach me.
+- **Work** (`/projects`): case studies first, then every other project as a row
+  that opens to its details.
+- **Easy-Sched case study** (`/projects/easy-sched`): demo film, benchmarks, an
+  interactive architecture diagram, the live solver, screens and the stack.
+- **Formality bias in LLMs** (`/projects/formality`): the research write-up with
+  its own interactive scorer.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run it
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # type-check and build to dist/
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Deployed on Vercel; `vercel.json` rewrites every path to `index.html` for the
+client-side router.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## How it's put together
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+React 19, TypeScript, Vite, Tailwind CSS v4 and framer-motion.
+
+- `src/index.css`: design tokens (one ground, one ink, one emerald accent, in light
+  and dark), type steps and the motion keyframes.
+- `src/data/`: projects, experience and education as typed data. A project with a
+  `caseStudy` gets a large row on the Work page.
+- `src/lib/hungarian.ts`: maximum-weight bipartite matching. With
+  `src/data/easySchedSample.ts` (a term exported from Easy-Sched's benchmark
+  harness) it reproduces the backend's answer exactly, in the browser.
+- `public/media/`: screenshots and the demo film, recorded from the live app.

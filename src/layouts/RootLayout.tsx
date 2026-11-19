@@ -1,23 +1,30 @@
-import { Outlet } from "react-router-dom";
-import NavBar from "../components/features/layout/NavBar.tsx";
-import Footer from "../components/features/layout/Footer.tsx";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { MotionConfig } from "framer-motion";
+import Nav from "../components/site/Nav";
+import Footer from "../components/site/Footer";
 
 export default function RootLayout() {
-    return (
-        <div className="min-h-screen bg-canvas text-main flex flex-col">
-            <a 
-                className="sr-only left-4 top-4 z-100 rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white shadow-lg focus:not-sr-only focus:fixed 
-                        dark:bg-zinc-100 dark:text-zinc-900"
-                href="#main"
-            >
-                Skip to content
-            </a>
+    const { pathname, hash } = useLocation();
+    useEffect(() => {
+        if (!hash) window.scrollTo({ top: 0 });
+    }, [pathname, hash]);
 
-            <NavBar/>
-            <main id="main" className="flex-1 bg-canvas transition-theme relative z-0">
-                <Outlet />
-            </main>
-            <Footer/>
-        </div>
+    return (
+        <MotionConfig reducedMotion="user">
+            <div id="top" className="min-h-screen bg-canvas text-main flex flex-col">
+                <a
+                    className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-ink"
+                    href="#main"
+                >
+                    Skip to content
+                </a>
+                <Nav />
+                <main id="main" className="flex-1">
+                    <Outlet />
+                </main>
+                <Footer />
+            </div>
+        </MotionConfig>
     );
 }

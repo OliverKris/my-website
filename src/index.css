@@ -1,95 +1,198 @@
 @import "tailwindcss";
 
+/*
+  Design tokens.
+
+  One ground, one ink, one accent. The palette is taken from the software
+  on show (Easy-Sched's near-black, bone and emerald), so the portfolio and
+  the work read as one body of work. Dark is the primary composition; light
+  is its paper-and-ink twin. Every colour is a variable, so components never
+  need a dark: variant.
+*/
+
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-@utility transition-theme {
-    transition-property: all;
-    transition-timing-function: ease-out;
-    transition-duration: 200ms;
-
-    contain: content;
-    will-change: transform, opacity, color, border-color;
-}
-
-@theme {
-    --color-canvas: var(--color-bg-canvas);
-    --color-card: var(--color-bg-card);
-    --color-main: var(--color-text-main);
-    --color-muted: var(--color-text-muted);
-    --color-layout: var(--color-border);
-
-    --color-accent: oklch(0.58 0.23 264);
-    --color-accent-soft: oklch(0.95 0.03 264);
-
-    --color-secondary: oklch(0.65 0.18 170);
-    --color-secondary-soft: oklch(0.96 0.02 170);
-
-    --color-tertiary: oklch(0.60 0.16 300);
-    --color-tertiary-soft: oklch(0.92 0.04 300);
-
-    --color-systems: #2563eb;
-    --color-ai: #9333ea;
-    --color-web: #059669;
-}
-
 :root {
-    /* Light Mode Palette: Using Indigo for a professional, vibrant accent */
-    --color-bg-canvas: #fcfcfc;
-    --color-bg-card: #ffffff;
-    --color-text-main: #09090b;
-    --color-text-muted: #71717a;
-    --color-border: #e4e4e7;
-
-    --color-accent: oklch(0.58 0.23 264);
-    --color-accent-soft: oklch(0.95 0.03 264);
-
-    --color-secondary: oklch(0.65 0.18 170);
-    --color-secondary-soft: oklch(0.96 0.02 170);
-
-    --color-tertiary: oklch(0.60 0.16 300);
-    --color-tertiary-soft: oklch(0.92 0.04 300);
-
-    --color-systems: #2563eb;
-    --color-ai: #9333ea;
-    --color-web: #059669;
+    color-scheme: light;
+    --color-bg-canvas: #f3f3ef;
+    --color-bg-card: #e9e9e3;
+    --color-bg-raised: #ffffff;
+    --color-text-main: #0b0c0e;
+    --color-text-muted: #545963;
+    --color-border: #d9d9d2;
+    --color-accent-base: #0b7a5e;
+    --color-accent-ink-base: #ffffff;
+    --color-accent-soft-base: #d7ece4;
+    /* the inverse field: a section set in the opposite colours */
+    --color-field: #0b0c0e;
+    --color-field-ink: #ecedf0;
+    --color-field-muted: #a3a8b3;
 }
 
 html[data-theme="dark"] {
-    /* Dark Mode Palette: Electric Blue for high visibility */
-    --color-bg-canvas: #09090b;
-    --color-bg-card: #121216;
-    --color-text-main: #fafafa;
-    --color-text-muted: #a1a1aa;
-    --color-border: #27272a;
+    color-scheme: dark;
+    --color-bg-canvas: #0a0b0d;
+    --color-bg-card: #131519;
+    --color-bg-raised: #1a1d22;
+    --color-text-main: #ecedf0;
+    --color-text-muted: #a3a8b3;
+    --color-border: #262a31;
+    --color-accent-base: #3ccaa0;
+    --color-accent-ink-base: #04150f;
+    --color-accent-soft-base: #10302a;
+    --color-field: #ecebe5;
+    --color-field-ink: #0b0c0e;
+    --color-field-muted: #545963;
+}
 
-    --color-accent: oklch(0.65 0.24 264);
-    --color-accent-soft: oklch(0.18 0.04 264);
+@theme inline {
+    --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace; /* taste-skill-ignore: used only for real code */
 
-    --color-secondary: oklch(0.70 0.19 170);
-    --color-secondary-soft: oklch(0.22 0.08 170);
+    --color-canvas: var(--color-bg-canvas);
+    --color-card: var(--color-bg-card);
+    --color-raised: var(--color-bg-raised);
+    --color-main: var(--color-text-main);
+    --color-muted: var(--color-text-muted);
+    --color-layout: var(--color-border);
+    --color-accent: var(--color-accent-base);
+    --color-accent-ink: var(--color-accent-ink-base);
+    --color-accent-soft: var(--color-accent-soft-base);
+    --color-field: var(--color-field);
+    --color-field-ink: var(--color-field-ink);
+    --color-field-muted: var(--color-field-muted);
 
-    --color-tertiary: oklch(0.65 0.18 300);
-    --color-tertiary-soft: oklch(0.25 0.06 300);
+    /* Kept for the résumé and older pages; mapped onto the one palette. */
+    --color-secondary: var(--color-accent-base);
+    --color-secondary-soft: var(--color-accent-soft-base);
+    --color-tertiary: var(--color-text-main);
+    --color-tertiary-soft: var(--color-bg-card);
+    --color-systems: var(--color-text-main);
+    --color-ai: var(--color-text-main);
+    --color-web: var(--color-text-main);
 
-    --color-systems: #60a5fa;
-    --color-ai: #c084fc;
-    --color-web: #34d399;
+    /* Type steps: four sizes do the work, plus the display size. */
+    --text-small: 0.875rem;
+    --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    --text-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    --text-head: clamp(2.5rem, 1.2rem + 5vw, 5.5rem);
+    --text-display: clamp(3.5rem, 1.2rem + 6.6vw, 6.5rem);
+
+    --ease-out-strong: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
-    * {
-        @apply border-layout;
+    html {
+        scroll-behavior: smooth;
+        background: var(--color-bg-canvas);
     }
 
     body {
-        @apply bg-canvas text-main antialiased;
-        /* Prevents layout shift when content height changes */
+        margin: 0;
+        background: var(--color-bg-canvas);
+        color: var(--color-text-main);
+        font-family: var(--font-sans);
+        font-size: var(--text-body);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
         scrollbar-gutter: stable;
+        font-feature-settings: "ss01";
     }
 
-    /* Smooth scrolling for the whole page */
-    html {
-        scroll-behavior: smooth;
+    h1, h2, h3 {
+        text-wrap: balance;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    ::selection {
+        background: var(--color-accent-base);
+        color: var(--color-accent-ink-base);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-accent-base);
+        outline-offset: 3px;
+    }
+
+    * {
+        border-color: var(--color-border);
     }
 }
 
+/* Smooth colour change when switching theme. */
+.theme-transition * {
+    transition-property: background-color, border-color, color, fill;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+}
+.no-theme-transition * {
+    transition: none !important;
+}
+
+@utility transition-theme {
+    transition-property: background-color, border-color, color;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+}
+
+/* Masked line reveal: each headline line rises from behind its own baseline. */
+.mask-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+}
+.mask-line > span {
+    display: block;
+    animation: rise-line 900ms var(--ease-out-strong) both;
+    animation-delay: var(--line-delay, 0ms);
+}
+@keyframes rise-line {
+    from { transform: translateY(105%); }
+    to { transform: none; }
+}
+
+.fade-up {
+    animation: fade-up 700ms var(--ease-out-strong) both;
+    animation-delay: var(--fade-delay, 0ms);
+}
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* Legacy <Reveal>: content is visible without script; it only animates in. */
+.reveal {
+    transition: opacity 600ms var(--ease-out-strong), transform 600ms var(--ease-out-strong);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal:not(.revealVisible) {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+/* A slot that just changed hands in the solver playground. */
+@keyframes slot-flash {
+    from { background-color: var(--color-accent-soft-base); }
+    to { background-color: transparent; }
+}
+.slot-flash {
+    animation: slot-flash 1100ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 1ms !important;
+        scroll-behavior: auto !important;
+    }
+    .reveal:not(.revealVisible) {
+        opacity: 1;
+        transform: none;
+    }
+}

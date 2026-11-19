@@ -3,8 +3,21 @@ export type ProjectLink = {
     url: string;
 }
 
+export type CaseStudy = {
+    /** route of the full case study */
+    path: string;
+    /** one-sentence summary for the case-study band */
+    summary: string;
+    cover: { src: string; alt: string; width: number; height: number };
+    facts: { label: string; value: string }[];
+};
+
 export type Project = {
     id: string;
+    /** short name used in the running list of work */
+    short?: string;
+    year?: string;
+    caseStudy?: CaseStudy;
     title: string;
     pitch: string;
     highlights: string[];
@@ -18,6 +31,7 @@ export type Project = {
 export const projects: Project[] = [
     {
         id: "shell-project",
+        short: "Unix shell in C",
         category: "systems",
         title: "Custom Unix Shell (LSH)",
         pitch: "A Unix command-line shell written from scratch in C, implementing the classic read-parse-execute loop with process forking, built-in commands, and a rolling command history.",
@@ -34,13 +48,14 @@ export const projects: Project[] = [
     },
     {
         id: "bulletin-board",
+        short: "TCP bulletin board",
         category: "systems",
         title: "TCP Bulletin Board Server",
         pitch: "A concurrent, multi-client network bulletin board service implemented from scratch using TCP sockets, featuring a custom protocol, select()-based I/O multiplexing, and server-side authentication.",
         highlights: [
             "Designed a custom text-based protocol with newline-terminated commands and count-framed multi-line responses for deterministic parsing",
             "Implemented a single-threaded event loop using select() to safely manage concurrent client sessions without requiring explicit locks",
-            "Engineered a robust server-side security model enforcing role-based authorization (User/Admin) and authenticated post management",
+            "Engineered a server-side security model enforcing role-based authorization (User/Admin) and authenticated post management",
             "Added defensive input handling, including partial TCP send buffering, malformed input rejection, and anti-memory-exhaustion line length limits"
         ],
         tech: ["Python", "TCP", "Sockets", "Concurrency", "Systems Programming", "Networking", "Event Loops"],
@@ -50,6 +65,7 @@ export const projects: Project[] = [
     },
     {
         id: "price-prediction",
+        short: "Computer price prediction",
         category: "ai",
         title: "Computer Price Prediction",
         pitch: "A machine learning project for CSCI 6364 that explores predicting consumer computer prices using feedforward neural networks. The study emphasizes feature engineering and compares model performance against classical linear regression baselines.",
@@ -66,6 +82,8 @@ export const projects: Project[] = [
     },
     {
         id: "formality-bias-nlu",
+        short: "Formality bias in LLMs",
+        year: "2026",
         category: "ai",
         title: "Formality Bias in Large Language Models",
         pitch: "A natural language understanding research project investigating whether large language models systematically favor overly formal language compared to human conversational corpora, using both lexicon-based and neural formality metrics.",
@@ -83,31 +101,56 @@ export const projects: Project[] = [
             { label: "Website", url: "/projects/formality" },
             { label: "GitHub", url: "https://github.com/OliverKris/formal-language-bias-llms" },
         ],
-        featured: true,
-        order: 1,
-    },
-    {
-        id: "easysched-reworked",
-        category: "web",
-        title: "EasySched — TA/LA Scheduling Engine",
-        pitch: "A full-stack scheduling app that automatically assigns university Learning Assistants and TAs to course sections using a from-scratch constraint-satisfaction solver, with admin overrides for the edge cases.",
-        highlights: [
-            "Modeled section staffing as a Constraint Satisfaction Problem and implemented a backtracking solver from scratch, using MRV variable ordering and best-first branch-and-bound to keep the search fast",
-            "Separated hard eligibility constraints (GPA floors, scheduling conflicts) from soft fit-scoring behind a pluggable scoring interface",
-            "Built a REST API in FastAPI with SQLAlchemy/SQLite persistence and Pydantic validation",
-            "Built a typed React + TypeScript frontend with a drag-and-drop assignment board (@dnd-kit) that stays in sync with backend state",
-            "Designed isolated, independently-seeded 'workspaces' per dataset and added admin lock/block overrides"
-        ],
-        tech: ["Python", "FastAPI", "SQLAlchemy", "Pydantic", "React", "TypeScript", "Tailwind CSS", "pytest", "REST API", "Constraint Programming"],
-        links : [
-            { label: "Original Capstone", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" },
-            { label: "GitHub", url: "https://github.com/OliverKris/easy-sched-reworked" },
-        ],
+        caseStudy: {
+            path: "/projects/formality",
+            summary: "Research across six model families: LLM replies are measurably more formal than human conversation, on a lexicon metric and a fine-tuned RoBERTa classifier alike, and LoRA can pull them back.",
+            cover: { src: "/media/formality/results.webp", alt: "Mean formality rate by corpus: LLM responses far above Reddit, ELI5 and BlendedSkillTalk", width: 1100, height: 755 },
+            facts: [
+                { label: "Conversations", value: "1M+" },
+                { label: "Model families", value: "6" },
+                { label: "Metrics", value: "2" },
+            ],
+        },
         featured: true,
         order: 2,
     },
     {
+        id: "easysched-reworked",
+        short: "Easy-Sched",
+        year: "2024–26",
+        category: "web",
+        title: "Easy-Sched — optimal TA assignment",
+        pitch: "A full-stack platform that assigns learning assistants and TAs to course sections. It finds the provably best schedule with max-weight bipartite matching, explains every placement, and lets coordinators lock, adjust and export.",
+        highlights: [
+            "Replaced a hand-written backtracking solver with max-weight bipartite matching (SciPy): optimal on every benchmark, 1.2 ms on 100 applicants and 136 slots where the old search stopped at its node budget up to 13% short",
+            "Designed a rule compiler that turns a department profile in JSON (hard rules and weighted scoring terms) into eligibility checks and scoring functions, so the solver holds no department-specific logic",
+            "Every slot explains itself: score breakdown by rule, next-best alternatives, and the first rule that excluded each ineligible applicant",
+            "Per-browser workspaces with CSV import (dry-run preview, row-level errors), in-app editing, locks and blocks with undo, and finalize-and-export",
+            "188 pytest tests with golden regression results and a benchmark harness; CI lints, tests and builds a Docker image; deployed on Render as one service"
+        ],
+        tech: ["Python", "FastAPI", "SciPy", "SQLAlchemy", "Pydantic", "React", "TypeScript", "TanStack Query", "Tailwind CSS", "pytest", "Docker", "GitHub Actions"],
+        links : [
+            { label: "Live demo", url: "https://easy-sched.onrender.com" },
+            { label: "Case study", url: "/projects/easy-sched" },
+            { label: "GitHub", url: "https://github.com/OliverKris/easy-sched-reworked" },
+            { label: "Original capstone", url: "https://gw-cs-sd-24-25.github.io/sd-cow/" },
+        ],
+        caseStudy: {
+            path: "/projects/easy-sched",
+            summary: "Assigns learning assistants and TAs to course sections, finds the provably best schedule in about a millisecond, and explains every placement.",
+            cover: { src: "/media/easy-sched/board-dark.webp", alt: "Easy-Sched's assignments board: courses, filled and empty slots, and the reasons panel", width: 1800, height: 1125 },
+            facts: [
+                { label: "Solve time", value: "1.2 ms" },
+                { label: "Tests", value: "188" },
+                { label: "Of the best", value: "100%" },
+            ],
+        },
+        featured: true,
+        order: 1,
+    },
+    {
         id: "portfolio",
+        short: "This website",
         category: "web",
         title: "Personal Portfolio Website",
         pitch: "A responsive, data-driven personal portfolio website designed to showcase projects, skills, and experience with a modular component architecture and theme support.",
@@ -123,6 +166,7 @@ export const projects: Project[] = [
     },
     {
         id: "java-architecture-sim",
+        short: "16-bit architecture simulator",
         category: "systems",
         title: "Java Computer Architecture Simulator",
         pitch: "A Java-based simulator for a custom 16-bit instruction-set computer, featuring an assembler, multi-stage CPU cycle simulation, and a GUI operator's console.",
@@ -139,6 +183,7 @@ export const projects: Project[] = [
     },
     {
         id: "ttr-ai",
+        short: "Ticket to Ride AI",
         category: "ai",
         title: "Ticket to Ride AI",
         pitch: "A stochastic, partially observable decision-making agent for the game 'Ticket to Ride,' utilizing Monte Carlo Tree Search (MCTS) to navigate massive branching factors and uncertain game states.",
