@@ -69,9 +69,9 @@ export default function Nav() {
                         href={RESUME_PDF}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center h-11 px-4 md:px-5 rounded-full bg-accent text-accent-ink text-[15px] font-medium no-underline transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]"
+                        className="inline-flex items-center whitespace-nowrap h-11 px-4 md:px-5 rounded-full bg-accent text-accent-ink text-[15px] font-medium no-underline transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]"
                     >
-                        <span className="hidden md:inline">Résumé PDF</span><span className="md:hidden">PDF</span>
+                        Résumé PDF
                     </a>
                 </div>
             </div>

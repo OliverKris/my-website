@@ -16,7 +16,7 @@ export function Rise({ children, className = "", delay = 0, as = "div" }: {
             className={className}
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+            viewport={{ once: true, amount: 0.01 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: delay / 1000 }}
         >
             {children}
