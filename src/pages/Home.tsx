@@ -100,6 +100,17 @@ export default function Home() {
                         <figcaption className="mt-3 text-[15px] text-muted">Spreadsheets are checked row by row before anything is saved.</figcaption>
                     </Rise>
                 </div>
+                {/* Easy-Sched's solver, live in the browser: part of the same story */}
+                <div className={`${frame} pt-[clamp(72px,9vw,140px)]`}>
+                    <Rise><SolverPlayground headingLevel="h3" /></Rise>
+                    <Rise delay={120} className="mt-8 max-w-[62ch]">
+                        <p className="m-0 text-[length:var(--text-body)] leading-[1.6]">
+                            That is Easy-Sched’s solver, running in your browser on a term from its benchmark harness: 20 applicants,
+                            22 slots, the same max-weight matching the app runs on its server. Type a course, a person or a role, then
+                            drag a weight: the whole term is re-decided, and every slot that changes hands lights up.
+                        </p>
+                    </Rise>
+                </div>
             </section>
 
             {/* ---------- Formality: research, set on a tone-step field ---------- */}
@@ -136,18 +147,6 @@ export default function Home() {
                         </div>
                     </Rise>
                 </div>
-            </section>
-
-            {/* ---------- The live thing: Easy-Sched's solver, in the browser ---------- */}
-            <section className={`${frame} pt-[clamp(80px,12vw,200px)]`}>
-                <Rise><SolverPlayground /></Rise>
-                <Rise delay={120} className="mt-8 max-w-[62ch]">
-                    <p className="m-0 text-[length:var(--text-body)] leading-[1.6]">
-                        A term from Easy-Sched’s benchmark harness, 20 applicants and 22 slots, solved in your browser by the same
-                        max-weight matching the app runs on its server. Type a course, a person or a role, then drag a weight: the whole
-                        term is re-decided, and every slot that changes hands lights up.
-                    </p>
-                </Rise>
             </section>
 
             {/* ---------- All the work, as one running paragraph of names ---------- */}
@@ -226,8 +225,8 @@ export default function Home() {
                     <Rise><p className="m-0 text-[clamp(18px,1.6vw,22px)] max-w-[30ch] leading-[1.4]">Hiring for a software engineering role, or curious about the work? I’d like to hear from you.</p></Rise>
                     <Rise delay={90}>
                         <h2 id="contact-title" className="m-0">
-                            <Link to="/contact" className="group inline-flex items-baseline gap-[0.2em] text-accent-ink no-underline text-[clamp(64px,13vw,220px)] font-semibold leading-[0.9] tracking-[-0.055em]">
-                                Let’s talk<span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-[0.12em]">→</span>
+                            <Link to="/contact" className="group inline-flex items-baseline gap-[0.2em] text-accent-ink transition-opacity active:opacity-80 no-underline text-[clamp(64px,13vw,220px)] font-semibold leading-[0.9] tracking-[-0.055em]">
+                                Let’s talk<span aria-hidden="true" className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-[0.2em] group-focus-visible:translate-x-[0.2em]">→</span>
                             </Link>
                         </h2>
                     </Rise>

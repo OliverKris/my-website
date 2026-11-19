@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { frame } from "./Rise";
@@ -19,9 +19,18 @@ export default function Nav() {
     const [openOn, setOpenOn] = useState<string | null>(null);
     const open = openOn === pathname;
 
+    // Pinned to the top; once the page scrolls it gets shorter and takes a tone step.
+    const [scrolled, setScrolled] = useState(false);
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
     return (
-        <header className="relative z-40">
-            <div className={`${frame} flex items-center h-20 md:h-24`}>
+        <header className={`sticky top-0 z-50 transition-[background-color] duration-300 ${scrolled || open ? "bg-card" : "bg-canvas"}`}>
+            <div className={`${frame} relative flex items-center transition-[height] duration-300 ${scrolled ? "h-16" : "h-20 md:h-24"}`}>
                 <Link to="/" className="text-[17px] font-semibold tracking-[-0.01em] text-main no-underline hover:text-accent transition-colors">
                     Oliver Krisetya
                 </Link>
