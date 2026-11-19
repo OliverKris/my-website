@@ -151,32 +151,24 @@ export default function EasySchedCaseStudy() {
                     </Rise>
                 </div>
 
-                <Rise delay={120} className="mt-10">
-                    <ul className="md:hidden list-none m-0 p-0 flex flex-col gap-4 text-[15px] tabular-nums">
+                <Rise delay={120} className="mt-10 w-full">
+                    <p className="m-0 pb-3 text-[15px] text-muted">Median search time on generated terms (benchmark harness in the repo, seed 3)</p>
+                    <div className="w-full tabular-nums" role="table" aria-label="Benchmark results">
+                        <div role="row" className="hidden md:grid grid-cols-6 gap-x-4 pb-2 text-[15px] text-muted">
+                            <span role="columnheader">Term</span><span role="columnheader">Applicants</span><span role="columnheader">Slots</span>
+                            <span role="columnheader">Matching</span><span role="columnheader">Backtracking</span><span role="columnheader">Short of best</span>
+                        </div>
                         {BENCH.map((b) => (
-                            <li key={b.size} className="flex flex-col gap-1">
-                                <span className="font-semibold">{b.size} term: {b.apps} applicants, {b.slots} slots</span>
-                                <span>Matching <strong className="text-accent">{b.match}</strong> · backtracking {b.csp}, {b.gap} short of best</span>
-                            </li>
+                            <div key={b.size} role="row" className="grid grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-1 py-3 border-t border-layout text-[15px]">
+                                <span role="rowheader" className="font-semibold col-span-3 md:col-span-1">{b.size}<span className="md:hidden font-normal text-muted"> · {b.apps} applicants, {b.slots} slots</span></span>
+                                <span role="cell" className="hidden md:block">{b.apps}</span>
+                                <span role="cell" className="hidden md:block">{b.slots}</span>
+                                <span role="cell"><span className="md:hidden text-muted">Matching </span><strong className="text-accent">{b.match}</strong></span>
+                                <span role="cell"><span className="md:hidden text-muted">Backtracking </span>{b.csp}</span>
+                                <span role="cell"><span className="md:hidden text-muted">Short </span>{b.gap}</span>
+                            </div>
                         ))}
-                    </ul>
-                    <table className="hidden md:table w-full border-collapse text-[15px] tabular-nums">
-                        <caption className="text-left text-[15px] text-muted pb-3">Median search time on generated terms (benchmark harness in the repo, seed 3)</caption>
-                        <thead>
-                            <tr className="text-left text-muted">
-                                <th className="font-normal py-2 pr-4">Term</th><th className="font-normal py-2 pr-4">Applicants</th><th className="font-normal py-2 pr-4">Slots</th>
-                                <th className="font-normal py-2 pr-4">Matching</th><th className="font-normal py-2 pr-4">Backtracking</th><th className="font-normal py-2">Backtracking short of best</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {BENCH.map((b) => (
-                                <tr key={b.size} /* taste-skill-ignore: rows of a real data table */ className="border-t">
-                                    <td className="py-3 pr-4">{b.size}</td><td className="py-3 pr-4">{b.apps}</td><td className="py-3 pr-4">{b.slots}</td>
-                                    <td className="py-3 pr-4 font-semibold text-accent">{b.match}</td><td className="py-3 pr-4">{b.csp}</td><td className="py-3">{b.gap}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    </div>
                 </Rise>
             </section>
 
@@ -264,32 +256,20 @@ export default function EasySchedCaseStudy() {
             {/* ---------- Stack ---------- */}
             <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="stack">
                 <SectionHead id="stack" title="What it is made of" />
-                <Rise delay={90} className="mt-10">
-                    <dl className="md:hidden m-0 flex flex-col gap-6">
+                <Rise delay={90} className="mt-10 w-full">
+                    <div className="w-full" role="table" aria-label="What Easy-Sched is made of">
+                        <div role="row" className="hidden md:grid grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,6fr)] gap-x-8 pb-3 text-[15px] text-muted">
+                            <span role="columnheader">Layer</span><span role="columnheader">Tools</span><span role="columnheader">What it does here</span>
+                        </div>
                         {STACK.map((r) => (
-                            <div key={r.layer} className="flex flex-col gap-1">
-                                <dt className="font-semibold">{r.layer}</dt>
-                                <dd className="m-0">{r.tools}</dd>
-                                <dd className="m-0 text-muted text-[15px]">{r.role}</dd>
+                            <div key={r.layer} role="row"
+                                className="w-full grid grid-cols-1 md:grid-cols-[minmax(0,2fr)_minmax(0,5fr)_minmax(0,6fr)] gap-x-8 gap-y-1 py-5 border-t border-layout">
+                                <span role="rowheader" className="text-[17px] font-semibold">{r.layer}</span>
+                                <span role="cell" className="text-[16px]">{r.tools}</span>
+                                <span role="cell" className="text-[16px] text-muted">{r.role}</span>
                             </div>
                         ))}
-                    </dl>
-                    <table className="hidden md:table w-full border-collapse text-[16px]">
-                        <thead>
-                            <tr className="text-left text-[15px] text-muted">
-                                <th className="font-normal py-2 pr-6 w-[14%]">Layer</th><th className="font-normal py-2 pr-6 w-[40%]">Tools</th><th className="font-normal py-2">What it does here</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {STACK.map((r) => (
-                                <tr key={r.layer} /* taste-skill-ignore: rows of a real data table */ className="border-t align-top">
-                                    <td className="py-4 pr-6 font-semibold">{r.layer}</td>
-                                    <td className="py-4 pr-6">{r.tools}</td>
-                                    <td className="py-4 text-muted">{r.role}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    </div>
                 </Rise>
             </section>
 
