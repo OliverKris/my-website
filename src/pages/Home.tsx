@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { projects, type Project } from "../data/projects";
 import { experience } from "../data/experience";
 import { frame, Rise } from "../components/site/Rise";
-import { LoopVideo, ThemedShot } from "../components/site/Media";
+import { LoopVideo, Shot, ThemedImg, ThemedShot } from "../components/site/Media";
 
 const easySched = projects.find((p) => p.id === "easysched-reworked")!;
 const formality = projects.find((p) => p.id === "formality-bias-nlu")!;
@@ -11,7 +11,7 @@ const formality = projects.find((p) => p.id === "formality-bias-nlu")!;
 /* Inline frames after a name in the running list of work. */
 const FRAMES: Record<string, string> = {
     "easysched-reworked": "/media/easy-sched/board-dark.webp",
-    "formality-bias-nlu": "/media/formality/families.webp",
+    "formality-bias-nlu": "/media/formality/corpora-dark.webp",
 };
 
 function projectHref(p: Project) {
@@ -77,26 +77,26 @@ export default function Home() {
                     </Rise>
                 </div>
                 <Rise className={`${frame} mt-12`} delay={150}>
-                    <div className="rounded-2xl overflow-hidden bg-card">
+                    <Shot ratio={1.6}>
                         <LoopVideo
                             src="/media/easy-sched/demo.mp4"
                             poster="/media/easy-sched/demo-poster.webp"
                             label="Easy-Sched walkthrough: loading the sample term, seeing why each person was placed, locking a placement, re-solving, searching, finalizing and uploading a spreadsheet"
                         />
-                    </div>
+                    </Shot>
                 </Rise>
                 <div className={`${frame} mt-6 grid gap-6 md:grid-cols-12 items-start`}>
                     <Rise as="figure" className="m-0 md:col-span-5">
-                        <div className="rounded-2xl overflow-hidden bg-card">
+                        <Shot ratio={760 / 845} fit={0.7}>
                             <ThemedShot name="panel" alt="The reasons panel: a slot's fit score broken down by rule, and who else could take it" width={760} height={845} />
-                        </div>
-                        <figcaption className="mt-3 text-[15px] text-muted">Every placement explains itself, rule by rule.</figcaption>
+                        </Shot>
+                        <figcaption className="mt-3 text-[15px] text-muted text-center">Every placement explains itself, rule by rule.</figcaption>
                     </Rise>
                     <Rise as="figure" className="m-0 md:col-span-7" delay={90}>
-                        <div className="rounded-2xl overflow-hidden bg-card">
+                        <Shot ratio={1.6}>
                             <ThemedShot name="upload" alt="CSV upload screen with a template link, the accepted columns and a preview step" width={1400} height={875} />
-                        </div>
-                        <figcaption className="mt-3 text-[15px] text-muted">Spreadsheets are checked row by row before anything is saved.</figcaption>
+                        </Shot>
+                        <figcaption className="mt-3 text-[15px] text-muted text-center">Spreadsheets are checked row by row before anything is saved.</figcaption>
                     </Rise>
                 </div>
                 <Rise className={`${frame} mt-14 grid gap-10 md:grid-cols-3`} delay={120}>
@@ -116,15 +116,13 @@ export default function Home() {
             {/* ---------- Formality: research, set on a tone-step field ---------- */}
             <section className="mt-[clamp(80px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" aria-labelledby="formality-title">
                 <div className={`${frame} grid gap-12 lg:grid-cols-12 items-center`}>
-                    <Rise as="figure" className="lg:col-span-7 m-0">
-                        <img
-                            src={formality.caseStudy!.cover.src}
-                            alt={formality.caseStudy!.cover.alt}
-                            width={formality.caseStudy!.cover.width}
-                            height={formality.caseStudy!.cover.height}
-                            loading="lazy"
-                            className="block w-full h-auto rounded-2xl"
-                        />
+                    <Rise as="figure" className="lg:col-span-7 m-0 flex flex-col gap-4">
+                        <Shot ratio={1400 / 254} fit={1}>
+                            <ThemedImg src="/media/formality/demo-{theme}.webp" alt="An assistant reply with its formal words struck through and replaced by plain ones: elucidate becomes explain, commence becomes start, delve into becomes get into" width={1400} height={254} />
+                        </Shot>
+                        <Shot ratio={1100 / 415} fit={1}>
+                            <ThemedImg src={formality.caseStudy!.cover.src} alt={formality.caseStudy!.cover.alt} width={1100} height={415} />
+                        </Shot>
                     </Rise>
                     <Rise className="lg:col-span-5 flex flex-col gap-6" delay={90}>
                         <h2 id="formality-title" className="m-0 text-[clamp(36px,4.2vw,64px)] font-semibold leading-[1] tracking-[-0.04em]">Why does AI sound so formal?</h2>

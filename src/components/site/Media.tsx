@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 function useIsDark() {
     const [dark, setDark] = useState(() => document.documentElement.getAttribute("data-theme") === "dark");
@@ -10,14 +10,44 @@ function useIsDark() {
     return dark;
 }
 
+/**
+ * The frame every screenshot and film sits in: a raised bezel with a quiet
+ * border, sized so the whole picture fits on one screen (below the nav).
+ * `ratio` is the picture's width / height.
+ */
+export function Shot({ ratio, children, className = "", fit = 0.82 }: {
+    ratio: number; children: ReactNode; className?: string; fit?: number;
+}) {
+    return (
+        <div
+            data-ui
+            className={`mx-auto w-full rounded-2xl border border-layout bg-raised p-1.5 md:p-2 ${className}`}
+            style={{ maxWidth: `calc(${fit * 100}svh * ${ratio} - 6rem * ${ratio})` }}
+        >
+            <div className="rounded-xl overflow-hidden bg-card">{children}</div>
+        </div>
+    );
+}
+
+/** An image whose src contains "{theme}", swapped for "light" or "dark" to match the site. */
+export function ThemedImg({ src, alt, width, height, className = "", eager = false }: {
+    src: string; alt: string; width: number; height: number; className?: string; eager?: boolean;
+}) {
+    const dark = useIsDark();
+    return (
+        <img src={src.replace("{theme}", dark ? "dark" : "light")} alt={alt} width={width} height={height}
+            loading={eager ? "eager" : "lazy"} decoding="async" className={`block w-full h-auto ${className}`} />
+    );
+}
+
 /** A screenshot that follows the site theme: the app's light UI on the light site, dark on dark. */
-export function ThemedShot({ name, alt, width, height, className = "", eager = false }: {
-    name: string; alt: string; width: number; height: number; className?: string; eager?: boolean;
+export function ThemedShot({ name, alt, width, height, className = "", eager = false, dir = "easy-sched" }: {
+    name: string; alt: string; width: number; height: number; className?: string; eager?: boolean; dir?: string;
 }) {
     const dark = useIsDark();
     return (
         <img
-            src={`/media/easy-sched/${name}-${dark ? "dark" : "light"}.webp`}
+            src={`/media/${dir}/${name}-${dark ? "dark" : "light"}.webp`}
             alt={alt}
             width={width}
             height={height}

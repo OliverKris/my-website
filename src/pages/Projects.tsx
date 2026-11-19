@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { projects, type Project } from "../data/projects";
 import { frame, Rise } from "../components/site/Rise";
-import { LoopVideo } from "../components/site/Media";
+import { LoopVideo, ThemedImg } from "../components/site/Media";
 
 /* Two supporting pictures under each case study's cover. */
 const EXTRA: Record<string, { src: string; alt: string }[]> = {
     "easysched-reworked": [
-        { src: "/media/easy-sched/board-dark.webp", alt: "The assignments board with a slot's reasons open" },
-        { src: "/media/easy-sched/upload-dark.webp", alt: "CSV upload with a template and dry-run preview" },
+        { src: "/media/easy-sched/board-{theme}.webp", alt: "The assignments board with a slot's reasons open" },
+        { src: "/media/easy-sched/upload-{theme}.webp", alt: "CSV upload with a template and dry-run preview" },
     ],
     "formality-bias-nlu": [
-        { src: "/media/formality/families.webp", alt: "Formality probability by model family: every family above the human baseline" },
-        { src: "/media/formality/metrics.webp", alt: "Interactive slider comparing the formality rate and RoBERTa metrics" },
+        { src: "/media/formality/families-{theme}.webp", alt: "RoBERTa P(formal) by model family, every family above the 0.51 human baseline" },
+        { src: "/media/formality/demo-{theme}.webp", alt: "An assistant reply with formal words swapped for plain ones" },
     ],
 };
 
@@ -109,18 +109,18 @@ export default function Projects() {
                     return (
                         <article key={p.id} className="grid gap-10 lg:grid-cols-12 items-center">
                             <Rise as="figure" className={`m-0 lg:col-span-7 grid grid-cols-2 gap-4 ${i % 2 ? "lg:order-2" : ""}`}>
-                                <Link to={cs.path} className="group col-span-2 block rounded-2xl overflow-hidden bg-card" aria-label={`${p.short} case study`}>
+                                <Link to={cs.path} className="group col-span-2 block rounded-2xl border border-layout bg-raised p-1.5 md:p-2" aria-label={`${p.short} case study`} data-ui><span className="block rounded-xl overflow-hidden bg-card">
                                     {p.id === "easysched-reworked" ? (
                                         <LoopVideo src="/media/easy-sched/demo.mp4" poster="/media/easy-sched/demo-poster.webp" label="Easy-Sched in use" />
                                     ) : (
-                                        <img src={cs.cover.src} alt={cs.cover.alt} width={cs.cover.width} height={cs.cover.height} loading={i ? "lazy" : "eager"}
-                                            className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+                                        <ThemedImg src={cs.cover.src} alt={cs.cover.alt} width={cs.cover.width} height={cs.cover.height} eager={i === 0}
+                                            className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
                                     )}
-                                </Link>
+                                </span></Link>
                                 {(EXTRA[p.id] ?? []).map((x) => (
-                                    <div key={x.src} className="rounded-xl overflow-hidden bg-card aspect-[16/10]">
-                                        <img src={x.src} alt={x.alt} width={800} height={500} loading="lazy" className="block w-full h-full object-cover object-left-top" />
-                                    </div>
+                                    <div key={x.src} data-ui className="rounded-xl border border-layout bg-raised p-1 aspect-[16/10]"><div className="rounded-lg overflow-hidden bg-card h-full">
+                                        <ThemedImg src={x.src} alt={x.alt} width={800} height={500} className="h-full! object-cover object-left-top" />
+                                    </div></div>
                                 ))}
                             </Rise>
                             <Rise delay={90} className={`lg:col-span-5 flex flex-col gap-6 ${i % 2 ? "lg:order-1" : ""}`}>

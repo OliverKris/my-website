@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { frame, Rise } from "../../../components/site/Rise";
-import { LoopVideo, ThemedShot } from "../../../components/site/Media";
+import { LoopVideo, Shot, ThemedShot } from "../../../components/site/Media";
 import { SolverPlayground } from "../../../components/easysched/SolverPlayground";
 import { ArchitectureDiagram } from "../../../components/easysched/ArchitectureDiagram";
 
@@ -91,13 +91,13 @@ export default function EasySchedCaseStudy() {
             </header>
 
             <Rise className={`${frame} mt-14`} delay={200}>
-                <div className="rounded-2xl overflow-hidden bg-card">
+                <Shot ratio={1.6}>
                     <LoopVideo
                         src="/media/easy-sched/demo.mp4"
                         poster="/media/easy-sched/demo-poster.webp"
                         label="Easy-Sched walkthrough with captions: loading the sample term, seeing why each person was placed, locking, re-solving, searching, finalizing and uploading a spreadsheet"
                     />
-                </div>
+                </Shot>
             </Rise>
 
             {/* ---------- Why ---------- */}
@@ -117,9 +117,9 @@ export default function EasySchedCaseStudy() {
                     </SectionHead>
                 </div>
                 <Rise as="figure" delay={120} className="lg:col-span-5 m-0 self-end">
-                    <div className="rounded-2xl overflow-hidden bg-card">
+                    <Shot ratio={760 / 845} fit={0.72}>
                         <ThemedShot name="panel" alt="The reasons panel for one slot: fit score, the score broken down by rule, and who else could take it" width={760} height={845} />
-                    </div>
+                    </Shot>
                     <figcaption className="mt-3 text-[15px] text-muted">The reasons panel: why this person, by how much, and who else could have taken the slot.</figcaption>
                 </Rise>
             </section>
@@ -253,10 +253,10 @@ export default function EasySchedCaseStudy() {
                 </Rise>
                 <Rise delay={150} className="mt-6">
                     <figure id="screen-panel" role="tabpanel" className="m-0">
-                        <div key={current.id} className="rounded-2xl overflow-hidden bg-card fade-up">
+                        <Shot ratio={1.6} className="fade-up" key={current.id}>
                             <ThemedShot name={current.id} alt={current.alt} width={current.id === "board" ? 1800 : 1400} height={current.id === "board" ? 1125 : 875} />
-                        </div>
-                        <figcaption className="mt-3 text-[15px] text-muted max-w-[70ch]">{current.caption}</figcaption>
+                        </Shot>
+                        <figcaption className="mt-3 text-[15px] text-muted max-w-[70ch] mx-auto text-center">{current.caption}</figcaption>
                     </figure>
                 </Rise>
             </section>

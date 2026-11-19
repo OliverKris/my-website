@@ -104,7 +104,7 @@ export const projects: Project[] = [
         caseStudy: {
             path: "/projects/formality",
             summary: "Research across six model families: LLM replies are measurably more formal than human conversation, on a lexicon metric and a fine-tuned RoBERTa classifier alike, and LoRA can pull them back.",
-            cover: { src: "/media/formality/results.webp", alt: "Mean formality rate by corpus: LLM responses far above Reddit, ELI5 and BlendedSkillTalk", width: 1100, height: 755 },
+            cover: { src: "/media/formality/corpora-{theme}.webp", alt: "Mean Formality Rate by corpus: LLM responses at 7.62, far above ELI5, Reddit and BlendedSkillTalk", width: 1100, height: 415 },
             facts: [
                 { label: "Conversations", value: "1M+" },
                 { label: "Model families", value: "6" },
@@ -138,7 +138,7 @@ export const projects: Project[] = [
         caseStudy: {
             path: "/projects/easy-sched",
             summary: "Assigns learning assistants and TAs to course sections, finds the provably best schedule in about a millisecond, and explains every placement.",
-            cover: { src: "/media/easy-sched/board-dark.webp", alt: "Easy-Sched's assignments board: courses, filled and empty slots, and the reasons panel", width: 1800, height: 1125 },
+            cover: { src: "/media/easy-sched/board-{theme}.webp", alt: "Easy-Sched's assignments board: courses, filled and empty slots, and the reasons panel", width: 1800, height: 1125 },
             facts: [
                 { label: "Solve time", value: "1.2 ms" },
                 { label: "Tests", value: "188" },

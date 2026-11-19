@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { frame } from "./Rise";
 
@@ -11,13 +11,13 @@ const LINKS = [
 
 export const RESUME_PDF = "/resume-jul-2026.pdf";
 
-/** Wordmark at the left margin, links on the page's 42% axis, one action at the right. */
+/**
+ * Wordmark, the three links, and the actions. The links are always rendered:
+ * on wide screens they sit on the page's 42% axis, on narrower ones next to
+ * the wordmark, and on phones they wrap to a second row. Nothing hides them.
+ */
 export default function Nav() {
     const { theme, toggle } = useTheme();
-    const { pathname } = useLocation();
-    // The menu belongs to the page it was opened on, so navigating closes it.
-    const [openOn, setOpenOn] = useState<string | null>(null);
-    const open = openOn === pathname;
 
     // Pinned to the top; once the page scrolls it gets shorter and takes a tone step.
     const [scrolled, setScrolled] = useState(false);
@@ -29,19 +29,22 @@ export default function Nav() {
     }, []);
 
     return (
-        <header className={`sticky top-0 z-50 transition-[background-color] duration-300 ${scrolled || open ? "bg-card" : "bg-canvas"}`}>
-            <div className={`${frame} relative flex items-center transition-[height] duration-300 ${scrolled ? "h-16" : "h-20 md:h-24"}`}>
+        <header className={`sticky top-0 z-50 transition-[background-color] duration-300 ${scrolled ? "bg-card" : "bg-canvas"}`}>
+            <div className={`${frame} relative flex flex-wrap items-center gap-x-6 py-3 sm:py-0 transition-[height] duration-300 ${scrolled ? "sm:h-16" : "sm:h-20 md:h-24"}`}>
                 <Link to="/" className="text-[17px] font-semibold tracking-[-0.01em] text-main no-underline hover:text-accent transition-colors">
                     Oliver Krisetya
                 </Link>
 
-                <nav aria-label="Primary" className="hidden sm:flex items-center gap-6 lg:gap-8 ml-8 md:ml-12 lg:ml-0 lg:absolute lg:left-[42%]">
+                <nav
+                    aria-label="Primary"
+                    className="order-3 w-full sm:order-none sm:w-auto flex items-center gap-6 lg:gap-8 pt-1 sm:pt-0 sm:ml-4 md:ml-8 lg:ml-0 lg:absolute lg:left-[42%]"
+                >
                     {LINKS.map((l) => (
                         <NavLink
                             key={l.to}
                             to={l.to}
                             className={({ isActive }) =>
-                                `text-[15px] no-underline transition-colors ${isActive ? "text-main font-medium" : "text-muted hover:text-main"}`
+                                `py-2 text-[15px] no-underline transition-colors ${isActive ? "text-main font-semibold" : "text-main/70 hover:text-main"}`
                             }
                         >
                             {l.label}
@@ -66,34 +69,12 @@ export default function Nav() {
                         href={RESUME_PDF}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hidden md:inline-flex items-center h-11 px-5 rounded-full bg-accent text-accent-ink text-[15px] font-medium no-underline transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]"
+                        className="inline-flex items-center h-11 px-4 md:px-5 rounded-full bg-accent text-accent-ink text-[15px] font-medium no-underline transition-transform duration-150 hover:scale-[1.03] active:scale-[0.98]"
                     >
-                        Résumé PDF
+                        <span className="hidden md:inline">Résumé PDF</span><span className="md:hidden">PDF</span>
                     </a>
-                    <button
-                        type="button"
-                        className="sm:hidden h-11 px-3 text-[15px] font-medium text-main cursor-pointer"
-                        aria-expanded={open}
-                        aria-controls="mobile-nav"
-                        onClick={() => setOpenOn(open ? null : pathname)}
-                    >
-                        {open ? "Close" : "Menu"}
-                    </button>
                 </div>
             </div>
-
-            {open && (
-                <nav id="mobile-nav" aria-label="Mobile" className={`${frame} sm:hidden pb-6 flex flex-col gap-1 fade-up`}>
-                    {LINKS.map((l) => (
-                        <NavLink key={l.to} to={l.to} className="py-3 text-[28px] font-semibold tracking-[-0.02em] text-main no-underline">
-                            {l.label}
-                        </NavLink>
-                    ))}
-                    <a href={RESUME_PDF} target="_blank" rel="noopener noreferrer" className="py-3 text-[28px] font-semibold tracking-[-0.02em] text-accent no-underline">
-                        Résumé PDF
-                    </a>
-                </nav>
-            )}
         </header>
     );
 }
