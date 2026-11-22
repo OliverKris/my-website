@@ -25,7 +25,7 @@ export type Project = {
     links: ProjectLink[];
     featured?: boolean;
     order?: number;
-    category: 'systems' | 'ai' | 'web';
+    category: 'systems' | 'ai' | 'web' | 'game';
 };
 
 export const projects: Project[] = [
@@ -113,6 +113,39 @@ export const projects: Project[] = [
         },
         featured: true,
         order: 2,
+    },
+    {
+        id: "sengoku-jidai",
+        short: "Sengoku Jidai",
+        year: "2026",
+        category: "game",
+        title: "Sengoku Jidai: a real-time strategy game",
+        pitch: "A real-time territorial conquest game built in Godot 4.6 for CSCI 6562 at GWU: send armies between cities on a hex map, upgrade strongholds and outplay an AI rival. Playable in the browser.",
+        highlights: [
+            "Built a cycle-driven simulation where one global clock drives troop production, battles and the AI, with speed and pause controls",
+            "Wrote an AI opponent that maps its distance to the frontier with a breadth-first search, relays troops forward and attacks when the odds favour it",
+            "Implemented square-root attrition battles with defense upgrades, plus city upgrades for production, gold and walls",
+            "Designed levels as data resources, placed with a custom hex-grid level editor plugin; shipped a tutorial and two chapters with music and transitions",
+            "Exported to single-threaded WebAssembly with the compatibility renderer so the game runs from a static host"
+        ],
+        tech: ["Godot 4.6", "GDScript", "WebAssembly", "Game AI", "Pixel art"],
+        links: [
+            { label: "Play", url: "/play/sengoku-jidai/index.html" },
+            { label: "Case study", url: "/projects/sengoku-jidai" },
+            { label: "GitHub", url: "https://github.com/OliverKris/sengoku-jidai" },
+        ],
+        caseStudy: {
+            path: "/projects/sengoku-jidai",
+            summary: "A real-time strategy game in Godot, with an AI rival that routes troops to its frontier. Play the whole thing in the browser.",
+            cover: { src: "/media/sengoku/demo-poster.webp", alt: "Sengoku Jidai: blue and red cities joined by roads on a hex map", width: 1600, height: 896 },
+            facts: [
+                { label: "Engine", value: "Godot" },
+                { label: "Levels", value: "3" },
+                { label: "Team", value: "2" },
+            ],
+        },
+        featured: true,
+        order: 3,
     },
     {
         id: "easysched-reworked",

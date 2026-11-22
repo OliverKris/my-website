@@ -14,9 +14,13 @@ const EXTRA: Record<string, { src: string; alt: string }[]> = {
         { src: "/media/formality/families-{theme}.webp", alt: "RoBERTa P(formal) by model family: every family above the human baselines" },
         { src: "/media/formality/demo-{theme}.webp", alt: "An assistant reply with formal words swapped for plain ones" },
     ],
+    "sengoku-jidai": [
+        { src: "/media/sengoku/menu.webp", alt: "The title screen" },
+        { src: "/media/sengoku/battle.webp", alt: "Mid-game with armies on the roads and the city panel open" },
+    ],
 };
 
-const CATEGORY: Record<Project["category"], string> = { systems: "Systems", ai: "Machine learning", web: "Full-stack" };
+const CATEGORY: Record<Project["category"], string> = { systems: "Systems", ai: "Machine learning", web: "Full-stack", game: "Games" };
 
 function isInternal(url: string) {
     return url.startsWith("/");
@@ -98,7 +102,7 @@ export default function Projects() {
                     <span className="mask-line"><span>Work</span></span>
                 </h1>
                 <p className="lg:col-span-5 m-0 text-[length:var(--text-lead)] leading-[1.35] tracking-[-0.01em] fade-up" style={{ ["--fade-delay" as string]: "250ms" }}>
-                    Two case studies told in full, and {rest.length} more projects in systems, machine learning and the web.
+                    Three case studies told in full, and {rest.length} more projects in systems, machine learning and the web.
                 </p>
             </header>
 

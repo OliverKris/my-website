@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 
 import Formality from "./pages/projects/formality";
 import EasySched from "./pages/projects/easy_sched";
+import Sengoku from "./pages/projects/sengoku";
 
 export default function App() {
     return (
@@ -20,6 +21,7 @@ export default function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/projects/easy-sched" element={<EasySched />} />
                     <Route path="/projects/formality" element={<Formality />} />
+                    <Route path="/projects/sengoku-jidai" element={<Sengoku />} />
                 </Route>
             </Routes>
             <Analytics />

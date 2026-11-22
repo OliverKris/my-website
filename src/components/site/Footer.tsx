@@ -27,6 +27,7 @@ export default function Footer() {
                             <li className="text-field-muted">Case studies</li>
                             <li><Link className="text-field-ink no-underline hover:underline" to="/projects/easy-sched">Easy-Sched</Link></li>
                             <li><Link className="text-field-ink no-underline hover:underline" to="/projects/formality">Formality bias in LLMs</Link></li>
+                            <li><Link className="text-field-ink no-underline hover:underline" to="/projects/sengoku-jidai">Sengoku Jidai</Link></li>
                             <li><a className="text-field-ink no-underline hover:underline" href={RESUME_PDF} target="_blank" rel="noopener noreferrer">Résumé PDF</a></li>
                         </ul>
                     </div>

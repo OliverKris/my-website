@@ -12,6 +12,7 @@ const formality = projects.find((p) => p.id === "formality-bias-nlu")!;
 const FRAMES: Record<string, string> = {
     "easysched-reworked": "/media/easy-sched/board-dark.webp",
     "formality-bias-nlu": "/media/formality/corpora-dark.webp",
+    "sengoku-jidai": "/media/sengoku/battle.webp",
 };
 
 function projectHref(p: Project) {
@@ -166,7 +167,7 @@ export default function Home() {
                     ))}
                 </Rise>
                 <Rise delay={90} className="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-[15px] text-muted">
-                    <span>{projects.length} projects across systems, machine learning and the web</span>
+                    <span>{projects.length} projects across systems, machine learning, games and the web</span>
                     <Link to="/projects" className="text-main underline underline-offset-4 decoration-1 hover:text-accent">See all of them with details</Link>
                 </Rise>
             </section>

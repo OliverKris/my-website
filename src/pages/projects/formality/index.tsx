@@ -261,7 +261,7 @@ export default function FormalityCaseStudy() {
         <article>
             <CaseStudyBar
                 title="Formality bias"
-                next={{ to: "/projects/easy-sched", label: "Easy-Sched" }}
+                next={{ to: "/projects/sengoku-jidai", label: "Sengoku Jidai" }}
                 sections={[
                     { id: "background", label: "Background" }, { id: "method", label: "Method" }, { id: "results", label: "Results" },
                     { id: "families", label: "Families" }, { id: "topics", label: "Topics" }, { id: "words", label: "Words" },
@@ -492,12 +492,12 @@ export default function FormalityCaseStudy() {
                     </Rise>
                 </div>
                 <Rise delay={120} className="lg:col-span-6 self-end">
-                    <Link to="/projects/easy-sched" className="group block rounded-2xl bg-card p-8 md:p-10 no-underline text-main hover:bg-raised transition-colors">
+                    <Link to="/projects/sengoku-jidai" className="group block rounded-2xl bg-card p-8 md:p-10 no-underline text-main hover:bg-raised transition-colors">
                         <span className="flex items-baseline justify-between gap-4 text-[clamp(26px,3vw,44px)] font-semibold tracking-[-0.03em] leading-[1.05]">
-                            Next: Easy-Sched
+                            Next: Sengoku Jidai
                             <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
                         </span>
-                        <span className="block mt-3 text-[16px] text-muted">An optimal TA-assignment platform with a live solver.</span>
+                        <span className="block mt-3 text-[16px] text-muted">A real-time strategy game you can play in the browser.</span>
                     </Link>
                 </Rise>
             </section>
