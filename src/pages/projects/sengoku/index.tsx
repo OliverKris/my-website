@@ -21,6 +21,7 @@ function SectionHead({ id, title, children }: { id: string; title: string; child
 function PlayGame() {
     const [started, setStarted] = useState(false);
     const frameRef = useRef<HTMLIFrameElement>(null);
+
     return (
         <div className="flex flex-col gap-4">
             <Shot ratio={16 / 9} fit={0.9}>
@@ -33,6 +34,9 @@ function PlayGame() {
                             className="absolute inset-0 w-full h-full border-0"
                             allow="autoplay; fullscreen; gamepad"
                             allowFullScreen
+                            // Sandboxed (no same-origin) so the browser can run the game in its own process
+                            // instead of on the page's main thread, where it made scrolling stutter.
+                            sandbox="allow-scripts allow-pointer-lock"
                         />
                     ) : (
                         <button
