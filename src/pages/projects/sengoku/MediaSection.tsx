@@ -142,7 +142,11 @@ export function MediaSection({ filmHref }: { filmHref: string }) {
                     <Sprite name="mitsuboshi" w={32} h={32} scale={3} label="Red clan crest (mitsuboshi)" />
                     <Sprite name="maru" w={32} h={32} scale={3} label="Neutral crest (maru)" />
                     <Sprite name="mitsudomoebanner" w={48} h={56} scale={2} label="Clan banner" />
-                    <Sprite name="city" w={32} h={32} scale={3} label="City" />
+                    <span className="flex items-end gap-2">
+                        <Sprite name="city-blue" w={64} h={64} scale={1} label="Your city (tinted blue in game)" />
+                        <Sprite name="city-red" w={64} h={64} scale={1} label="AI city (tinted red in game)" />
+                        <Sprite name="city-neutral" w={64} h={64} scale={1} label="Neutral city (tinted grey in game)" />
+                    </span>
                     <span className="flex items-end gap-4">
                         <Sprite name="goldicon" w={16} h={16} scale={3} label="Gold icon" />
                         <Sprite name="troopicon" w={16} h={16} scale={3} label="Troops icon" />
