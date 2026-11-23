@@ -134,76 +134,6 @@ export function ChartFrame({ title, controls, children, note }: { title: string;
     );
 }
 
-/* ---------- 1. corpus comparison ---------- */
-
-const CORPORA = [
-    { label: "BlendedSkillTalk", fr: 0.24, frSd: 3.6, p: 0.271, pSd: 0.337 },
-    { label: "Reddit", fr: 0.52, frSd: 4.07, p: 0.245, pSd: 0.325 },
-    { label: "ELI5", fr: 2.33, frSd: 7.03, p: 0.801, pSd: 0.271 },
-    { label: "LLM replies (LMSYS)", fr: 7.62, frSd: 12.02, p: 0.8585, pSd: 0.271, llm: true },
-];
-
-export function CorpusChart() {
-    const [metric, setMetric] = useState<"fr" | "p">("fr");
-    const fr = metric === "fr";
-    return (
-        <ChartFrame
-            title={fr ? "Mean Formality Rate by corpus" : "Mean RoBERTa P(formal) by corpus"}
-            controls={<Toggle label="Metric" value={metric} onChange={setMetric} options={[{ key: "fr", label: "Formality Rate" }, { key: "p", label: "RoBERTa P(formal)" }]} />}
-            note={fr
-                ? "Formal hits per 1,000 tokens. Lines show ±1 standard deviation, cut off at the edge of the scale: LLM formality is uneven, with many replies at zero and some very dense."
-                : "Probability the classifier assigns to “formal”. Lines show ±1 standard deviation, cut off at 0 and 1."}
-        >
-            <HBarChart
-                ariaLabel={fr ? "Formality Rate: BlendedSkillTalk 0.24, Reddit 0.52, ELI5 2.33, LLM replies 7.62" : "RoBERTa P(formal): BlendedSkillTalk 0.271, Reddit 0.245, ELI5 0.801, LLM replies 0.859"}
-                rows={CORPORA.map((c) => {
-                    const v = fr ? c.fr : c.p;
-                    const sd = fr ? c.frSd : c.pSd;
-                    return { label: c.label, value: v, range: [Math.max(0, v - sd), v + sd] as [number, number], accent: c.llm };
-                })}
-                max={fr ? 20 : 1}
-                format={fr ? (v) => (v >= 10 ? v.toFixed(0) : v.toFixed(2).replace(/\.?0+$/, "")) : (v) => v.toFixed(2)}
-                labelWidth="minmax(6.5rem,10rem)"
-            />
-            {fr && (
-                <p className="m-0 text-[clamp(18px,1.5vw,22px)] font-semibold tracking-[-0.01em]">
-                    LLM replies use formal words 3× as often as ELI5, 14× Reddit and 31× BlendedSkillTalk.
-                </p>
-            )}
-        </ChartFrame>
-    );
-}
-
-/* ---------- 2. model families ---------- */
-
-const FAMILIES = [
-    { name: "PaLM", p: 0.8882, sem: 0.0213 }, { name: "GPT", p: 0.8676, sem: 0.0129 },
-    { name: "Vicuna", p: 0.8637, sem: 0.0025 }, { name: "Other", p: 0.8567, sem: 0.0038 },
-    { name: "LLaMA", p: 0.8563, sem: 0.0081 }, { name: "Claude", p: 0.8258, sem: 0.0121 },
-    { name: "Alpaca", p: 0.8186, sem: 0.0102 },
-];
-
-export function FamilyChart() {
-    const [base, setBase] = useState<"all" | "eli5">("all");
-    const ref = base === "all" ? { value: 0.5, label: "All human text, 0.50" } : { value: 0.801, label: "ELI5, the most formal human corpus, 0.80" };
-    return (
-        <ChartFrame
-            title="Mean RoBERTa P(formal) by model family"
-            controls={<Toggle label="Compare with" value={base} onChange={setBase} options={[{ key: "all", label: "All human text" }, { key: "eli5", label: "ELI5" }]} />}
-            note="Lines show ±1 standard error of the mean. “Other” groups the remaining models in LMSYS."
-        >
-            <HBarChart
-                ariaLabel={`P(formal) by family: ${FAMILIES.map((f) => `${f.name} ${f.p.toFixed(2)}`).join(", ")}`}
-                rows={FAMILIES.map((f) => ({ label: f.name, value: f.p, range: [f.p - f.sem, f.p + f.sem] as [number, number], accent: true }))}
-                max={1}
-                format={(v) => v.toFixed(2)}
-                refs={[ref]}
-                labelWidth="5rem"
-            />
-        </ChartFrame>
-    );
-}
-
 /* ---------- 3. conversation type ---------- */
 
 const TOPICS = [
@@ -264,58 +194,6 @@ export function WordsChart() {
                 rows={list.map(([w, n]) => ({ label: w, value: n, accent: corpus === "lmsys" }))}
                 max={top} ticks={top / step} format={(v) => Math.round(v).toLocaleString("en-US")} labelWidth="minmax(7rem,10rem)"
             />
-        </ChartFrame>
-    );
-}
-
-/* ---------- 5. LoRA mitigation ---------- */
-
-const MITIGATION = [
-    { metric: "Mean Formality Rate", base: 6.2029, tuned: 5.4601, max: 8, fmt: (v: number) => v.toFixed(2), better: "lower" },
-    { metric: "Mean RoBERTa P(formal)", base: 0.8681, tuned: 0.7943, max: 1, fmt: (v: number) => v.toFixed(3), better: "lower" },
-    { metric: "ROUGE-L (content kept)", base: 0.0727, tuned: 0.0766, max: 0.1, fmt: (v: number) => v.toFixed(4), better: "same" },
-];
-
-export function MitigationChart() {
-    const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.3 });
-    return (
-        <ChartFrame
-            title="Qwen2.5-3B-Instruct before and after LoRA"
-            note="Each row has its own scale. Held-out set of 50 prompts; the paired t-test was not significant, so treat this as preliminary."
-        >
-            <div ref={ref} className="flex flex-col gap-7" role="img"
-                aria-label="Formality Rate 6.20 to 5.46; RoBERTa P(formal) 0.868 to 0.794; ROUGE-L 0.0727 to 0.0766">
-                {MITIGATION.map((m, i) => {
-                    const a = (m.base / m.max) * 100;
-                    const b = (m.tuned / m.max) * 100;
-                    const lo = Math.min(a, b);
-                    return (
-                        <div key={m.metric} className="flex flex-col gap-2.5">
-                            <div className="flex flex-wrap justify-between gap-2 text-[15px]">
-                                <span className="font-semibold">{m.metric}</span>
-                                <span className="tabular-nums text-muted">{m.fmt(m.base)} → <span className="text-main font-semibold">{m.fmt(m.tuned)}</span></span>
-                            </div>
-                            <div className="relative h-6">
-                                <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1 rounded-full bg-main/10" />
-                                <motion.span className="absolute top-1/2 -translate-y-1/2 h-1 rounded-full bg-accent"
-                                    initial={{ left: `${a}%`, width: 0 }}
-                                    animate={inView ? { left: `${lo}%`, width: `${Math.abs(a - b)}%` } : {}}
-                                    transition={{ duration: 1, ease: EASE, delay: 0.3 + i * 0.15 }} />
-                                <span className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-main/45" style={{ left: `${a}%` }} title="Base model" />
-                                <motion.span className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-accent ring-4 ring-canvas"
-                                    initial={{ left: `${a}%` }}
-                                    animate={inView ? { left: `${b}%` } : {}}
-                                    transition={{ duration: 1, ease: EASE, delay: 0.3 + i * 0.15 }} title="After LoRA" />
-                            </div>
-                        </div>
-                    );
-                })}
-                <p className="m-0 flex flex-wrap gap-x-6 gap-y-1 text-[14px] text-muted">
-                    <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-main/45" aria-hidden="true" />Base model</span>
-                    <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-accent" aria-hidden="true" />After LoRA fine-tuning</span>
-                </p>
-            </div>
         </ChartFrame>
     );
 }

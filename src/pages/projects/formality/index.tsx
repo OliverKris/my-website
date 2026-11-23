@@ -4,7 +4,8 @@ import { frame, Rise } from "../../../components/site/Rise";
 import { CaseStudyBar } from "../../../components/site/CaseStudyBar";
 import { computeFR, getVerdict, TIER1 } from "./lexicon";
 import { SPECTRUM_DATA } from "./spectrum";
-import { CorpusChart, FamilyChart, MitigationChart, TopicCharts, WordsChart } from "./charts";
+import { TopicCharts, WordsChart } from "./charts";
+import { CorpusAnalysisFigure, FamilyFigure, FormalityRateFigure, MitigationFigure } from "./figures";
 
 const REPO = "https://github.com/OliverKris/formal-language-bias-llms";
 
@@ -369,8 +370,8 @@ export default function FormalityCaseStudy() {
 
             {/* ---------- Results ---------- */}
             <section className="mt-[clamp(96px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" aria-labelledby="results">
-                <div className={`${frame} grid gap-12 lg:grid-cols-12 items-start`}>
-                    <div className="lg:col-span-5">
+                <div className={`${frame} flex flex-col gap-12`}>
+                    <div className="max-w-[62ch]">
                         <SectionHead id="results" title="LLMs are more formal">
                             <p className="m-0">
                                 We compared over a million conversations from LMSYS-Chat-1M with three human corpora: Reddit and
@@ -382,11 +383,12 @@ export default function FormalityCaseStudy() {
                             </p>
                         </SectionHead>
                     </div>
-                    <Rise delay={120} className="lg:col-span-7"><CorpusChart /></Rise>
+                    <Rise delay={120}><FormalityRateFigure /></Rise>
+                    <Rise delay={120}><CorpusAnalysisFigure /></Rise>
                 </div>
 
                 <div className={`${frame} mt-[clamp(80px,10vw,160px)] grid gap-12 lg:grid-cols-12 items-start`}>
-                    <Rise className="lg:col-span-7 order-2 lg:order-1"><FamilyChart /></Rise>
+                    <Rise className="lg:col-span-7 order-2 lg:order-1"><FamilyFigure /></Rise>
                     <div className="lg:col-span-5 order-1 lg:order-2">
                         <SectionHead id="families" title="Every family, not one model">
                             <p className="m-0">
@@ -444,7 +446,7 @@ export default function FormalityCaseStudy() {
                     </p>
                 </SectionHead>
                 <Rise delay={120} className="mt-12"><MitigationExamples /></Rise>
-                <Rise delay={150} className="mt-10"><MitigationChart /></Rise>
+                <Rise delay={150} className="mt-10"><MitigationFigure /></Rise>
                 <Rise delay={180} className="mt-10 max-w-[70ch]">
                     <p className="m-0 text-[16px] leading-[1.6]">
                         Formality Rate fell 12% and the classifier’s score fell with it, so the change is not just avoiding listed
