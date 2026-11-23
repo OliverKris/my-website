@@ -41,14 +41,17 @@ function SkillExplorer() {
                         </button>
                     ))}
                 </div>
-                <motion.ul layout className="list-none m-0 p-0 flex flex-wrap gap-2" aria-label="Skills, most used first">
-                    <AnimatePresence initial={false}>
-                        {shown.map((s) => {
+                <ul className="relative list-none m-0 p-0 flex flex-wrap gap-2" aria-label="Skills, most used first">
+                    <AnimatePresence initial={false} mode="popLayout">
+                        {shown.map((s, i) => {
                             const count = USES[s.label].length;
                             const on = picked === s.label;
                             return (
-                                <motion.li key={s.label} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}>
+                                <motion.li key={s.label} layout="position"
+                                    initial={{ opacity: 0, scale: 0.85, y: 6 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1], delay: Math.min(i, 14) * 0.018 } }}
+                                    exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.14, ease: "easeIn" } }}
+                                    transition={{ layout: { type: "spring", stiffness: 520, damping: 42, mass: 0.7 } }}>
                                     <button type="button" aria-pressed={on} onClick={() => setPicked(s.label)}
                                         aria-label={`${s.label}: ${count ? `${count} ${count === 1 ? "project" : "projects"}` : "coursework and work"}`}
                                         className={`h-11 pl-4 pr-3.5 rounded-full text-[16px] cursor-pointer inline-flex items-center gap-2 transition-[background-color,color,transform] duration-200 active:scale-[0.97] ${
@@ -60,7 +63,7 @@ function SkillExplorer() {
                             );
                         })}
                     </AnimatePresence>
-                </motion.ul>
+                </ul>
                 <p className="m-0 text-[14px] text-muted">
                     Counts come from each project’s source code: its imports, package files and build settings. Outlined skills are from
                     coursework, teaching and work rather than a project on this site.
