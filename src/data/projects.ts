@@ -124,13 +124,13 @@ export const projects: Project[] = [
         title: "Sengoku Jidai: a real-time strategy game",
         pitch: "A real-time territorial conquest game built in Godot 4.6 for CSCI 6562 at GWU: send armies between cities on a hex map, upgrade strongholds and outplay an AI rival. Playable in the browser.",
         highlights: [
-            "Built a cycle-driven simulation where one global clock drives troop production, battles and the AI, with speed and pause controls",
-            "Wrote an AI opponent that maps its distance to the frontier with a breadth-first search, relays troops forward and attacks when the odds favour it",
-            "Implemented square-root attrition battles with defense upgrades, plus city upgrades for production, gold and walls",
-            "Designed levels as data resources, placed with a custom hex-grid level editor plugin; shipped a tutorial and two chapters with music and transitions",
-            "Exported to single-threaded WebAssembly with the compatibility renderer so the game runs from a static host"
+            "Built a cycle-driven simulation where one pausable, speed-adjustable clock drives the economy, combat and movement",
+            "Wrote an AI opponent that re-derives its frontier with a breadth-first search over the road graph, funnels reinforcements forward, intercepts attacks and strikes when the odds favour it",
+            "Designed levels as LevelData resources and built HexLevelEditor, a Godot editor plugin for placing cities and roads on the hex grid",
+            "Drew all 69 sprites and their animations in Aseprite, and synthesised the theme and 18 sound effects in Ableton Live 12",
+            "Exported to single-threaded WebAssembly with the compatibility renderer so the whole game runs in the browser"
         ],
-        tech: ["Godot 4.6", "GDScript", "WebAssembly", "Game AI", "Pixel art"],
+        tech: ["Godot 4.6", "GDScript", "Game AI", "EditorPlugin", "Aseprite", "Ableton Live 12", "WebAssembly"],
         links: [
             { label: "Play", url: "/play/sengoku-jidai/index.html" },
             { label: "Case study", url: "/projects/sengoku-jidai" },
@@ -138,13 +138,13 @@ export const projects: Project[] = [
         ],
         caseStudy: {
             path: "/projects/sengoku-jidai",
-            summary: "A real-time strategy game in Godot, with an AI rival that routes troops to its frontier. Play the whole thing in the browser.",
+            summary: "A real-time strategy game built from scratch in Godot: our own code, pixel art, animation, music and story, with an AI rival that maps its own frontier. Play it in the browser.",
             cover: { src: "/media/sengoku/demo-poster.webp", alt: "Sengoku Jidai mid-game: armies on the roads between blue and red cities on a hex map", width: 1920, height: 1076 },
             video: { src: "/media/sengoku/demo.mp4", poster: "/media/sengoku/demo-poster.webp", label: "Sengoku Jidai gameplay", start: 3 },
             facts: [
-                { label: "Engine", value: "Godot" },
-                { label: "Levels", value: "3" },
-                { label: "Team", value: "2" },
+                { label: "Cities on one map", value: "17" },
+                { label: "Original sprites", value: "69" },
+                { label: "Original sounds", value: "19" },
             ],
         },
         featured: true,

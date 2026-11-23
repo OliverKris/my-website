@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { frame, Rise } from "../../../components/site/Rise";
 import { LoopVideo, Shot } from "../../../components/site/Media";
 import { CaseStudyBar } from "../../../components/site/CaseStudyBar";
+import { FrontierMap } from "./FrontierMap";
+import { LevelEditorDemo } from "./LevelEditorDemo";
+import { MediaSection } from "./MediaSection";
 
 const REPO = "https://github.com/OliverKris/sengoku-jidai";
 const GAME = "/play/sengoku-jidai/index.html";
@@ -189,31 +192,56 @@ const RULES = [
     { t: "Battles", d: "Armies fight when they meet on a road or reach an enemy city, and resolve over several cycles." },
     { t: "Upgrades", d: "Spend gold to raise a city’s troop production, gold income or defense, three levels each." },
     { t: "The cycle clock", d: "One shared tick drives production, battles and the AI. Speed it up, slow it down or pause it." },
-    { t: "An AI rival", d: "It upgrades its cities, holds its frontier, and pushes troops forward to attack when the odds favour it." },
+    { t: "An AI rival", d: "It maps its own frontier, funnels troops toward it, intercepts attacks and strikes when the odds favour it." },
 ];
 
 const SYSTEMS = [
-    { t: "Cycle clock", f: "Autoloads/CycleClock.gd", d: "A global singleton emits cycle_ticked once a second at 1×. Cities, battles and the AI all subscribe, so speed and pause are one setting." },
-    { t: "Hex graph map", f: "LevelData/GraphMap.gd", d: "Axial hex coordinates with cube rounding convert between tiles and pixels. Cities and roads form a graph that handles drag-to-send input and win or loss checks." },
-    { t: "AI controller", f: "Core/AIController.gd", d: "Every 14 cycles it upgrades, then runs a breadth-first search from the frontier: rear cities relay troops one hop forward, frontier cities intercept, attack or hold." },
-    { t: "Battles", f: "World/Battle/Battle.gd", d: "Square-root attrition each cycle, reduced by the defender’s walls. Small raids barely scratch a big city; big armies grind fast." },
-    { t: "Levels as data", f: "LevelData/LevelData.gd", d: "Each level is a resource of cities, roads and cosmetics. A custom HexLevelEditor plugin places cities by clicking hex tiles in the editor." },
-    { t: "Presentation", f: "UI/, Autoloads/AudioManager.gd", d: "Pixel-art UI, a city panel for stats and upgrades, a guided tutorial, scene transitions, music and sound effects." },
+    { t: "Real-time cycle clock", f: "Autoloads/CycleClock.gd", d: "One pausable, speed-adjustable tick drives the economy, combat and movement. Everything listens for cycle_ticked, so pause and 2× are a single setting." },
+    { t: "Hex graph map", f: "LevelData/GraphMap.gd", d: "Loads a LevelData resource into a navigable graph on an axial hex grid. Movement, AI pathing and siege routing all query this one graph instead of keeping their own copy of the map." },
+    { t: "City economy", f: "World/City/CityData.gd", d: "Every cycle each city earns gold and troops. Three upgrade tracks (production, gold, defence) with three tiers each, priced 50 × 1.75^level: 50, 87, 153 gold." },
+    { t: "Units & combat", f: "World/Unit/Unit.gd · World/Battle/Battle.gd", d: "Armies march in real time, slower on longer roads. They fight when they meet an enemy army on the way, or at the walls, where defence multiplies the garrison by up to 2×." },
+    { t: "Signal-driven autoloads", f: "Autoloads/", d: "CycleClock, FactionState and LevelSelection, plus scene-transition and audio managers, broadcast Godot signals instead of holding references to each other, which keeps economy, combat and AI decoupled." },
+    { t: "Web export", f: "export_presets.cfg", d: "A single-threaded WebAssembly build with the compatibility renderer, so the whole game runs from a static host in a sandboxed frame on this page." },
 ];
 
-const AI_SNIPPET = `# Frontier cities (adjacent to an enemy) get distance 0;
-# each step away from the front adds 1, so every rear
-# city knows which neighbour is closer to the fighting.
+const LEVEL_CLASSES = `class_name LevelData extends Resource
+@export var level_name: String = "Unnamed Level"
+@export var cities: Array[CitySpawnData] = []
+@export var roads: Array[RoadData] = []
+
+class_name CitySpawnData extends Resource
+@export var id: int = 0
+@export var city_name: String = ""
+@export var hex_coord: Vector2 = Vector2.ZERO
+@export var owner: int = 0          # 0 neutral, 1 player, 2 AI
+@export var army: int = 10
+@export var defense_level: int = 0  # 0–3
+
+class_name RoadData extends Resource
+@export var a_id: int
+@export var b_id: int
+@export var length: float = 1.0     # scales march time`;
+
+const AI_SNIPPET = `# Frontier cities (adjacent to anyone else) get distance 0;
+# each step back from the front adds 1.
 for city in ai_cities:
-    if is_frontier(city):
+    var is_frontier := false
+    for n in graph_map.get_adjacent_cities(city):
+        if n.data.owner != AI_OWNER:
+            is_frontier = true
+            break
+    if is_frontier:
         frontier_dist[city] = 0
-        queue.append(city)
-while head < queue.size():
-    var current = queue[head]; head += 1
+        bfs_queue.append(city)
+while head < bfs_queue.size():
+    var current = bfs_queue[head]; head += 1
     for n in graph_map.get_adjacent_cities(current):
         if n.data.owner == AI_OWNER and not frontier_dist.has(n):
             frontier_dist[n] = frontier_dist[current] + 1
-            queue.append(n)`;
+            bfs_queue.append(n)
+
+# Rear city: push 30% one hop toward the front.
+# Frontier city: intercept, else attack at odds >= 0.8, else hold.`;
 
 export default function SengokuCaseStudy() {
     return (
@@ -223,7 +251,8 @@ export default function SengokuCaseStudy() {
                 next={{ to: "/projects/easy-sched", label: "Easy-Sched" }}
                 sections={[
                     { id: "play", label: "Play" }, { id: "plays", label: "How it plays" }, { id: "siege", label: "Sieges" },
-                    { id: "built", label: "How it's built" }, { id: "team", label: "Team" },
+                    { id: "levels", label: "Levels" }, { id: "ai", label: "The AI" }, { id: "built", label: "Systems" },
+                    { id: "media", label: "Made from scratch" }, { id: "team", label: "Team" },
                 ]}
             />
             <header className={`${frame} pt-16 md:pt-24 grid gap-10 lg:grid-cols-12 items-end`}>
@@ -233,7 +262,8 @@ export default function SengokuCaseStudy() {
                     </h1>
                     <p className="mt-8 mb-0 text-[length:var(--text-lead)] leading-[1.35] tracking-[-0.01em] max-w-[40ch] fade-up" style={{ ["--fade-delay" as string]: "300ms" }}>
                         A real-time strategy game of territorial conquest, built in Godot. Send armies down the roads between cities,
-                        upgrade your strongholds, and out-think an AI rival for the map.
+                        upgrade your strongholds, and out-think an AI rival for the map. Code, pixel art, animation, music and
+                        story all made by the two of us.
                     </p>
                     <div className="mt-8 flex flex-wrap gap-3 fade-up" style={{ ["--fade-delay" as string]: "400ms" }}>
                         <a href="#play" className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-accent text-accent-ink text-[16px] font-medium no-underline transition-transform hover:scale-[1.03] active:scale-[0.98]">
@@ -248,16 +278,18 @@ export default function SengokuCaseStudy() {
                     <div><dt className="text-muted">Engine</dt><dd className="m-0">Godot 4.6, GDScript</dd></div>
                     <div><dt className="text-muted">Course</dt><dd className="m-0">CSCI 6562, GWU, spring 2026</dd></div>
                     <div><dt className="text-muted">Team</dt><dd className="m-0">Oliver Krisetya, Warren Nguyen</dd></div>
-                    <div><dt className="text-muted">Levels</dt><dd className="m-0">A tutorial and two chapters</dd></div>
+                    <div><dt className="text-muted">Largest map</dt><dd className="m-0">17 cities, 24 roads</dd></div>
                 </dl>
             </header>
 
-            <Rise className={`${frame} mt-14`} delay={200}>
-                <Shot ratio={1920 / 1076}>
-                    <LoopVideo src="/media/sengoku/demo.mp4" poster="/media/sengoku/demo-poster.webp"
-                        label="Sengoku Jidai gameplay: choosing a chapter, then sending armies between cities on a hex map and capturing enemy cities" />
-                </Shot>
-            </Rise>
+            <div id="film" className="scroll-mt-32">
+                <Rise className={`${frame} mt-14`} delay={200}>
+                    <Shot ratio={1920 / 1076}>
+                        <LoopVideo src="/media/sengoku/demo.mp4" poster="/media/sengoku/demo-poster.webp"
+                            label="Sengoku Jidai gameplay: choosing a chapter, then sending armies between cities on a hex map and capturing enemy cities" />
+                    </Shot>
+                </Rise>
+            </div>
 
             <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="play">
                 <SectionHead id="play" title="Play it here">
@@ -304,11 +336,65 @@ export default function SengokuCaseStudy() {
                 <Rise delay={120} className="mt-12"><SiegeSim /></Rise>
             </section>
 
+            <section className="mt-[clamp(96px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" aria-labelledby="levels">
+                <div className={`${frame} flex flex-col gap-12`}>
+                    <div className="grid gap-10 lg:grid-cols-12 items-start">
+                        <div className="lg:col-span-5">
+                            <SectionHead id="levels" title="Levels are data">
+                                <p className="m-0">
+                                    A level isn’t a scene someone painted by hand. It’s a <code className="font-mono text-[0.9em]">LevelData</code> resource:
+                                    a list of cities and a list of roads, built from three small classes. The same file feeds the game, the
+                                    AI and the level editor.
+                                </p>
+                                <p className="m-0">
+                                    To make those files, we wrote <strong>HexLevelEditor</strong>, an editor plugin (about 600 lines) that runs inside
+                                    Godot’s own 2D view. Click a hex to place a city, click two cities to toggle a road (its length comes from the
+                                    hex distance), hold T to paint terrain. It writes straight into the level’s resource: no export step, no
+                                    hand-edited JSON.
+                                </p>
+                            </SectionHead>
+                        </div>
+                        <Rise delay={90} className="lg:col-span-7 min-w-0">
+                            <pre className="m-0 p-6 md:p-8 rounded-2xl bg-canvas overflow-x-auto text-[13.5px] leading-[1.6] min-w-0"><code className="font-mono">{LEVEL_CLASSES}</code></pre>
+                        </Rise>
+                    </div>
+                    <Rise delay={120} className="flex flex-col gap-4">
+                        <h3 className="m-0 text-[clamp(22px,2vw,30px)] font-semibold tracking-[-0.02em]">Try the editor</h3>
+                        <p className="m-0 text-[16px] leading-[1.6] max-w-[70ch] text-muted">
+                            A miniature of the plugin, with its rules and status messages, writing the same resource format.
+                        </p>
+                        <LevelEditorDemo />
+                    </Rise>
+                </div>
+            </section>
+
+            <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="ai">
+                <div className="grid gap-10 lg:grid-cols-12 items-start">
+                    <div className="lg:col-span-5">
+                        <SectionHead id="ai" title="The AI’s map of the front">
+                            <p className="m-0">
+                                Every 14 cycles the AI re-derives its frontier. A breadth-first search over the road graph, starting from
+                                every AI city that touches someone else’s, gives each of its cities a distance from the fighting.
+                            </p>
+                            <p className="m-0">
+                                That one map drives everything. Rear cities funnel reinforcements one hop forward. Frontier cities
+                                intercept armies marching at them, attack when the odds after defence reach 0.8, or hold. Upgrades go
+                                to the cheapest affordable track, with defence only where a city is threatened.
+                            </p>
+                        </SectionHead>
+                    </div>
+                    <Rise delay={90} className="lg:col-span-7 min-w-0">
+                        <pre className="m-0 p-6 md:p-8 rounded-2xl bg-card overflow-x-auto text-[13.5px] leading-[1.6] min-w-0"><code className="font-mono">{AI_SNIPPET}</code></pre>
+                    </Rise>
+                </div>
+                <Rise delay={120} className="mt-12"><FrontierMap /></Rise>
+            </section>
+
             <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="built">
-                <SectionHead id="built" title="How it’s built">
+                <SectionHead id="built" title="Core systems">
                     <p className="m-0">
-                        About 4,700 lines of GDScript, organised around one shared clock. The web version is a single-threaded
-                        WebAssembly export using Godot’s compatibility renderer, so it runs from a plain static host.
+                        About 4,700 lines of GDScript, plus the editor plugin. Six systems, one shared clock, and no system holding a
+                        direct reference to another.
                     </p>
                 </SectionHead>
                 <Rise delay={90} className="mt-12">
@@ -324,25 +410,34 @@ export default function SengokuCaseStudy() {
                         ))}
                     </dl>
                 </Rise>
-                <Rise delay={120} className="mt-14 grid gap-8 lg:grid-cols-12 items-start">
-                    <div className="lg:col-span-4 flex flex-col gap-3">
-                        <h3 className="m-0 text-[clamp(22px,2vw,30px)] font-semibold tracking-[-0.02em]">The AI’s map of the front</h3>
-                        <p className="m-0 text-[16px] leading-[1.6]">
-                            Instead of every city deciding alone, the AI first measures how far each of its cities is from the fighting.
-                            Rear cities then feed the front one hop at a time.
-                        </p>
-                    </div>
-                    <pre className="lg:col-span-8 m-0 p-6 md:p-8 rounded-2xl bg-card overflow-x-auto text-[14px] leading-[1.6] min-w-0"><code className="font-mono">{AI_SNIPPET}</code></pre>
-                </Rise>
+            </section>
+
+            <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="media">
+                <SectionHead id="media" title="Made from scratch">
+                    <p className="m-0">
+                        A multimedia game in five media, all made in-house: graphics, animation, audio, text and video. Hover the
+                        sprites, switch the soldier’s animation, and play the sounds.
+                    </p>
+                </SectionHead>
+                <Rise delay={120} className="mt-12"><MediaSection filmHref="#film" /></Rise>
             </section>
 
             <section className={`${frame} pt-[clamp(96px,12vw,200px)] pb-[clamp(96px,12vw,200px)] grid gap-12 lg:grid-cols-12`} aria-labelledby="team">
                 <div className="lg:col-span-6">
                     <SectionHead id="team" title="Made by two">
                         <p className="m-0">
-                            Built by Oliver Krisetya and Warren Nguyen for CSCI 6562 at George Washington University in spring 2026: game
-                            design, systems, AI, pixel-art UI, tutorial and audio, from a first draggable unit to three playable levels.
+                            Built by Oliver Krisetya and Warren Nguyen for CSCI 6562 at George Washington University in spring 2026.
                         </p>
+                        <dl className="m-0 grid gap-6 sm:grid-cols-2">
+                            <div className="flex flex-col gap-2">
+                                <dt className="text-[18px] font-semibold">Oliver Krisetya</dt>
+                                <dd className="m-0 text-[16px] leading-[1.6]">Pixel art and animation, music and sound effects, text design. Co-designed city selection, troop movement and combat.</dd>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <dt className="text-[18px] font-semibold">Warren Nguyen</dt>
+                                <dd className="m-0 text-[16px] leading-[1.6]">Core gameplay concept, the story and tutorial, the gameplay film.</dd>
+                            </div>
+                        </dl>
                     </SectionHead>
                 </div>
                 <Rise delay={120} className="lg:col-span-6 self-end">
