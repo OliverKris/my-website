@@ -1,4 +1,4 @@
-# oliverkrisetya.com
+# oliverkrisetya.vercel.app
 
 My portfolio: who I am, what I've built, and two projects told in full.
 
