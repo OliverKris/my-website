@@ -427,15 +427,16 @@ export default function SengokuCaseStudy() {
                     <SectionHead id="team" title="Made by two">
                         <p className="m-0">
                             Built by Oliver Krisetya and Warren Nguyen for CSCI 6562 at George Washington University in spring 2026.
+                            The gameplay film was a joint effort.
                         </p>
                         <dl className="m-0 grid gap-6 sm:grid-cols-2">
                             <div className="flex flex-col gap-2">
                                 <dt className="text-[18px] font-semibold">Oliver Krisetya</dt>
-                                <dd className="m-0 text-[16px] leading-[1.6]">Pixel art and animation, music and sound effects, text design. Co-designed city selection, troop movement and combat.</dd>
+                                <dd className="m-0 text-[16px] leading-[1.6]">Pixel art and animation, music and sound effects, the interface text. Co-designed city selection, troop movement and combat.</dd>
                             </div>
                             <div className="flex flex-col gap-2">
                                 <dt className="text-[18px] font-semibold">Warren Nguyen</dt>
-                                <dd className="m-0 text-[16px] leading-[1.6]">Core gameplay concept, the story and tutorial, the gameplay film.</dd>
+                                <dd className="m-0 text-[16px] leading-[1.6]">Core gameplay concept, the tutorial text and the tutorial videos.</dd>
                             </div>
                         </dl>
                     </SectionHead>

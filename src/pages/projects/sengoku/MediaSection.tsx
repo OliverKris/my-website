@@ -191,20 +191,21 @@ export function MediaSection({ filmHref }: { filmHref: string }) {
                 <SoundBoard />
             </Card>
 
-            <Card title="Text" who="Warren wrote the story and tutorial; Oliver designed the text" className="lg:col-span-5">
+            <Card title="Text" who="Warren wrote the tutorial; Oliver wrote the interface text" className="lg:col-span-5">
                 <img src="/media/sengoku/handbook.webp" alt="The Commander's Handbook: Japan is in chaos, your father has died, and your brother is propped up as a rival claimant. Fight him and the neutral governors to reclaim your father's territory, then face a neighbouring daimyo." width={1200} height={527} loading="lazy" className="block w-full h-auto rounded-xl" />
                 <p className="m-0 text-[15px] leading-[1.6]">
-                    The Commander’s Handbook frames the campaign: an heir fighting a pretender brother, then a rival daimyo. The
-                    tutorial teaches time, upgrades and troop movement as a mission checklist. The interface is set in Cozette, an
-                    open-source pixel font.
+                    Warren’s tutorial opens with the Commander’s Handbook, which frames the campaign: an heir fighting a pretender
+                    brother, then a rival daimyo. It then teaches time, upgrades and troop movement as a mission checklist. Oliver
+                    wrote the interface text: menus, buttons, the city panel and the status bar, set in Cozette, an open-source pixel font.
                 </p>
             </Card>
 
-            <Card title="Video" who="Warren" className="lg:col-span-12 lg:py-6">
+            <Card title="Video" who="Warren made the tutorial videos; the gameplay film was a joint effort" className="lg:col-span-12 lg:py-6">
                 <div className="grid gap-5 md:grid-cols-12 items-center">
                     <p className="m-0 md:col-span-8 text-[16px] leading-[1.6] max-w-[60ch]">
-                        Warren recorded the gameplay film at the top of this page: choosing a chapter, sending armies down the roads and
-                        taking cities from the AI.
+                        Each step of the tutorial pops up with a short video Warren made, playing beside the instruction it teaches:
+                        the interface, upgrading a city, sending troops into battle, and winning. The gameplay film at the top of this
+                        page we made together.
                     </p>
                     <a href={filmHref} className="md:col-span-4 group relative block rounded-xl overflow-hidden no-underline">
                         <img src="/media/sengoku/demo-poster.webp" alt="" width={1920} height={1076} loading="lazy" className="block w-full h-auto" />
