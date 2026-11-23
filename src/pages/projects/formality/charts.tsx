@@ -26,7 +26,7 @@ export function HBarChart({ rows, max, format, refs = [], labelWidth = "10rem", 
     rows: BarRow[]; max: number; format: (v: number) => string; refs?: RefLine[]; labelWidth?: string; ticks?: number; ariaLabel: string;
 }) {
     const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.2 });
+    const inView = useInView(ref, { amount: 0.3 }); // replays each time it scrolls back into view
     const pct = (v: number) => `${(Math.max(0, Math.min(max, v)) / max) * 100}%`;
     const grid = `${labelWidth} minmax(0,1fr) 4rem`;
 

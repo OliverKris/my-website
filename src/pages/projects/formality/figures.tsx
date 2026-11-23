@@ -45,7 +45,7 @@ function LegendRow({ items }: { items: { swatch: ReactNode; label: string }[] })
     );
 }
 
-interface Ctx { w: number; h: number; show: (x: number, y: number, text: string) => void; hide: () => void }
+interface Ctx { w: number; h: number; inView: boolean; show: (x: number, y: number, text: string) => void; hide: () => void }
 
 /** One chart panel: title, optional legend, and an SVG drawn at its measured pixel width. */
 function Panel({ title, legend, height, label, children }: {
@@ -61,8 +61,10 @@ function Panel({ title, legend, height, label, children }: {
         ro.observe(el);
         return () => ro.disconnect();
     }, []);
+    // Each panel animates when it scrolls into view, and again whenever it comes back.
+    const inView = useInView(box, { amount: 0.35 });
     const h = height(w);
-    const ctx: Ctx = { w, h, show: (x, y, text) => setTip({ x, y, text }), hide: () => setTip(null) };
+    const ctx: Ctx = { w, h, inView, show: (x, y, text) => setTip({ x, y, text }), hide: () => setTip(null) };
     return (
         <div className="flex flex-col gap-3 min-w-0">
             <div className="flex flex-col gap-1.5">
@@ -131,6 +133,28 @@ function Figure({ title, cols, children, note, inViewRef }: {
 
 const grow = (inView: boolean, i: number) => ({ duration: 0.9, ease: EASE, delay: inView ? 0.1 + i * 0.05 : 0 });
 const fadeIn = (inView: boolean, i = 0) => ({ initial: { opacity: 0 }, animate: { opacity: inView ? 1 : 0 }, transition: { duration: 0.8, delay: inView ? 0.1 + i * 0.1 : 0 } });
+/** Grow from the middle of the element along one axis (error bars outward from the mean, violins from their centre line). */
+const stretch = (inView: boolean, axis: "x" | "y", delay: number, duration = 0.7) => ({
+    initial: { [axis === "x" ? "scaleX" : "scaleY"]: 0, opacity: 0 },
+    animate: { [axis === "x" ? "scaleX" : "scaleY"]: inView ? 1 : 0, opacity: inView ? 1 : 0 },
+    transition: { duration, ease: EASE, delay: inView ? delay : 0 },
+    style: { originX: 0.5, originY: 0.5 },
+});
+/** Draw a line or path from its first point to its last. */
+const draw = (inView: boolean, delay: number, duration = 1.1) => ({
+    initial: { pathLength: 0, opacity: 0 },
+    animate: { pathLength: inView ? 1 : 0, opacity: inView ? 1 : 0 },
+    transition: { duration, ease: EASE, delay: inView ? delay : 0 },
+});
+/** A clip rectangle that sweeps open left to right, revealing what it clips. */
+function Sweep({ id, x, y, w, h, inView, delay = 0.1, duration = 1.2 }: { id: string; x: number; y: number; w: number; h: number; inView: boolean; delay?: number; duration?: number }) {
+    return (
+        <clipPath id={id}>
+            <motion.rect x={x} y={y} height={h} initial={{ width: 0 }} animate={{ width: inView ? w : 0 }}
+                transition={{ duration, ease: EASE, delay: inView ? delay : 0 }} />
+        </clipPath>
+    );
+}
 
 /** Horizontal bars for the ten most frequent models, with a human mean ± 1 std band. */
 function ModelBars({ c, inView, rows, xMin, xMax, ticks, fmt, tickFmt, human, labelW }: {
@@ -143,7 +167,7 @@ function ModelBars({ c, inView, rows, xMin, xMax, ticks, fmt, tickFmt, human, la
     const lo = Math.max(xMin, human.mean - human.sd), hi = Math.min(xMax, human.mean + human.sd);
     return (
         <>
-            <rect x={x(lo)} width={x(hi) - x(lo)} y={T} height={B - T} className="fill-main" fillOpacity={0.06} />
+            <motion.rect x={x(lo)} width={x(hi) - x(lo)} y={T} height={B - T} className="fill-main" fillOpacity={0.06} {...stretch(inView, "x", 0.05, 0.9)} />
             <Grid x={x} xTicks={ticks} L={L} R={R} T={T} B={B} />
             {rows.map(([m, v], i) => {
                 const yc = T + rowH * (i + 0.5);
@@ -157,7 +181,8 @@ function ModelBars({ c, inView, rows, xMin, xMax, ticks, fmt, tickFmt, human, la
                     </g>
                 );
             })}
-            <line x1={x(human.mean)} x2={x(human.mean)} y1={T - 2} y2={B} stroke="currentColor" strokeOpacity={0.65} strokeWidth={1.5} strokeDasharray="5 4" />
+            <motion.line x1={x(human.mean)} x2={x(human.mean)} y1={T - 2} stroke="currentColor" strokeOpacity={0.65} strokeWidth={1.5} strokeDasharray="5 4"
+                initial={{ y2: T - 2 }} animate={{ y2: inView ? B : T - 2 }} transition={{ duration: 0.9, ease: EASE, delay: inView ? 0.2 : 0 }} />
             <Baseline x1={L} x2={R} y={B} />
             <XTicks x={x} ticks={ticks} y={B} fmt={tickFmt} />
         </>
@@ -168,7 +193,6 @@ function ModelBars({ c, inView, rows, xMin, xMax, ticks, fmt, tickFmt, human, la
 
 export function FormalityRateFigure() {
     const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.25 });
     const corpusTone = [HUMAN.blended, HUMAN.reddit, HUMAN.eli5];
     const short = ["BlendedSkillTalk", "Reddit", "ELI5", "LLM (LMSYS)"];
 
@@ -179,6 +203,7 @@ export function FormalityRateFigure() {
                 label={`Mean formality rate: ${CORPUS_FR.map((c) => `${c.label} ${c.mean.toFixed(2)}`).join(", ")}`}
                 legend={<LegendRow items={[{ swatch: <Swatch kind="ink" opacity={0.5} />, label: "Human corpora" }, { swatch: <Swatch kind="accent" />, label: "LLM replies" }]} />}>
                 {(c) => {
+                    const { inView } = c;
                     const L = 50, R = c.w - 4, T = 8, B = c.h - 46;
                     const y = lin(-6, 21, B, T);
                     const band = (R - L) / CORPUS_FR.length;
@@ -196,7 +221,7 @@ export function FormalityRateFigure() {
                                             className={llm ? "fill-accent" : "fill-main"} fillOpacity={llm ? 1 : corpusTone[i]}
                                             initial={{ y: y(0), height: 0 }} animate={{ y: inView ? y(d.mean) : y(0), height: inView ? Math.max(1.5, y(0) - y(d.mean)) : 0 }}
                                             transition={grow(inView, i)} />
-                                        <motion.g stroke="currentColor" strokeOpacity={0.7} strokeWidth={1.5} {...fadeIn(inView, 4 + i)}>
+                                        <motion.g stroke="currentColor" strokeOpacity={0.7} strokeWidth={1.5} {...stretch(inView, "y", 0.6 + i * 0.08, 0.6)}>
                                             <line x1={cx(i)} x2={cx(i)} y1={y(d.mean - d.sd)} y2={y(d.mean + d.sd)} />
                                             <line x1={cx(i) - 6} x2={cx(i) + 6} y1={y(d.mean - d.sd)} y2={y(d.mean - d.sd)} />
                                             <line x1={cx(i) - 6} x2={cx(i) + 6} y1={y(d.mean + d.sd)} y2={y(d.mean + d.sd)} />
@@ -224,7 +249,7 @@ export function FormalityRateFigure() {
                     { swatch: <Swatch kind="band" />, label: "±1 std" },
                 ]} />}>
                 {(c) => <>
-                    <ModelBars c={c} inView={inView} rows={MODEL_FR} xMin={-5.4} xMax={14.4} ticks={range(-5, 12.5, 2.5)} fmt={(v) => v.toFixed(2)} tickFmt={(v) => (Number.isInteger(v) ? String(v) : v.toFixed(1))} human={HUMAN_FR} labelW={124} />
+                    <ModelBars c={c} inView={c.inView} rows={MODEL_FR} xMin={-5.4} xMax={14.4} ticks={range(-5, 12.5, 2.5)} fmt={(v) => v.toFixed(2)} tickFmt={(v) => (Number.isInteger(v) ? String(v) : v.toFixed(1))} human={HUMAN_FR} labelW={124} />
                     <AxisTitle x={(124 + c.w) / 2} y={c.h - 4} text="FR (hits / 1k tokens)" />
                 </>}
             </Panel>
@@ -252,7 +277,6 @@ const jit = (i: number, k: number) => (((Math.sin(i * 12.9898 + k * 78.233) * 43
 
 export function CorpusAnalysisFigure() {
     const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.12 });
     const humans = ["blended", "reddit", "eli5"] as const;
     const corpusLegend = <LegendRow items={[
         ...humans.map((s) => ({ swatch: <Swatch kind="ink" opacity={HUMAN[s]} />, label: HUMAN_NAME[s] })),
@@ -265,6 +289,7 @@ export function CorpusAnalysisFigure() {
             <Panel title="Distribution of RoBERTa P(formal)" legend={corpusLegend} height={(w) => Math.round(Math.min(360, Math.max(280, w * 0.66)))}
                 label="Histograms of P(formal): human corpora pile up near 0 and LLM replies near 1, with ELI5 also skewed high">
                 {(c) => {
+                    const { inView } = c;
                     const L = 50, R = c.w - 6, T = 6, B = c.h - 40;
                     const x = lin(-0.02, 1.02, L, R);
                     const y = lin(0, 28.8, B, T);
@@ -276,9 +301,10 @@ export function CorpusAnalysisFigure() {
                     return (
                         <>
                             <Grid x={x} y={y} xTicks={range(0, 1, 0.2)} yTicks={range(0, 25, 5)} L={L} R={R} T={T} B={B} />
-                            <motion.path d={step(HIST.lmsys) + "Z"} className="fill-accent stroke-accent" fillOpacity={0.22} strokeWidth={1.5} strokeLinejoin="round" {...fadeIn(inView, 0)} />
+                            <motion.path d={step(HIST.lmsys) + "Z"} className="fill-accent stroke-accent" fillOpacity={0.22} strokeWidth={1.5} strokeLinejoin="round"
+                                initial={{ scaleY: 0 }} animate={{ scaleY: inView ? 1 : 0 }} transition={{ duration: 1, ease: EASE, delay: inView ? 0.9 : 0 }} style={{ originY: 1 }} />
                             {humans.map((s, i) => (
-                                <motion.path key={s} d={step(HIST[s])} fill="none" stroke="currentColor" strokeOpacity={HUMAN[s]} strokeWidth={1.6} strokeLinejoin="round" {...fadeIn(inView, i + 1)} />
+                                <motion.path key={s} d={step(HIST[s])} fill="none" stroke="currentColor" strokeOpacity={HUMAN[s]} strokeWidth={1.6} strokeLinejoin="round" {...draw(inView, 0.1 + i * 0.2, 1.4)} />
                             ))}
                             <Baseline x1={L} x2={R} y={B} />
                             <XTicks x={x} ticks={range(0, 1, 0.2)} y={B} fmt={(v) => v.toFixed(1)} />
@@ -294,16 +320,21 @@ export function CorpusAnalysisFigure() {
                 legend={<LegendRow items={[{ swatch: <Swatch kind="accent" />, label: "LLM (LMSYS)" }, { swatch: <Swatch kind="ink" opacity={0.5} />, label: "Human corpora" }]} />}
                 label="Scatter of Formality Rate against P(formal) for LLM and human texts">
                 {(c) => {
+                    const { inView } = c;
                     const L = 50, R = c.w - 6, T = 6, B = c.h - 40;
                     const x = lin(-3, 80, L, R);
                     const y = lin(-0.04, 1.04, B, T);
                     return (
                         <>
                             <Grid x={x} y={y} xTicks={range(0, 80, 10)} yTicks={range(0, 1, 0.2)} L={L} R={R} T={T} B={B} />
-                            <motion.g className="fill-main" fillOpacity={0.3} {...fadeIn(inView, 0)}>
+                            <defs>
+                                <Sweep id="fa-sweep-human" x={L - 8} y={T - 8} w={R - L + 16} h={B - T + 16} inView={inView} delay={0.1} duration={1.1} />
+                                <Sweep id="fa-sweep-llm" x={L - 8} y={T - 8} w={R - L + 16} h={B - T + 16} inView={inView} delay={0.6} duration={1.3} />
+                            </defs>
+                            <motion.g className="fill-main" fillOpacity={0.3} clipPath="url(#fa-sweep-human)" {...fadeIn(inView, 0)}>
                                 {SCATTER_HUMAN.map(([f, p], i) => <circle key={i} cx={x(f) + (f > 0 ? jit(i, 1) * 4 : jit(i, 1) * 2)} cy={y(p) + jit(i, 2) * 4} r={1.9} />)}
                             </motion.g>
-                            <motion.g className="fill-accent" fillOpacity={0.42} {...fadeIn(inView, 1)}>
+                            <motion.g className="fill-accent" fillOpacity={0.42} clipPath="url(#fa-sweep-llm)" {...fadeIn(inView, 5)}>
                                 {SCATTER_LLM.map(([f, p], i) => <circle key={i} cx={x(f) + (f > 0 ? jit(i, 3) * 4 : jit(i, 3) * 2)} cy={y(p) + jit(i, 4) * 4} r={1.9} />)}
                             </motion.g>
                             <Baseline x1={L} x2={R} y={B} />
@@ -324,7 +355,7 @@ export function CorpusAnalysisFigure() {
                     { swatch: <Swatch kind="band" />, label: "±1 std" },
                 ]} />}>
                 {(c) => <>
-                    <ModelBars c={c} inView={inView} rows={MODEL_P} xMin={0} xMax={1} ticks={range(0, 1, 0.2)} fmt={(v) => v.toFixed(3)} tickFmt={(v) => v.toFixed(1)} human={HUMAN_P} labelW={124} />
+                    <ModelBars c={c} inView={c.inView} rows={MODEL_P} xMin={0} xMax={1} ticks={range(0, 1, 0.2)} fmt={(v) => v.toFixed(3)} tickFmt={(v) => v.toFixed(1)} human={HUMAN_P} labelW={124} />
                     <AxisTitle x={(124 + c.w) / 2} y={c.h - 4} text="P(formal)" />
                 </>}
             </Panel>
@@ -336,6 +367,7 @@ export function CorpusAnalysisFigure() {
                 ]} />}
                 label="Violin plots of P(formal): BlendedSkillTalk and Reddit concentrate near 0 with medians 0.08 and 0.06; ELI5 concentrates near 1 with median 0.93">
                 {(c) => {
+                    const { inView } = c;
                     const L = 50, R = c.w - 6, T = 6, B = c.h - 40;
                     const y = lin(-0.16, 1.16, B, T);
                     const band = (R - L) / 3;
@@ -347,7 +379,7 @@ export function CorpusAnalysisFigure() {
                             {VIOLINS.map((v, i) => {
                                 const key = v.label as keyof typeof HUMAN;
                                 return (
-                                    <motion.g key={v.label} {...fadeIn(inView, i)}
+                                    <motion.g key={v.label} {...stretch(inView, "x", 0.1 + i * 0.15, 0.9)}
                                         {...hover(c, cx(i), y(v.q[2]) - 10, `${HUMAN_NAME[key]}: median ${v.q[1]}, quartiles ${v.q[0]}–${v.q[2]}`)}>
                                         <path d={violinPath(v.profile, cx(i), half, y)} className="fill-main" fillOpacity={HUMAN[key] * 0.75} stroke="currentColor" strokeOpacity={0.55} strokeWidth={1.2} />
                                         {v.q.map((q, qi) => {
@@ -377,7 +409,6 @@ export function CorpusAnalysisFigure() {
 
 export function FamilyFigure() {
     const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.3 });
     return (
         <figure className="m-0 rounded-2xl bg-canvas p-5 md:p-8 flex flex-col gap-6" data-ui>
             <div ref={ref}>
@@ -385,6 +416,7 @@ export function FamilyFigure() {
                     legend={<LegendRow items={[{ swatch: <Swatch kind="accent" />, label: "Family mean ± 1 SEM" }, { swatch: <Swatch kind="dash" />, label: `Human baseline, ELI5 (${ELI5_P.toFixed(2)})` }]} />}
                     label={`Mean P(formal) by family: ${FAMILY_P.map((f) => `${f.name} ${f.mean.toFixed(2)}`).join(", ")}; ELI5 baseline ${ELI5_P.toFixed(2)}`}>
                     {(c) => {
+                    const { inView } = c;
                         const L = 50, R = c.w - 4, T = 8, B = c.h - 42;
                         const y = lin(0, 1, B, T);
                         const band = (R - L) / FAMILY_P.length;
@@ -399,7 +431,7 @@ export function FamilyFigure() {
                                         <motion.rect x={cx(i) - bw / 2} width={bw} rx={3} className="fill-accent"
                                             initial={{ y: y(0), height: 0 }} animate={{ y: inView ? y(f.mean) : y(0), height: inView ? y(0) - y(f.mean) : 0 }}
                                             transition={grow(inView, i)} />
-                                        <motion.g stroke="currentColor" strokeOpacity={0.75} strokeWidth={1.5} {...fadeIn(inView, 5 + i * 0.3)}>
+                                        <motion.g stroke="currentColor" strokeOpacity={0.75} strokeWidth={1.5} {...stretch(inView, "y", 0.6 + i * 0.06, 0.5)}>
                                             <line x1={cx(i)} x2={cx(i)} y1={y(f.mean - f.sem)} y2={y(f.mean + f.sem)} />
                                             <line x1={cx(i) - 5} x2={cx(i) + 5} y1={y(f.mean - f.sem)} y2={y(f.mean - f.sem)} />
                                             <line x1={cx(i) - 5} x2={cx(i) + 5} y1={y(f.mean + f.sem)} y2={y(f.mean + f.sem)} />
@@ -423,13 +455,14 @@ export function FamilyFigure() {
 
 /* ---------- Figure 4: LoRA mitigation ---------- */
 
-function BoxPanel({ title, yTitle, data, yMin, yMax, ticks, fmt, inView }: {
-    title: string; yTitle: string; data: typeof LORA_FR_BOX; yMin: number; yMax: number; ticks: number[]; fmt: (v: number) => string; inView: boolean;
+function BoxPanel({ title, yTitle, data, yMin, yMax, ticks, fmt }: {
+    title: string; yTitle: string; data: typeof LORA_FR_BOX; yMin: number; yMax: number; ticks: number[]; fmt: (v: number) => string;
 }) {
     return (
         <Panel title={title} height={(w) => Math.round(Math.min(340, Math.max(280, w * 0.85)))}
             label={`${title}: ${data.map((d) => `${d.label} median ${d.med}, quartiles ${d.q1} to ${d.q3}`).join("; ")}`}>
             {(c) => {
+                    const { inView } = c;
                 const L = 54, R = c.w - 4, T = 8, B = c.h - 30;
                 const y = lin(yMin, yMax, B, T);
                 const band = (R - L) / data.length;
@@ -441,20 +474,25 @@ function BoxPanel({ title, yTitle, data, yMin, yMax, ticks, fmt, inView }: {
                         {data.map((d, i) => {
                             const tuned = i === 1;
                             return (
-                                <motion.g key={d.label} {...fadeIn(inView, i + 1)}
-                                    {...hover(c, cx(i), y(d.hi) - 6, `${d.label}: median ${d.med}, IQR ${d.q1}–${d.q3}`)}>
+                                <g key={d.label} {...hover(c, cx(i), y(d.hi) - 6, `${d.label}: median ${d.med}, IQR ${d.q1}–${d.q3}`)}>
                                     <rect x={cx(i) - band / 2} width={band} y={T} height={B - T} fill="transparent" />
                                     <g className={tuned ? "stroke-accent" : "stroke-main"} strokeOpacity={tuned ? 1 : 0.7} strokeWidth={1.5}>
-                                        <line x1={cx(i)} x2={cx(i)} y1={y(d.q3)} y2={y(d.hi)} />
-                                        <line x1={cx(i)} x2={cx(i)} y1={y(d.lo)} y2={y(d.q1)} />
-                                        <line x1={cx(i) - bw / 4} x2={cx(i) + bw / 4} y1={y(d.hi)} y2={y(d.hi)} />
-                                        <line x1={cx(i) - bw / 4} x2={cx(i) + bw / 4} y1={y(d.lo)} y2={y(d.lo)} />
-                                        <rect x={cx(i) - bw / 2} width={bw} y={y(d.q3)} height={Math.max(2, y(d.q1) - y(d.q3))} rx={3}
-                                            className={tuned ? "fill-accent-soft" : "fill-card"} />
-                                        {d.fliers.map((f, fi) => <circle key={fi} cx={cx(i)} cy={y(f)} r={4} fill="none" />)}
+                                        {/* whiskers grow out of the box, then the caps and outliers land */}
+                                        <motion.line x1={cx(i)} x2={cx(i)} y1={y(d.q3)} y2={y(d.hi)} {...draw(inView, 0.55 + i * 0.2, 0.6)} />
+                                        <motion.line x1={cx(i)} x2={cx(i)} y1={y(d.q1)} y2={y(d.lo)} {...draw(inView, 0.55 + i * 0.2, 0.6)} />
+                                        <motion.g {...fadeIn(inView, 9 + i * 2)}>
+                                            <line x1={cx(i) - bw / 4} x2={cx(i) + bw / 4} y1={y(d.hi)} y2={y(d.hi)} />
+                                            <line x1={cx(i) - bw / 4} x2={cx(i) + bw / 4} y1={y(d.lo)} y2={y(d.lo)} />
+                                            {d.fliers.map((f, fi) => <circle key={fi} cx={cx(i)} cy={y(f)} r={4} fill="none" />)}
+                                        </motion.g>
                                     </g>
-                                    <line x1={cx(i) - bw / 2} x2={cx(i) + bw / 2} y1={y(d.med)} y2={y(d.med)} className={tuned ? "stroke-accent" : "stroke-main"} strokeWidth={2.5} />
-                                </motion.g>
+                                    {/* the box opens out from its middle */}
+                                    <motion.g {...stretch(inView, "y", 0.15 + i * 0.2, 0.7)}>
+                                        <rect x={cx(i) - bw / 2} width={bw} y={y(d.q3)} height={Math.max(2, y(d.q1) - y(d.q3))} rx={3}
+                                            className={tuned ? "fill-accent-soft stroke-accent" : "fill-card stroke-main"} strokeOpacity={tuned ? 1 : 0.7} strokeWidth={1.5} />
+                                        <line x1={cx(i) - bw / 2} x2={cx(i) + bw / 2} y1={y(d.med)} y2={y(d.med)} className={tuned ? "stroke-accent" : "stroke-main"} strokeWidth={2.5} />
+                                    </motion.g>
+                                </g>
                             );
                         })}
                         <Baseline x1={L} x2={R} y={B} />
@@ -470,26 +508,27 @@ function BoxPanel({ title, yTitle, data, yMin, yMax, ticks, fmt, inView }: {
 
 export function MitigationFigure() {
     const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: true, amount: 0.2 });
     const lim = 43.91 * 1.1;
     return (
         <Figure inViewRef={ref} title="Mitigation: Qwen2.5-3B-Instruct before and after LoRA" cols="md:grid-cols-2 xl:grid-cols-3"
             note={<>24 held-out LMSYS prompts, from the notebook’s final run (mean FR 6.56 → 5.48, mean P(formal) 0.858 → 0.795). Most replies score 0 either way, so both FR medians sit at 0. In the scatter, points below the dashed line got less formal.
                 <span className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5"><span className="inline-flex items-center gap-2"><span className="inline-block w-3 h-3 rounded-[3px] bg-card ring-1 ring-main/60" />Base model</span><span className="inline-flex items-center gap-2"><span className="inline-block w-3 h-3 rounded-[3px] bg-accent-soft ring-1 ring-accent" />After LoRA</span></span></>}>
-            <BoxPanel title="Formality Rate" yTitle="FR (hits / 1k tokens)" data={LORA_FR_BOX} yMin={-2} yMax={46} ticks={range(0, 40, 10)} fmt={(v) => (Number.isInteger(v) ? String(v) : v.toFixed(1))} inView={inView} />
-            <BoxPanel title="RoBERTa P(formal)" yTitle="P(formal)" data={LORA_P_BOX} yMin={-0.03} yMax={1.05} ticks={range(0, 1, 0.2)} fmt={(v) => v.toFixed(1)} inView={inView} />
+            <BoxPanel title="Formality Rate" yTitle="FR (hits / 1k tokens)" data={LORA_FR_BOX} yMin={-2} yMax={46} ticks={range(0, 40, 10)} fmt={(v) => (Number.isInteger(v) ? String(v) : v.toFixed(1))} />
+            <BoxPanel title="RoBERTa P(formal)" yTitle="P(formal)" data={LORA_P_BOX} yMin={-0.03} yMax={1.05} ticks={range(0, 1, 0.2)} fmt={(v) => v.toFixed(1)} />
             <Panel title="Per-sample Formality Rate" height={(w) => Math.round(Math.min(340, Math.max(280, w * 0.85)))}
                 legend={<LegendRow items={[{ swatch: <Swatch kind="dot" />, label: "One prompt (13 at 0, 0)" }, { swatch: <Swatch kind="dash" />, label: "No change" }]} />}
                 label="Per-sample formality rate, base against fine-tuned: 13 prompts at zero on both, the rest scattered on both sides of the no-change line">
                 {(c) => {
+                    const { inView } = c;
                     const L = 50, R = c.w - 6, T = 6, B = c.h - 40;
                     const x = lin(-2.5, 51, L, R);
                     const y = lin(-2.5, 51, B, T);
                     return (
                         <>
                             <Grid x={x} y={y} xTicks={range(0, 50, 10)} yTicks={range(0, 50, 10)} L={L} R={R} T={T} B={B} />
-                            <motion.line x1={x(0)} y1={y(0)} x2={x(lim)} y2={y(lim)} stroke="currentColor" strokeOpacity={0.55} strokeWidth={1.5} strokeDasharray="5 4"
-                                {...fadeIn(inView, 1)} />
+                            <defs><Sweep id="fa-sweep-diagonal" x={L} y={T - 4} w={R - L} h={B - T + 8} inView={inView} delay={0.15} duration={1.1} /></defs>
+                            <line x1={x(0)} y1={y(0)} x2={x(lim)} y2={y(lim)} stroke="currentColor" strokeOpacity={0.55} strokeWidth={1.5} strokeDasharray="5 4"
+                                clipPath="url(#fa-sweep-diagonal)" />
                             {LORA_PAIRS.map(([b, f], i) => (i > 11 ? null : (
                                 <g key={i} {...hover(c, x(b), y(f) - 8, i === 11 ? "13 prompts: 0 before, 0 after" : `Base ${b}, after LoRA ${f}`)}>
                                     <motion.circle cx={x(b)} cy={y(f)} r={i === 11 ? 6.5 : 5} className="fill-accent" fillOpacity={i === 11 ? 0.9 : 0.7}
