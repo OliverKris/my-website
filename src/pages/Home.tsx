@@ -13,7 +13,7 @@ const sengoku = projects.find((p) => p.id === "sengoku-jidai")!;
 const FRAMES: Record<string, string> = {
     "easysched-reworked": "/media/easy-sched/board-dark.webp",
     "formality-bias-nlu": "/media/formality/rate-dark.webp",
-    "sengoku-jidai": "/media/sengoku/early.webp",
+    "sengoku-jidai": "/media/sengoku/chapter-2.webp",
 };
 
 function projectHref(p: Project) {

@@ -15,8 +15,8 @@ const EXTRA: Record<string, { src: string; alt: string }[]> = {
         { src: "/media/formality/family-{theme}.webp", alt: "Mean P(formal) by model family: every family above the ELI5 human baseline" },
     ],
     "sengoku-jidai": [
-        { src: "/media/sengoku/early.webp", alt: "Early game: blue troops march up the road toward the red cities, with the city panel open" },
-        { src: "/media/sengoku/late.webp", alt: "Late game: fully upgraded blue cities take the last red strongholds" },
+        { src: "/media/sengoku/main-menu.webp", alt: "The title screen: Sengoku Jidai, The Age of Warring States, over a woodblock print of Mount Fuji and cherry blossoms" },
+        { src: "/media/sengoku/chapter-2.webp", alt: "Chapter 2, the largest map: blue holds seven of seventeen cities while red armies march down four roads" },
     ],
 };
 
