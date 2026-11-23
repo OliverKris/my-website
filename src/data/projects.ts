@@ -9,6 +9,8 @@ export type CaseStudy = {
     /** one-sentence summary for the case-study band */
     summary: string;
     cover: { src: string; alt: string; width: number; height: number };
+    /** optional looping demo shown instead of the cover on the Work page */
+    video?: { src: string; poster: string; label: string };
     facts: { label: string; value: string }[];
 };
 
@@ -138,6 +140,7 @@ export const projects: Project[] = [
             path: "/projects/sengoku-jidai",
             summary: "A real-time strategy game in Godot, with an AI rival that routes troops to its frontier. Play the whole thing in the browser.",
             cover: { src: "/media/sengoku/demo-poster.webp", alt: "Sengoku Jidai: blue and red cities joined by roads on a hex map", width: 1600, height: 896 },
+            video: { src: "/media/sengoku/demo.mp4", poster: "/media/sengoku/demo-poster.webp", label: "Sengoku Jidai gameplay" },
             facts: [
                 { label: "Engine", value: "Godot" },
                 { label: "Levels", value: "3" },
@@ -172,6 +175,7 @@ export const projects: Project[] = [
             path: "/projects/easy-sched",
             summary: "Assigns learning assistants and TAs to course sections, finds the provably best schedule in about a millisecond, and explains every placement.",
             cover: { src: "/media/easy-sched/board-{theme}.webp", alt: "Easy-Sched's assignments board: courses, filled and empty slots, and the reasons panel", width: 1800, height: 1125 },
+            video: { src: "/media/easy-sched/demo.mp4", poster: "/media/easy-sched/demo-poster.webp", label: "Easy-Sched in use" },
             facts: [
                 { label: "Solve time", value: "1.2 ms" },
                 { label: "Tests", value: "188" },

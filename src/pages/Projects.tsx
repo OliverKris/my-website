@@ -114,8 +114,8 @@ export default function Projects() {
                         <article key={p.id} className="grid gap-10 lg:grid-cols-12 items-center">
                             <Rise as="figure" className={`m-0 lg:col-span-7 grid grid-cols-2 gap-4 ${i % 2 ? "lg:order-2" : ""}`}>
                                 <Link to={cs.path} className="group col-span-2 block rounded-2xl border border-layout bg-raised p-1.5 md:p-2" aria-label={`${p.short} case study`} data-ui><span className="block rounded-xl overflow-hidden bg-card">
-                                    {p.id === "easysched-reworked" ? (
-                                        <LoopVideo src="/media/easy-sched/demo.mp4" poster="/media/easy-sched/demo-poster.webp" label="Easy-Sched in use" />
+                                    {cs.video ? (
+                                        <LoopVideo src={cs.video.src} poster={cs.video.poster} label={cs.video.label} />
                                     ) : (
                                         <ThemedImg src={cs.cover.src} alt={cs.cover.alt} width={cs.cover.width} height={cs.cover.height} eager={i === 0}
                                             className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
