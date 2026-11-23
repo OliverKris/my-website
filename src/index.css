@@ -14,35 +14,36 @@
 
 :root {
     color-scheme: light;
-    --color-bg-canvas: #f3f3ef;
-    --color-bg-card: #e9e9e3;
+    /* Indigo: cool blue-grey neutrals, one indigo accent (distinct from Easy-Sched's teal-green). */
+    --color-bg-canvas: #f5f6f9;
+    --color-bg-card: #eaecf2;
     --color-bg-raised: #ffffff;
-    --color-text-main: #0b0c0e;
-    --color-text-muted: #545963;
-    --color-border: #d9d9d2;
-    --color-accent-base: #086b52;
+    --color-text-main: #0e1120;
+    --color-text-muted: #525a6e;
+    --color-border: #d8dbe4;
+    --color-accent-base: #3b3fd8;
     --color-accent-ink-base: #ffffff;
-    --color-accent-soft-base: #d7ece4;
+    --color-accent-soft-base: #e1e2fb;
     /* the inverse field: a section set in the opposite colours */
-    --color-field: #0b0c0e;
-    --color-field-ink: #ecedf0;
-    --color-field-muted: #a3a8b3;
+    --color-field: #0e1120;
+    --color-field-ink: #e8eaf2;
+    --color-field-muted: #a2a8ba;
 }
 
 html[data-theme="dark"] {
     color-scheme: dark;
-    --color-bg-canvas: #0a0b0d;
-    --color-bg-card: #131519;
-    --color-bg-raised: #1a1d22;
-    --color-text-main: #ecedf0;
-    --color-text-muted: #a3a8b3;
-    --color-border: #262a31;
-    --color-accent-base: #3ccaa0;
-    --color-accent-ink-base: #04150f;
-    --color-accent-soft-base: #10302a;
-    --color-field: #ecebe5;
-    --color-field-ink: #0b0c0e;
-    --color-field-muted: #545963;
+    --color-bg-canvas: #0b0d14;
+    --color-bg-card: #141724;
+    --color-bg-raised: #1c2030;
+    --color-text-main: #e8eaf2;
+    --color-text-muted: #a2a8ba;
+    --color-border: #262b3b;
+    --color-accent-base: #9095ff;
+    --color-accent-ink-base: #0b0d1f;
+    --color-accent-soft-base: #1f2250;
+    --color-field: #e9ebf2;
+    --color-field-ink: #0e1120;
+    --color-field-muted: #525a6e;
 }
 
 @theme inline {
