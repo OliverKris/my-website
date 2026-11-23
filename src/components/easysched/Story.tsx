@@ -234,7 +234,7 @@ export function Timeline() {
 }
 
 const TEAM = [
-    { name: "Cynthia Driskell", role: "Scheduling algorithm", lead: true },
+    { name: "Cynthia Driskell", role: "Scheduling algorithm", lead: false },
     { name: "Oliver Krisetya", role: "Web application and backend integration over HTTP", lead: true, me: true },
     { name: "Will Huizinga", role: "Evaluation (scoring) algorithm", lead: false },
 ];

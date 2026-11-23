@@ -97,7 +97,7 @@ export default function EasySchedCaseStudy() {
                     <dl className="lg:col-span-4 m-0 grid grid-cols-2 gap-x-6 gap-y-5 text-[15px] fade-up" style={{ ["--fade-delay" as string]: "500ms" }}>
                         <div><dt className="text-muted">Client</dt><dd className="m-0">GW Computer Science</dd></div>
                         <div><dt className="text-muted">Timeline</dt><dd className="m-0">Capstone 2024–25, rebuilt 2026</dd></div>
-                        <div><dt className="text-muted">Role</dt><dd className="m-0">Web lead on the capstone; all of the rebuild</dd></div>
+                        <div><dt className="text-muted">Role</dt><dd className="m-0">Team lead on the capstone; all of the rebuild</dd></div>
                         <div><dt className="text-muted">Status</dt><dd className="m-0">Live, with CI and 188 tests</dd></div>
                     </dl>
                 </div>
@@ -142,8 +142,8 @@ export default function EasySchedCaseStudy() {
                         <SectionHead id="original" title="It started as Team COW’s capstone">
                             <p className="m-0">
                                 Easy Sched, “an algorithm-assisted scheduling tool”, was our senior design project for the CS department in
-                                2024–25. Three of us built it in a year: I led the web application and wired it to the scoring and scheduling
-                                back end over HTTP.
+                                2024–25. Three of us built it in a year. I led the team, built the web application and wired it to the scoring
+                                and scheduling back end over HTTP.
                             </p>
                         </SectionHead>
                         <Team />
