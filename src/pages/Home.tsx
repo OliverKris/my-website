@@ -7,12 +7,13 @@ import { LoopVideo, Shot, ThemedImg, ThemedShot } from "../components/site/Media
 
 const easySched = projects.find((p) => p.id === "easysched-reworked")!;
 const formality = projects.find((p) => p.id === "formality-bias-nlu")!;
+const sengoku = projects.find((p) => p.id === "sengoku-jidai")!;
 
 /* Inline frames after a name in the running list of work. */
 const FRAMES: Record<string, string> = {
     "easysched-reworked": "/media/easy-sched/board-dark.webp",
-    "formality-bias-nlu": "/media/formality/corpora-dark.webp",
-    "sengoku-jidai": "/media/sengoku/battle.webp",
+    "formality-bias-nlu": "/media/formality/rate-dark.webp",
+    "sengoku-jidai": "/media/sengoku/early.webp",
 };
 
 function projectHref(p: Project) {
@@ -95,9 +96,9 @@ export default function Home() {
                     </Rise>
                     <Rise as="figure" className="m-0 md:col-span-7" delay={90}>
                         <Shot ratio={1.6}>
-                            <ThemedShot name="upload" alt="CSV upload screen with a template link, the accepted columns and a preview step" width={1400} height={875} />
+                            <ThemedShot name="rules" alt="Department rules: minimum GPAs for each role and sliders weighting grade, preference, experience, recommendations and skills" width={1400} height={875} />
                         </Shot>
-                        <figcaption className="mt-3 text-[15px] text-muted text-center">Spreadsheets are checked row by row before anything is saved.</figcaption>
+                        <figcaption className="mt-3 text-[15px] text-muted text-center">The department sets the rules; the solver finds the best schedule under them.</figcaption>
                     </Rise>
                 </div>
                 <Rise className={`${frame} mt-14 grid gap-10 md:grid-cols-3`} delay={120}>
@@ -121,8 +122,8 @@ export default function Home() {
                         <Shot ratio={1400 / 254} fit={1}>
                             <ThemedImg src="/media/formality/demo-{theme}.webp" alt="An assistant reply with its formal words struck through and replaced by plain ones: elucidate becomes explain, commence becomes start, delve into becomes get into" width={1400} height={254} />
                         </Shot>
-                        <Shot ratio={1100 / 682} fit={1}>
-                            <ThemedImg src={formality.caseStudy!.cover.src} alt={formality.caseStudy!.cover.alt} width={1100} height={682} />
+                        <Shot ratio={formality.caseStudy!.cover.width / formality.caseStudy!.cover.height} fit={1}>
+                            <ThemedImg src={formality.caseStudy!.cover.src} alt={formality.caseStudy!.cover.alt} width={formality.caseStudy!.cover.width} height={formality.caseStudy!.cover.height} />
                         </Shot>
                     </Rise>
                     <Rise className="lg:col-span-5 flex flex-col gap-6" delay={90}>
@@ -148,6 +149,38 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ---------- Sengoku Jidai: the game, its film as the highlight ---------- */}
+            <section className="pt-[clamp(80px,12vw,200px)]" aria-labelledby="sengoku-title">
+                <div className={`${frame} grid gap-12 lg:grid-cols-12 items-center`}>
+                    <Rise className="lg:col-span-5 flex flex-col gap-6 order-2 lg:order-1">
+                        <h2 id="sengoku-title" className="m-0 text-[clamp(36px,4.2vw,64px)] font-semibold leading-[1] tracking-[-0.04em]">Sengoku Jidai</h2>
+                        <p className="m-0 text-[length:var(--text-body)] leading-[1.6]">{sengoku.caseStudy!.summary}</p>
+                        <dl className="m-0 grid grid-cols-3 gap-4">
+                            {sengoku.caseStudy!.facts.map((f) => (
+                                <div key={f.label} className="flex flex-col-reverse gap-1">
+                                    <dt className="text-[14px] text-muted">{f.label}</dt>
+                                    <dd className="m-0 text-[clamp(18px,1.6vw,24px)] font-semibold tracking-[-0.02em]">{f.value}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        <div className="flex flex-wrap gap-3">
+                            <Link to={sengoku.caseStudy!.path} className="inline-flex items-center h-12 px-6 rounded-full bg-main text-canvas text-[16px] font-medium no-underline transition-transform hover:scale-[1.03] active:scale-[0.98]">
+                                Read the case study
+                            </Link>
+                            <a href="/play/sengoku-jidai/index.html" target="_blank" rel="noopener noreferrer" className="inline-flex items-center h-12 px-5 rounded-full bg-card text-main text-[16px] no-underline hover:bg-raised transition-colors">
+                                Play it ↗
+                            </a>
+                        </div>
+                    </Rise>
+                    <Rise as="figure" className="lg:col-span-7 m-0 order-1 lg:order-2" delay={90}>
+                        <Shot ratio={1920 / 1076} fit={1}>
+                            <LoopVideo src={sengoku.caseStudy!.video!.src} poster={sengoku.caseStudy!.video!.poster} start={sengoku.caseStudy!.video!.start}
+                                label="Sengoku Jidai gameplay: choosing a chapter, then sending armies between cities on a hex map and capturing enemy cities" />
+                        </Shot>
+                    </Rise>
+                </div>
+            </section>
+
             {/* ---------- All the work, as one running paragraph of names ---------- */}
             <section className={`${frame} pt-[clamp(80px,12vw,200px)]`} aria-labelledby="work-title">
                 <Rise className="text-[clamp(26px,2.6vw,36px)] leading-[1.3] tracking-[-0.02em] font-medium">
@@ -158,7 +191,7 @@ export default function Home() {
                                 {p.short ?? p.title}
                                 {FRAMES[p.id] && (
                                     <span className="inline-block align-[-0.1em] ml-[0.25em] h-[0.8em] w-[1.25em] overflow-hidden rounded-[3px] origin-left transition-transform duration-300 group-hover:scale-[1.6]">
-                                        <img src={FRAMES[p.id]} alt="" width={60} height={38} loading="lazy" className="block w-full h-full object-cover object-left-top" />
+                                        <img src={FRAMES[p.id]} alt="" width={60} height={38} loading="lazy" className="block w-full h-full object-cover object-center" />
                                     </span>
                                 )}
                             </Link>

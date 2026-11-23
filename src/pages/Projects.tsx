@@ -4,19 +4,19 @@ import { projects, type Project } from "../data/projects";
 import { frame, Rise } from "../components/site/Rise";
 import { LoopVideo, ThemedImg } from "../components/site/Media";
 
-/* Two supporting pictures under each case study's cover. */
+/* Two supporting pictures under each case study's main picture or film: the project's key scenes. */
 const EXTRA: Record<string, { src: string; alt: string }[]> = {
     "easysched-reworked": [
-        { src: "/media/easy-sched/board-{theme}.webp", alt: "The assignments board with a slot's reasons open" },
-        { src: "/media/easy-sched/upload-{theme}.webp", alt: "CSV upload with a template and dry-run preview" },
+        { src: "/media/easy-sched/board-{theme}.webp", alt: "The assignments board: every section's slots filled by the solver, with the reasons panel open" },
+        { src: "/media/easy-sched/rules-{theme}.webp", alt: "Department rules: GPA floors and the weights that decide what makes a good fit" },
     ],
     "formality-bias-nlu": [
-        { src: "/media/formality/families-{theme}.webp", alt: "RoBERTa P(formal) by model family: every family above the human baselines" },
-        { src: "/media/formality/demo-{theme}.webp", alt: "An assistant reply with formal words swapped for plain ones" },
+        { src: "/media/formality/dist-{theme}.webp", alt: "Distribution of RoBERTa P(formal): human corpora pile up near 0, LLM replies near 1" },
+        { src: "/media/formality/family-{theme}.webp", alt: "Mean P(formal) by model family: every family above the ELI5 human baseline" },
     ],
     "sengoku-jidai": [
-        { src: "/media/sengoku/menu.webp", alt: "The title screen" },
-        { src: "/media/sengoku/battle.webp", alt: "Mid-game with armies on the roads and the city panel open" },
+        { src: "/media/sengoku/early.webp", alt: "Early game: blue troops march up the road toward the red cities, with the city panel open" },
+        { src: "/media/sengoku/late.webp", alt: "Late game: fully upgraded blue cities take the last red strongholds" },
     ],
 };
 
@@ -115,7 +115,7 @@ export default function Projects() {
                             <Rise as="figure" className={`m-0 lg:col-span-7 grid grid-cols-2 gap-4 ${i % 2 ? "lg:order-2" : ""}`}>
                                 <Link to={cs.path} className="group col-span-2 block rounded-2xl border border-layout bg-raised p-1.5 md:p-2" aria-label={`${p.short} case study`} data-ui><span className="block rounded-xl overflow-hidden bg-card">
                                     {cs.video ? (
-                                        <LoopVideo src={cs.video.src} poster={cs.video.poster} label={cs.video.label} />
+                                        <LoopVideo src={cs.video.src} poster={cs.video.poster} label={cs.video.label} start={cs.video.start} />
                                     ) : (
                                         <ThemedImg src={cs.cover.src} alt={cs.cover.alt} width={cs.cover.width} height={cs.cover.height} eager={i === 0}
                                             className="transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
@@ -123,7 +123,7 @@ export default function Projects() {
                                 </span></Link>
                                 {(EXTRA[p.id] ?? []).map((x) => (
                                     <div key={x.src} data-ui className="rounded-xl border border-layout bg-raised p-1 aspect-[16/10]"><div className="rounded-lg overflow-hidden bg-card h-full">
-                                        <ThemedImg src={x.src} alt={x.alt} width={800} height={500} className="h-full! object-cover object-left-top" />
+                                        <ThemedImg src={x.src} alt={x.alt} width={800} height={500} className="h-full! object-cover object-center" />
                                     </div></div>
                                 ))}
                             </Rise>

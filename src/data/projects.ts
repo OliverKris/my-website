@@ -10,7 +10,7 @@ export type CaseStudy = {
     summary: string;
     cover: { src: string; alt: string; width: number; height: number };
     /** optional looping demo shown instead of the cover on the Work page */
-    video?: { src: string; poster: string; label: string };
+    video?: { src: string; poster: string; label: string; /** where previews start, skipping intros */ start?: number };
     facts: { label: string; value: string }[];
 };
 
@@ -106,7 +106,7 @@ export const projects: Project[] = [
         caseStudy: {
             path: "/projects/formality",
             summary: "Research across six model families: LLM replies are measurably more formal than human conversation, on a lexicon metric and a fine-tuned RoBERTa classifier alike, and LoRA can pull them back.",
-            cover: { src: "/media/formality/corpora-{theme}.webp", alt: "Mean Formality Rate by corpus: LLM replies at 7.62, three times ELI5 and far above Reddit and BlendedSkillTalk", width: 1100, height: 682 },
+            cover: { src: "/media/formality/rate-{theme}.webp", alt: "Mean Formality Rate by corpus and by model: LLM replies at 7.62 against 0.24 to 2.33 for the human corpora, and every common model above the human mean", width: 1600, height: 771 },
             facts: [
                 { label: "Conversations", value: "1M+" },
                 { label: "Model families", value: "6" },
@@ -139,8 +139,8 @@ export const projects: Project[] = [
         caseStudy: {
             path: "/projects/sengoku-jidai",
             summary: "A real-time strategy game in Godot, with an AI rival that routes troops to its frontier. Play the whole thing in the browser.",
-            cover: { src: "/media/sengoku/demo-poster.webp", alt: "Sengoku Jidai: blue and red cities joined by roads on a hex map", width: 1600, height: 896 },
-            video: { src: "/media/sengoku/demo.mp4", poster: "/media/sengoku/demo-poster.webp", label: "Sengoku Jidai gameplay" },
+            cover: { src: "/media/sengoku/demo-poster.webp", alt: "Sengoku Jidai mid-game: armies on the roads between blue and red cities on a hex map", width: 1920, height: 1076 },
+            video: { src: "/media/sengoku/demo.mp4", poster: "/media/sengoku/demo-poster.webp", label: "Sengoku Jidai gameplay", start: 3 },
             facts: [
                 { label: "Engine", value: "Godot" },
                 { label: "Levels", value: "3" },

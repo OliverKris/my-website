@@ -62,21 +62,34 @@ export function ThemedShot({ name, alt, width, height, className = "", eager = f
  * A muted, looping product film with a poster frame. It only plays while on
  * screen, and stays on the poster for people who prefer reduced motion.
  */
-export function LoopVideo({ src, poster, label, className = "" }: {
+export function LoopVideo({ src, poster, label, className = "", start = 0 }: {
     src: string; poster: string; label: string; className?: string;
+    /** seconds to skip at the start; the loop also returns here (for previews that open on the key scene) */
+    start?: number;
 }) {
     const ref = useRef<HTMLVideoElement>(null);
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const seek = () => { if (start > 0 && el.currentTime < start) el.currentTime = start; };
+        const restart = () => { el.currentTime = start; el.play().catch(() => { /* autoplay blocked */ }); };
+        el.addEventListener("loadedmetadata", seek);
+        el.addEventListener("ended", restart);
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return () => {
+            el.removeEventListener("loadedmetadata", seek);
+            el.removeEventListener("ended", restart);
+        };
         const obs = new IntersectionObserver(([e]) => {
-            if (e.isIntersecting) el.play().catch(() => { /* autoplay blocked: poster stays */ });
+            if (e.isIntersecting) { seek(); el.play().catch(() => { /* autoplay blocked: poster stays */ }); }
             else el.pause();
         }, { threshold: 0.25 });
         obs.observe(el);
-        return () => obs.disconnect();
-    }, []);
+        return () => {
+            obs.disconnect();
+            el.removeEventListener("loadedmetadata", seek);
+            el.removeEventListener("ended", restart);
+        };
+    }, [start]);
     return (
         <video
             ref={ref}
@@ -84,7 +97,7 @@ export function LoopVideo({ src, poster, label, className = "" }: {
             src={src}
             poster={poster}
             muted
-            loop
+            loop={start === 0}
             playsInline
             preload="metadata"
             aria-label={label}
