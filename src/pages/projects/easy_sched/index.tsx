@@ -5,6 +5,7 @@ import { LoopVideo, Shot, ThemedShot } from "../../../components/site/Media";
 import { SolverPlayground } from "../../../components/easysched/SolverPlayground";
 import { ArchitectureDiagram } from "../../../components/easysched/ArchitectureDiagram";
 import { CaseStudyBar } from "../../../components/site/CaseStudyBar";
+import { Combinations, OriginalFlow, StaffingMap, StatStrip, Team, ThenNow, Timeline } from "../../../components/easysched/Story";
 
 const LIVE = "https://easy-sched.onrender.com";
 const REPO = "https://github.com/OliverKris/easy-sched-reworked";
@@ -66,7 +67,8 @@ export default function EasySchedCaseStudy() {
                 title="Easy-Sched"
                 next={{ to: "/projects/formality", label: "Formality bias" }}
                 sections={[
-                    { id: "why", label: "Why" }, { id: "solver", label: "The solver" }, { id: "try-solver", label: "Try it" },
+                    { id: "problem", label: "The problem" }, { id: "original", label: "The original" }, { id: "rebuild", label: "Then & now" },
+                    { id: "solver", label: "The solver" }, { id: "try-solver", label: "Try it" },
                     { id: "architecture", label: "Architecture" }, { id: "rules", label: "Rules" }, { id: "screens", label: "Screens" },
                     { id: "stack", label: "Stack" }, { id: "next", label: "Next" },
                 ]}
@@ -79,8 +81,9 @@ export default function EasySchedCaseStudy() {
                             <span className="mask-line"><span>Easy-Sched</span></span>
                         </h1>
                         <p className="mt-8 mb-0 text-[length:var(--text-lead)] leading-[1.35] tracking-[-0.01em] max-w-[38ch] fade-up" style={{ ["--fade-delay" as string]: "300ms" }}>
-                            A TA-assignment platform that finds the provably best schedule in about a millisecond, explains every
-                            placement, and lets coordinators lock, adjust and export.
+                            Every semester GW’s CS department staffs about forty courses with TAs and learning assistants, and it takes a
+                            week by hand. Easy-Sched began as our capstone to fix that. I rebuilt it to find the provably best schedule in a
+                            millisecond and explain every placement.
                         </p>
                         <div className="mt-8 flex flex-wrap gap-3 fade-up" style={{ ["--fade-delay" as string]: "400ms" }}>
                             <a href={LIVE} target="_blank" rel="noopener noreferrer" className="inline-flex items-center h-12 px-6 rounded-full bg-accent text-accent-ink text-[16px] font-medium no-underline transition-transform hover:scale-[1.03] active:scale-[0.98]">
@@ -92,12 +95,13 @@ export default function EasySchedCaseStudy() {
                         </div>
                     </div>
                     <dl className="lg:col-span-4 m-0 grid grid-cols-2 gap-x-6 gap-y-5 text-[15px] fade-up" style={{ ["--fade-delay" as string]: "500ms" }}>
-                        <div><dt className="text-muted">Role</dt><dd className="m-0">Design, code and deploy</dd></div>
+                        <div><dt className="text-muted">Client</dt><dd className="m-0">GW Computer Science</dd></div>
                         <div><dt className="text-muted">Timeline</dt><dd className="m-0">Capstone 2024–25, rebuilt 2026</dd></div>
-                        <div><dt className="text-muted">Stack</dt><dd className="m-0">FastAPI, React, SciPy</dd></div>
-                        <div><dt className="text-muted">Status</dt><dd className="m-0">Live, with CI and tests</dd></div>
+                        <div><dt className="text-muted">Role</dt><dd className="m-0">Web lead on the capstone; all of the rebuild</dd></div>
+                        <div><dt className="text-muted">Status</dt><dd className="m-0">Live, with CI and 188 tests</dd></div>
                     </dl>
                 </div>
+                <div className="mt-14 fade-up" style={{ ["--fade-delay" as string]: "600ms" }}><StatStrip /></div>
             </header>
 
             <Rise className={`${frame} mt-14`} delay={200}>
@@ -110,41 +114,83 @@ export default function EasySchedCaseStudy() {
                 </Shot>
             </Rise>
 
-            {/* ---------- Why ---------- */}
-            <section className={`${frame} pt-[clamp(96px,12vw,200px)] grid gap-12 lg:grid-cols-12`} aria-labelledby="why">
-                <div className="lg:col-span-7">
-                    <SectionHead id="why" title="I have held every job it hands out">
-                        <p className="m-0">
-                            Every term, a CS department matches dozens of student applicants to lab sections as learning assistants and
-                            undergraduate TAs. It is usually done in a spreadsheet, by hand, against rules that live in someone’s head: GPA
-                            floors, a passing grade in the course, a free hour for the lab, the applicant’s own ranking.
-                        </p>
-                        <p className="m-0">
-                            I was a learning assistant, then an undergraduate TA, then a graduate TA at GWU, so I have been on the receiving
-                            end of that spreadsheet three times. Easy-Sched started as our senior capstone. I rebuilt it in 2026 to answer
-                            the questions the original couldn’t: is this the best possible schedule, and why did this person get this slot?
-                        </p>
-                    </SectionHead>
+            {/* ---------- The problem ---------- */}
+            <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="problem">
+                <div className="grid gap-12 lg:grid-cols-12 items-end">
+                    <div className="lg:col-span-7">
+                        <SectionHead id="problem" title="A week of work, every semester">
+                            <p className="m-0">
+                                Each course needs a graduate TA, and the core courses also need undergraduate TAs to run labs and learning
+                                assistants to help in class. Every applicant has a GPA, grades in the courses they’d teach, a timetable and a
+                                ranked wish list. The department matched them by hand, and it took about a week.
+                            </p>
+                            <p className="m-0">
+                                I was a learning assistant, then an undergraduate TA, then a graduate TA here, so I’ve been on the receiving
+                                end of that schedule three times.
+                            </p>
+                        </SectionHead>
+                    </div>
+                    <Rise delay={120} className="lg:col-span-5"><Combinations /></Rise>
                 </div>
-                <Rise as="figure" delay={120} className="lg:col-span-5 m-0 self-end">
-                    <Shot ratio={760 / 845} fit={0.72}>
-                        <ThemedShot name="panel" alt="The reasons panel for one slot: fit score, the score broken down by rule, and who else could take it" width={760} height={845} />
-                    </Shot>
-                    <figcaption className="mt-3 text-[15px] text-muted">The reasons panel: why this person, by how much, and who else could have taken the slot.</figcaption>
-                </Rise>
+                <Rise delay={120} className="mt-14"><StaffingMap /></Rise>
+            </section>
+
+            {/* ---------- The original ---------- */}
+            <section className="mt-[clamp(96px,12vw,200px)] bg-card py-[clamp(72px,9vw,140px)]" aria-labelledby="original">
+                <div className={`${frame} grid gap-14 lg:grid-cols-12 items-start`}>
+                    <div className="lg:col-span-5 flex flex-col gap-10 lg:sticky lg:top-[calc(var(--nav-h,64px)+5rem)]">
+                        <SectionHead id="original" title="It started as Team COW’s capstone">
+                            <p className="m-0">
+                                Easy Sched, “an algorithm-assisted scheduling tool”, was our senior design project for the CS department in
+                                2024–25. Three of us built it in a year: I led the web application and wired it to the scoring and scheduling
+                                back end over HTTP.
+                            </p>
+                        </SectionHead>
+                        <Team />
+                    </div>
+                    <div className="lg:col-span-7 flex flex-col gap-14">
+                        <Timeline />
+                        <div className="rounded-2xl bg-canvas p-6 md:p-8 flex flex-col gap-5">
+                            <h3 className="m-0 text-[clamp(20px,1.8vw,26px)] font-semibold tracking-[-0.02em]">How the original worked</h3>
+                            <OriginalFlow />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ---------- Then and now ---------- */}
+            <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="rebuild">
+                <div className="grid gap-12 lg:grid-cols-12 items-end">
+                    <div className="lg:col-span-7">
+                        <SectionHead id="rebuild" title="What the rebuild finished">
+                            <p className="m-0">
+                                The department never used ours. When I picked it up again in 2026 I kept the idea and rebuilt everything else,
+                                aiming at the two questions a coordinator actually asks: is this the best possible schedule, and why did this
+                                person get this slot?
+                            </p>
+                        </SectionHead>
+                    </div>
+                    <Rise as="figure" delay={120} className="lg:col-span-5 m-0">
+                        <Shot ratio={760 / 845} fit={0.6}>
+                            <ThemedShot name="panel" alt="The reasons panel for one slot: fit score, the score broken down by rule, and who else could take it" width={760} height={845} />
+                        </Shot>
+                        <figcaption className="mt-3 text-[15px] text-muted">Every placement explains itself: why this person, by how much, and who else could have taken it.</figcaption>
+                    </Rise>
+                </div>
+                <Rise delay={120} className="mt-14"><ThenNow /></Rise>
             </section>
 
             {/* ---------- The solver ---------- */}
             <section className={`${frame} pt-[clamp(96px,12vw,200px)]`} aria-labelledby="solver">
                 <SectionHead id="solver" title="The best answer, in a millisecond">
                     <p className="m-0">
-                        The capstone used a backtracking search: try a person, recurse, undo. It was clever and it was slow, and on a real
-                        term it gave up at its node budget without knowing how far it was from the best answer. But once eligibility is
+                        My first rebuild, in July 2026, used a backtracking search: try a person, recurse, undo. It was clever and it was
+                        slow, and on a real-sized term it gave up at its node budget without knowing how far it was from the best answer. But once eligibility is
                         decided up front, assigning people to slots for the highest total fit is a textbook problem: maximum-weight
                         bipartite matching, solved exactly by the Hungarian algorithm in polynomial time.
                     </p>
                     <p className="m-0">
-                        So the rebuild filters eligibility first, scores every remaining person–slot pair, masks the rest, and hands the
+                        So the solver now filters eligibility first, scores every remaining person–slot pair, masks the rest, and hands the
                         matrix to SciPy’s <code className="font-mono text-[0.92em]">linear_sum_assignment</code>. Locked placements are
                         taken out before the solve; blocked pairs are masked. The result is optimal by construction.
                     </p>
@@ -213,7 +259,7 @@ export default function EasySchedCaseStudy() {
                 <div className="lg:col-span-5 min-w-0">
                     <SectionHead id="rules" title="Rules are data, not code">
                         <p className="m-0">
-                            The capstone hard-coded one department’s rules into the solver. Now a department is a JSON profile: hard rules
+                            In the first rebuild, one department’s rules were constants in the code. Now a department is a JSON profile: hard rules
                             that decide who is eligible, and weighted scoring terms that rank everyone who is. A compiler validates the
                             profile against known fields and turns it into plain functions.
                         </p>
