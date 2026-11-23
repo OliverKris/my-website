@@ -14,6 +14,8 @@ export type CaseStudy = {
     facts: { label: string; value: string }[];
 };
 
+import type { SkillName } from './skills';
+
 export type Project = {
     id: string;
     /** short name used in the running list of work */
@@ -23,7 +25,10 @@ export type Project = {
     title: string;
     pitch: string;
     highlights: string[];
-    tech: string[];
+    /** Tools and languages, read from the project's source. Only names from data/skills.ts. */
+    tech: SkillName[];
+    /** What the project is about: concepts and techniques, not tools. */
+    topics?: string[];
     links: ProjectLink[];
     featured?: boolean;
     order?: number;
@@ -43,7 +48,8 @@ export const projects: Project[] = [
             "Built out shell built-ins (cd, help, exit, history) with a fixed-size rolling history buffer for recently entered commands",
             "Managed all memory manually in C, including buffer reallocation and cleanup, with no external dependencies beyond the C standard library"
         ],
-        tech: ["C", "Unix", "POSIX", "Process Management", "Systems Programming", "Bash", "Memory Management"],
+        tech: ["C", "Make", "Linux", "Git"],
+        topics: ["Process management", "Memory management", "Systems programming", "POSIX"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/shell-project" }
         ],
@@ -60,7 +66,8 @@ export const projects: Project[] = [
             "Engineered a server-side security model enforcing role-based authorization (User/Admin) and authenticated post management",
             "Added defensive input handling, including partial TCP send buffering, malformed input rejection, and anti-memory-exhaustion line length limits"
         ],
-        tech: ["Python", "TCP", "Sockets", "Concurrency", "Systems Programming", "Networking", "Event Loops"],
+        tech: ["Python", "Argon2", "unittest", "Git"],
+        topics: ["TCP sockets", "select() event loop", "Protocol design", "Authentication"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/bulletinboard-project" }
         ],
@@ -77,7 +84,8 @@ export const projects: Project[] = [
             "Conducted rigorous error analysis revealing model performance bottlenecks on high-end hardware due to data distribution imbalances",
             "Collaborated on feature selection and memory-constrained training strategies to optimize performance within Google Colab environments"
         ],
-        tech: ["Python", "PyTorch", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Data Engineering", "Machine Learning"],
+        tech: ["Python", "PyTorch", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Jupyter", "Kaggle", "Google Colab", "Git"],
+        topics: ["Neural networks", "Feature engineering", "Regression"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/computer-price-prediction" }
         ],
@@ -96,9 +104,8 @@ export const projects: Project[] = [
             "Implemented statistical evaluation workflows using Mann-Whitney U, Kruskal-Wallis, and paired t-tests to validate observed register differences",
             "Explored LoRA-based mitigation on Qwen2.5-3B-Instruct to reduce formal-register tendencies while preserving fluency and response coherence"
         ],
-        tech: [
-            "Python", "PyTorch", "Transformers", "RoBERTa", "LoRA", "Hugging Face", "Pandas", "NLU", "NLP", "Statistical Analysis"
-        ],
+        tech: ["Python", "PyTorch", "Hugging Face Transformers", "PEFT", "TRL", "scikit-learn", "SciPy", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Jupyter", "Git"],
+        topics: ["NLP", "RoBERTa classifier", "LoRA fine-tuning", "Statistical testing"],
         links : [
             { label: "Website", url: "/projects/formality" },
             { label: "GitHub", url: "https://github.com/OliverKris/formal-language-bias-llms" },
@@ -130,7 +137,8 @@ export const projects: Project[] = [
             "Drew all 69 sprites and their animations in Aseprite, and synthesised the theme and 18 sound effects in Ableton Live 12",
             "Exported to single-threaded WebAssembly with the compatibility renderer so the whole game runs in the browser"
         ],
-        tech: ["Godot 4.6", "GDScript", "Game AI", "EditorPlugin", "Aseprite", "Ableton Live 12", "WebAssembly"],
+        tech: ["Godot", "GDScript", "WebAssembly", "Aseprite", "Ableton Live", "Git"],
+        topics: ["Game AI", "Graph search (BFS)", "Editor plugins", "Pixel art", "Sound design"],
         links: [
             { label: "Play", url: "/play/sengoku-jidai/index.html" },
             { label: "Case study", url: "/projects/sengoku-jidai" },
@@ -164,7 +172,8 @@ export const projects: Project[] = [
             "Per-browser workspaces with CSV import (dry-run preview, row-level errors), in-app editing, locks and blocks with undo, and finalize-and-export",
             "188 pytest tests with golden regression results and a benchmark harness; CI lints, tests and builds a Docker image; deployed on Render as one service"
         ],
-        tech: ["Python", "FastAPI", "SciPy", "SQLAlchemy", "Pydantic", "React", "TypeScript", "TanStack Query", "Tailwind CSS", "pytest", "Docker", "GitHub Actions"],
+        tech: ["Python", "FastAPI", "Pydantic", "SQLAlchemy", "SQLite", "SQL", "NumPy", "SciPy", "pytest", "TypeScript", "React", "React Router", "TanStack Query", "Tailwind CSS", "Vite", "Docker", "GitHub Actions", "Render", "Django", "JavaScript", "HTML", "CSS", "Git"],
+        topics: ["Bipartite matching", "Constraint rules as data", "REST APIs", "CI/CD"],
         links : [
             { label: "Live demo", url: "https://easy-sched.onrender.com" },
             { label: "Case study", url: "/projects/easy-sched" },
@@ -196,7 +205,8 @@ export const projects: Project[] = [
             "Implemented light/dark theming with persisted user preference and accessible color variables",
             "Structured projects and skills as data-driven content for easy iteration and maintainability"
         ],
-        tech: ["React", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion", "Responsive Design"],
+        tech: ["TypeScript", "React", "React Router", "Tailwind CSS", "Framer Motion", "Vite", "HTML", "CSS", "Vercel", "Git"],
+        topics: ["Responsive design", "Accessibility", "SVG data visualization", "Design systems"],
         links : [
             { label: "GitHub", url: "https://github.com/OliverKris/my-website" }
         ],
@@ -213,7 +223,8 @@ export const projects: Project[] = [
             "Built a GUI operator's console with single-step, run, and halt controls to manage machine state and execution",
             "Delivered four progressive project segments, including demonstration programs for complex tasks like closest-number searching and text parsing"
         ],
-        tech: ["Java", "Swing", "Computer Architecture", "Systems Programming", "Assembler Design", "GUI Development"],
+        tech: ["Java", "Swing", "Assembly", "Git"],
+        topics: ["Computer architecture", "Assembler design", "Caching"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/csci-6461-project" }
         ],
@@ -230,7 +241,8 @@ export const projects: Project[] = [
             "Modeled game mechanics including card drawing, route claiming, and state transitions to support recursive simulation",
             "Engineered the simulation to handle hidden opponent information by sampling valid game states during rollout"
         ],
-        tech: ["Python", "AI", "MCTS", "Game Theory", "Stochastic Modeling", "Algorithmic Design"],
+        tech: ["Python", "Git"],
+        topics: ["Monte Carlo Tree Search", "Game AI", "Stochastic modelling"],
         links: [
             { label: "GitHub", url: "https://github.com/OliverKris/ttr-ai-project" }
         ],

@@ -1,37 +1,19 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { experience } from "../data/experience";
 import { educationData } from "../data/education";
-import { skills, type Skill } from "../data/skills";
+import { SKILL_AREAS, skills, type SkillArea, type SkillName } from "../data/skills";
 import { projects } from "../data/projects";
 import { frame, Rise } from "../components/site/Rise";
 import { RESUME_PDF } from "../components/site/Nav";
 
-const AREAS: { key: "all" | Skill["category"]; label: string }[] = [
-    { key: "all", label: "Everything" },
-    { key: "systems", label: "Systems" },
-    { key: "ai", label: "Machine learning" },
-    { key: "web", label: "Web and data" },
-    { key: "misc", label: "Tools" },
-];
+const AREAS: { key: "all" | SkillArea; label: string }[] = [{ key: "all", label: "Everything" }, ...SKILL_AREAS];
 
-/** Words a project's tech list may use for a skill, so "Python" finds projects that list "Python 3". */
-const ALIASES: Record<string, string[]> = {
-    "C": ["c"],
-    "SQL": ["sql", "sqlite", "postgresql", "mysql", "sqlalchemy"],
-    "Tailwind": ["tailwind", "tailwind css"],
-    "Linux": ["linux", "unix", "posix"],
-};
-
-function projectsUsing(label: string) {
-    const keys = ALIASES[label] ?? [label.toLowerCase()];
-    return projects.filter((p) =>
-        p.tech.some((t) => {
-            const tech = t.toLowerCase();
-            return keys.some((k) => (k.length <= 2 ? tech === k || tech.startsWith(`${k} `) || tech.startsWith(`${k}(`) : tech.includes(k)));
-        }),
-    );
-}
+/** Exact matches only: a project counts for a skill when its tech list names that skill. */
+const USES: Record<string, typeof projects> = Object.fromEntries(
+    skills.map((s) => [s.label, projects.filter((p) => p.tech.includes(s.label))]),
+);
 
 const clean = (s: string) => s.replace(/\s{2,}/g, " ").trim();
 const year = (d: string) => d.slice(-4);
@@ -39,9 +21,14 @@ const year = (d: string) => d.slice(-4);
 /** Pick a skill, see where it was used. */
 function SkillExplorer() {
     const [area, setArea] = useState<(typeof AREAS)[number]["key"]>("all");
-    const [picked, setPicked] = useState<string>("Python");
-    const shown = skills.filter((s) => area === "all" || s.category === area);
-    const used = useMemo(() => projectsUsing(picked), [picked]);
+    const [picked, setPicked] = useState<SkillName>("Python");
+    const shown = useMemo(
+        () => skills.filter((s) => area === "all" || s.area === area)
+            .sort((a, b) => USES[b.label].length - USES[a.label].length || a.label.localeCompare(b.label)),
+        [area],
+    );
+    const used = USES[picked];
+    const areaLabel = SKILL_AREAS.find((a) => a.key === skills.find((s) => s.label === picked)!.area)!.label;
 
     return (
         <div className="grid gap-10 lg:grid-cols-12 items-start" data-ui>
@@ -54,46 +41,58 @@ function SkillExplorer() {
                         </button>
                     ))}
                 </div>
-                <ul className="list-none m-0 p-0 flex flex-wrap gap-2" aria-label="Skills">
-                    {shown.map((s) => {
-                        const count = projectsUsing(s.label).length;
-                        const on = picked === s.label;
-                        return (
-                            <li key={s.label} className="fade-up">
-                                <button type="button" aria-pressed={on} onClick={() => setPicked(s.label)}
-                                    className={`h-11 px-4 rounded-full text-[16px] cursor-pointer inline-flex items-center gap-2 transition-[background-color,color,transform] duration-200 active:scale-[0.97] ${
-                                        on ? "bg-accent text-accent-ink" : "bg-card text-main hover:bg-raised"}`}>
-                                    {s.label}
-                                    {count > 0 && <span className={`text-[13px] tabular-nums ${on ? "opacity-80" : "text-muted"}`}>{count}</span>}
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ul>
+                <motion.ul layout className="list-none m-0 p-0 flex flex-wrap gap-2" aria-label="Skills, most used first">
+                    <AnimatePresence initial={false}>
+                        {shown.map((s) => {
+                            const count = USES[s.label].length;
+                            const on = picked === s.label;
+                            return (
+                                <motion.li key={s.label} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}>
+                                    <button type="button" aria-pressed={on} onClick={() => setPicked(s.label)}
+                                        aria-label={`${s.label}: ${count ? `${count} ${count === 1 ? "project" : "projects"}` : "coursework and work"}`}
+                                        className={`h-11 pl-4 pr-3.5 rounded-full text-[16px] cursor-pointer inline-flex items-center gap-2 transition-[background-color,color,transform] duration-200 active:scale-[0.97] ${
+                                            on ? "bg-accent text-accent-ink" : count ? "bg-card text-main hover:bg-raised" : "bg-transparent text-muted ring-1 ring-inset ring-main/15 hover:text-main"}`}>
+                                        {s.label}
+                                        {count > 0 && <span className={`text-[13px] tabular-nums ${on ? "opacity-80" : "text-muted"}`}>{count}</span>}
+                                    </button>
+                                </motion.li>
+                            );
+                        })}
+                    </AnimatePresence>
+                </motion.ul>
+                <p className="m-0 text-[14px] text-muted">
+                    Counts come from each project’s source code: its imports, package files and build settings. Outlined skills are from
+                    coursework, teaching and work rather than a project on this site.
+                </p>
             </div>
 
             <div className="lg:col-span-5 rounded-2xl bg-card p-6 md:p-8 flex flex-col gap-5 lg:sticky lg:top-28" aria-live="polite">
-                <h3 key={picked} className="m-0 fade-up text-[clamp(28px,2.8vw,40px)] font-semibold tracking-[-0.03em] leading-[1.05]">{picked}</h3>
+                <div key={picked} className="fade-up flex flex-col gap-1">
+                    <span className="text-[14px] text-muted">{areaLabel}</span>
+                    <h3 className="m-0 text-[clamp(28px,2.8vw,40px)] font-semibold tracking-[-0.03em] leading-[1.05]">{picked}</h3>
+                </div>
                 {used.length ? (
                     <>
-                        <p className="m-0 text-[16px] text-muted">Used in {used.length} {used.length === 1 ? "project" : "projects"}:</p>
+                        <p className="m-0 text-[16px] text-muted">Used in {used.length} of {projects.length} projects:</p>
                         <ul className="list-none m-0 p-0 flex flex-col gap-2">
-                            {used.map((p) => (
-                                <li key={p.id} className="fade-up">
+                            {used.map((p, i) => (
+                                <motion.li key={`${picked}-${p.id}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}>
                                     <Link to={p.caseStudy?.path ?? `/projects#${p.id}`}
                                         className="group flex items-baseline justify-between gap-4 rounded-xl bg-canvas px-4 py-3.5 text-main no-underline hover:bg-raised transition-colors">
-                                        <span className="flex flex-col gap-0.5">
+                                        <span className="flex flex-col gap-1 min-w-0">
                                             <span className="text-[17px] font-medium">{p.short ?? p.title}</span>
-                                            <span className="text-[14px] text-muted line-clamp-1">{p.pitch}</span>
+                                            {p.topics && <span className="text-[14px] text-muted line-clamp-1">{p.topics.join(" · ")}</span>}
                                         </span>
                                         <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
                                     </Link>
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                     </>
                 ) : (
-                    <p className="m-0 text-[16px] leading-[1.55]">Used in coursework and teaching rather than a project on this site.</p>
+                    <p className="m-0 text-[16px] leading-[1.55]">Used in coursework, teaching and work rather than a project on this site.</p>
                 )}
             </div>
         </div>

@@ -64,7 +64,7 @@ function ProjectRow({ project, open, onToggle }: { project: Project; open: boole
                     <div className="px-5 md:px-6 pb-8 grid gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_170px] md:gap-x-8">
                         <div className="flex flex-col gap-5">
                             <p className="m-0 text-[17px] leading-[1.6] md:hidden">{project.pitch}</p>
-                            <p className="m-0 text-[15px] text-muted">{project.tech.join(", ")}</p>
+                            <p className="m-0 text-[15px] text-muted">{project.tech.filter((t) => t !== "Git").join(", ")}{project.topics && <><br />{project.topics.join(" · ")}</>}</p>
                             <div className="flex flex-wrap gap-2">
                                 {project.links.map((l, i) => <ProjectLink key={l.url} url={l.url} label={l.label} strong={i === 0} />)}
                             </div>
