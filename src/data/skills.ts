@@ -1,76 +1,45 @@
-export type IconKey =
-    | "c"
-    | "java"
-    | "python"
-    | "react"
-    | "typescript"
-    | "javascript"
-    | "linux"
-    | "docker"
-    | "git"
-    | "pytorch"
-    | "bash"
-    | "css"
-    | "html"
-    | "sass"
-    | "vite"
-    | "tailwind"
-    | "flask"
-    | "django"
-    | "aws"
-    | "sql"
-    | "assemblyscript"
-    | "valgrind"
-    | "postgresql"
-    | "mysql"
-    | "sqlite"
-    | "numpy"
-    | "pandas"
-    | "gdb"
-    | "make";
+/*
+  The one list of skills and tools. A project's `tech` may only use these names (TypeScript
+  enforces it), so the Résumé page's counts are exact matches, never guesses.
 
-export type Skill = {
-    label: string;
-    icon: IconKey;
-    href?: string;
-    category: "web" | "ai" | "systems" | "misc"
-};
+  Each project's tools were read from its source: imports, package.json, requirements,
+  Makefiles and build settings. Skills with no project here come from coursework, teaching
+  and work, and say so on the page.
+*/
 
-export const skills: Skill[] = [
+export const SKILL_AREAS = [
+    { key: "lang", label: "Languages" },
+    { key: "systems", label: "Systems" },
+    { key: "ml", label: "ML & data" },
+    { key: "web", label: "Apps & backend" },
+    { key: "game", label: "Game & media" },
+    { key: "tools", label: "Tools & delivery" },
+] as const;
+
+export type SkillArea = (typeof SKILL_AREAS)[number]["key"];
+
+const SKILLS = {
+    // Languages
+    Python: "lang", TypeScript: "lang", JavaScript: "lang", C: "lang", Java: "lang", GDScript: "lang",
+    SQL: "lang", Bash: "lang", Assembly: "lang", HTML: "lang", CSS: "lang",
     // Systems
-    { label: "Assembly", icon: "assemblyscript", category: "systems" },
-    { label: "Bash", icon: "bash", category: "systems" },
-    { label: "C", icon: "c", category: "systems" },
-    { label: "Docker", icon: "docker", category: "systems" },
-    { label: "Linux", icon: "linux", category: "systems" },
-    { label: "AWS", icon: "aws", category: "systems" },
-    { label: "GDB", icon: "gdb", category: "systems" },
-    { label: "Valgrind", icon: "valgrind", category: "systems"},
-    { label: "Make", icon: "make", category: "systems" },
+    Linux: "systems", Make: "systems", GDB: "systems", Valgrind: "systems", WebAssembly: "systems",
+    // ML & data
+    PyTorch: "ml", "Hugging Face Transformers": "ml", PEFT: "ml", TRL: "ml", "scikit-learn": "ml",
+    NumPy: "ml", SciPy: "ml", Pandas: "ml", Matplotlib: "ml", Seaborn: "ml", Jupyter: "ml", Kaggle: "ml",
+    // Web & backend
+    React: "web", "React Router": "web", "TanStack Query": "web", "Tailwind CSS": "web", "Framer Motion": "web",
+    Vite: "web", FastAPI: "web", Pydantic: "web", SQLAlchemy: "web", Django: "web", Flask: "web",
+    SQLite: "web", PostgreSQL: "web", MySQL: "web", Sass: "web", Argon2: "web", Swing: "web",
+    // Game & media
+    Godot: "game", Aseprite: "game", "Ableton Live": "game",
+    // Tools & delivery
+    Git: "tools", Docker: "tools", "GitHub Actions": "tools", pytest: "tools", unittest: "tools",
+    Vercel: "tools", Render: "tools", AWS: "tools", "Google Colab": "tools",
+} as const satisfies Record<string, SkillArea>;
 
-    // AI
-    { label: "Python", icon: "python", category: "ai" },
-    { label: "PyTorch", icon: "pytorch", category: "ai" },
-    { label: "NumPy", icon: "numpy", category: "ai" },
-    { label: "Pandas", icon: "pandas", category: "ai" },
+export type SkillName = keyof typeof SKILLS;
 
-    // Web
-    { label: "SQL", icon: "sql", category: "web" },
-    { label: "CSS", icon: "css", category: "web" },
-    { label: "Django", icon: "django", category: "web" },
-    { label: "Flask", icon: "flask", category: "web" },
-    { label: "HTML", icon: "html", category: "web" },
-    { label: "Java", icon: "java", category: "web" },
-    { label: "JavaScript", icon: "javascript", category: "web" },
-    { label: "React", icon: "react", category: "web" },
-    { label: "Sass", icon: "sass", category: "web" },
-    { label: "Tailwind", icon: "tailwind", category: "web" },
-    { label: "TypeScript", icon: "typescript", category: "web" },
-    { label: "Vite", icon: "vite", category: "web" },
-    { label: "PostgreSQL", icon: "postgresql", category: "web" },
-    { label: "MySQL", icon: "mysql", category: "web" },
-    { label: "SQLite", icon: "sqlite", category: "web" },
+export type Skill = { label: SkillName; area: SkillArea };
 
-    // Misc
-    { label: "Git", icon: "git", category: "misc" },
-];
+export const skills: Skill[] = (Object.entries(SKILLS) as [SkillName, SkillArea][]).map(([label, area]) => ({ label, area }));
